@@ -16,12 +16,12 @@ import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 
 
-public class AdaptadorProductos extends BaseAdapter {
+public class AdapterProductos extends BaseAdapter {
 
     Activity activity;
     private List<Producto> productos;
 
-    public AdaptadorProductos(Activity activity, List<Producto> productos) {
+    public AdapterProductos(Activity activity, List<Producto> productos) {
         this.activity = activity;
         this.productos = productos;
     }

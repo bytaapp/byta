@@ -135,7 +135,7 @@ public class Tutorial extends AppCompatActivity {
             startActivity(new Intent(Tutorial.this, UsuarioRegistrado.class));
             finish();
         }else{
-            startActivity(new Intent(Tutorial.this, Navigation_drawer.class));
+            startActivity(new Intent(Tutorial.this, UsuarioNoRegistrado.class));
             finish();
         }
 

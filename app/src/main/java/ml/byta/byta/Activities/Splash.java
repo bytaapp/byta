@@ -35,7 +35,7 @@ public class Splash extends Activity {
 
                 // Start the next activity
                 Intent mainIntent = new Intent().setClass(
-                        Splash.this, Navigation_drawer.class);
+                        Splash.this, UsuarioNoRegistrado.class);
                 startActivity(mainIntent);
 
                 // Close the activity so the user won't able to go back this

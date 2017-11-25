@@ -249,7 +249,7 @@ public class UsuarioRegistrado extends AppCompatActivity
                 editor.commit();
 
                 // Se carga el layout de invitado, es decir, sin funcionalidades de usuario.
-                Intent intent = new Intent(this, Navigation_drawer.class);
+                Intent intent = new Intent(this, UsuarioNoRegistrado.class);
                 startActivity(intent);
 
                 finish();
@@ -269,7 +269,7 @@ public class UsuarioRegistrado extends AppCompatActivity
 
                 Log.d("variables", "HE CERRADO LA SESIÓN CON FACEBOOK");
                 // Se carga el layout de invitado, es decir, sin funcionalidades de usuario.
-                Intent intent = new Intent(this, Navigation_drawer.class);
+                Intent intent = new Intent(this, UsuarioNoRegistrado.class);
                 startActivity(intent);
 
                 finish();
@@ -286,7 +286,7 @@ public class UsuarioRegistrado extends AppCompatActivity
                 editor.commit();
 
                 // Se carga el layout de invitado, es decir, sin funcionalidades de usuario.
-                Intent intent = new Intent(this, Navigation_drawer.class);
+                Intent intent = new Intent(this, UsuarioNoRegistrado.class);
                 startActivity(intent);
 
                 finish();

@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +32,7 @@ import ml.byta.byta.REST.ClasePeticionRest;
 import ml.byta.byta.Tools.Connectivity;
 import pl.droidsonroids.gif.GifImageView;
 
-public class Navigation_drawer extends AppCompatActivity
+public class UsuarioNoRegistrado extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static ArrayList<Producto> productos = new ArrayList<>();
@@ -156,7 +154,7 @@ public class Navigation_drawer extends AppCompatActivity
         }else if (id == R.id.nav_contact) {
 
 
-            LayoutInflater inflater = (LayoutInflater) Navigation_drawer.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) UsuarioNoRegistrado.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             View layout = inflater.inflate(R.layout.popup, (ViewGroup) findViewById(R.id.popup_element));
 
             popUpWindow = new PopupWindow(layout, 1000, 700, true);
@@ -191,7 +189,7 @@ public class Navigation_drawer extends AppCompatActivity
             startActivity(intent);
             finish();
         }else{
-            Intent intent = new Intent(this, Navigation_drawer.class);
+            Intent intent = new Intent(this, UsuarioNoRegistrado.class);
             startActivity(intent);
             finish();
 
@@ -227,13 +225,13 @@ public class Navigation_drawer extends AppCompatActivity
             startActivity(Intent.createChooser(emailIntent, "Indícanos qué te gustaría modificar de la aplicación"));
 
         } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(Navigation_drawer.this,
+            Toast.makeText(UsuarioNoRegistrado.this,
                     "No tienes clientes de email instalados.", Toast.LENGTH_SHORT).show();
         }
     }
 
     public void reload(View v){
-        Intent intent = new Intent(this, Navigation_drawer.class);
+        Intent intent = new Intent(this, UsuarioNoRegistrado.class);
         startActivity(intent);
         finish();
     }

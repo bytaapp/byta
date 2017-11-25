@@ -41,7 +41,7 @@
             android:name=".Activities.Tutorial"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.Navigation_drawer"
+            android:name=".Activities.UsuarioNoRegistrado"
             android:label="@string/title_activity_navigation_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

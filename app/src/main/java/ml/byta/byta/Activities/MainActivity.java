@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        Intent intent = new Intent(this, Navigation_drawer.class);
+        Intent intent = new Intent(this, UsuarioNoRegistrado.class);
         startActivity(intent);
     }
 

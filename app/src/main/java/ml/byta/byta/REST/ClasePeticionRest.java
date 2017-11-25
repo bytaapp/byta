@@ -41,9 +41,9 @@ import java.util.ArrayList;
 import link.fls.swipestack.SwipeStack;
 import ml.byta.byta.Activities.ChatListActivity;
 import ml.byta.byta.Activities.ListadoObjetos;
-import ml.byta.byta.Activities.Navigation_drawer;
+import ml.byta.byta.Activities.UsuarioNoRegistrado;
 import ml.byta.byta.Activities.UsuarioRegistrado;
-import ml.byta.byta.Adapters.AdaptadorProductos;
+import ml.byta.byta.Adapters.AdapterProductos;
 import ml.byta.byta.Adapters.AdapterListadoObjetos;
 import ml.byta.byta.EventListeners.SwipeStackCardListener;
 import ml.byta.byta.Objects.Objeto;
@@ -1154,10 +1154,10 @@ public class ClasePeticionRest {
         protected void onPostExecute(ArrayList<Producto> productos) {
             super.onPostExecute(productos);
 
-            AdaptadorProductos adaptadorProductos = new AdaptadorProductos(activity, productos);
-            pilaCartas.setAdapter(adaptadorProductos);
+            AdapterProductos adapterProductos = new AdapterProductos(activity, productos);
+            pilaCartas.setAdapter(adapterProductos);
             pilaCartas.setListener(new SwipeStackCardListener(activity, productos));
-            adaptadorProductos.notifyDataSetChanged();
+            adapterProductos.notifyDataSetChanged();
 
             TextView textView = activity.findViewById(R.id.DescripcionCarta);
             textView.setText(productos.get(0).getDescription());
@@ -1227,7 +1227,7 @@ public class ClasePeticionRest {
         @Override
         protected ArrayList<Producto> doInBackground(String... strings) {
 
-            ArrayList<Producto> productos = Navigation_drawer.productos;
+            ArrayList<Producto> productos = UsuarioNoRegistrado.productos;
             for (int x = 0; x < objetos.length; x++){
                 Bitmap b = downloadBitmap(objetos[x].getId());
                 productos.add(new Producto(b, objetos[x].getDescripcion(), "", Integer.parseInt(objetos[x].getId())));
@@ -1245,10 +1245,10 @@ public class ClasePeticionRest {
         protected void onPostExecute(ArrayList<Producto> productos) {
             super.onPostExecute(productos);
 
-            AdaptadorProductos adaptadorProductos = new AdaptadorProductos(activity, productos);
-            pilaCartas.setAdapter(adaptadorProductos);
+            AdapterProductos adapterProductos = new AdapterProductos(activity, productos);
+            pilaCartas.setAdapter(adapterProductos);
             pilaCartas.setListener(new SwipeStackCardListener(activity, productos));
-            adaptadorProductos.notifyDataSetChanged();
+            adapterProductos.notifyDataSetChanged();
 
             TextView textView = activity.findViewById(R.id.DescripcionCarta);
             textView.setText(productos.get(0).getDescription());
@@ -1290,10 +1290,10 @@ public class ClasePeticionRest {
         protected void onPostExecute(ArrayList<Producto> productos) {
             super.onPostExecute(productos);
 
-            AdaptadorProductos adaptadorProductos = new AdaptadorProductos(activity, productos);
-            pilaCartas.setAdapter(adaptadorProductos);
+            AdapterProductos adapterProductos = new AdapterProductos(activity, productos);
+            pilaCartas.setAdapter(adapterProductos);
             pilaCartas.setListener(new SwipeStackCardListener(activity, productos));
-            adaptadorProductos.notifyDataSetChanged();
+            adapterProductos.notifyDataSetChanged();
 
         }
 
@@ -1316,9 +1316,9 @@ public class ClasePeticionRest {
         protected ArrayList<Producto> doInBackground(String... strings) {
 
             Bitmap b = downloadBitmap(objeto.getId());
-            Navigation_drawer.productos.add(new Producto(b, objeto.getDescripcion(), "", Integer.parseInt(objeto.getId())));
+            UsuarioNoRegistrado.productos.add(new Producto(b, objeto.getDescripcion(), "", Integer.parseInt(objeto.getId())));
 
-            return Navigation_drawer.productos;
+            return UsuarioNoRegistrado.productos;
         }
 
         @Override
@@ -1330,10 +1330,10 @@ public class ClasePeticionRest {
         protected void onPostExecute(ArrayList<Producto> productos) {
             super.onPostExecute(productos);
 
-            AdaptadorProductos adaptadorProductos = new AdaptadorProductos(activity, Navigation_drawer.productos);
-            pilaCartas.setAdapter(adaptadorProductos);
-            pilaCartas.setListener(new SwipeStackCardListener(activity, Navigation_drawer.productos));
-            adaptadorProductos.notifyDataSetChanged();
+            AdapterProductos adapterProductos = new AdapterProductos(activity, UsuarioNoRegistrado.productos);
+            pilaCartas.setAdapter(adapterProductos);
+            pilaCartas.setListener(new SwipeStackCardListener(activity, UsuarioNoRegistrado.productos));
+            adapterProductos.notifyDataSetChanged();
 
         }
 
