@@ -325,7 +325,7 @@ public class UsuarioRegistrado extends AppCompatActivity
     };
 
     protected void sendEmail() {
-        String[] TO = {"swappieapp2017@gmail.com"}; //aquí pon tu correo
+        String[] TO = {"bytaapp@gmail.com"}; //aquí pon tu correo
         String[] CC = {""};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
         emailIntent.setData(Uri.parse("mailto:"));
@@ -366,4 +366,5 @@ public class UsuarioRegistrado extends AppCompatActivity
     public void setProductos(ArrayList<Producto> productos) {
         this.productos = productos;
     }
+
 }

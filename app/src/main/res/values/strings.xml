@@ -100,4 +100,8 @@
     <string name="borrar_objeto">Borrar objeto</string>
 
 
+
+    <string name="default_web_client_id"></string>
+
+
 </resources>
