@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_tutorial_registrado"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/tutorial" />
+
+        <item
+            android:id="@+id/nav_mis_objetos"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/mis_objetos" />
+
+        <item
+            android:id="@+id/nav_close"
+            android:icon="@drawable/logout"
+            android:title="@string/salir" />
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="@string/aboutus">
+            <menu>
+                <item
+                    android:id="@+id/nav_contact2"
+                    android:icon="@drawable/contact"
+                    android:title="@string/contact" />
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="@string/cuentanos">
+            <menu>
+                <item
+                    android:id="@+id/nav_help_us_2"
+                    android:icon="@drawable/help_us"
+                    android:title="@string/feedback"
+                    />
+            </menu>
+
+        </item>
+    </group>
+
+
+    <!--  <item android:title="Communicate">
+          <menu>
+              <item
+                  android:id="@+id/nav_share"
+                  android:icon="@drawable/ic_menu_share"
+                  android:title="Share" />
+              <item
+                  android:id="@+id/nav_send"
+                  android:icon="@drawable/ic_menu_send"
+                  android:title="Send" />
+          </menu>
+      </item>
+  -->
+  </menu>

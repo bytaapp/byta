@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start"
+    tools:context=".Activities.UsuarioRegistrado">
+
+
+    <RelativeLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ExtraText"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="70dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+
+
+            <ImageView
+                android:id="@+id/imagen_swappie"
+                android:layout_width="@dimen/img_width_height"
+                android:layout_height="@dimen/img_width_height"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/byta" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gif"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:src="@drawable/loading2"
+                android:layout_marginTop="10dp"
+                />
+            <TextView
+                android:id="@+id/no_imagenes"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:textSize="20dp"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:text="@string/oops"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <include
+        layout="@layout/app_bar_usuario_registrado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_usuario_registrado"
+        app:menu="@menu/activity_usuario_registrado_drawer" />
+
+</android.support.v4.widget.DrawerLayout>
