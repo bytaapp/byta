@@ -175,7 +175,7 @@ public class Camara extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_"+timeStamp+"_";
         File storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES),"/Swappie/");
+                Environment.DIRECTORY_PICTURES),"/Byta/");
         Boolean mkdirs=false;
         if (!storageDir.exists()) {
             mkdirs = storageDir.mkdirs();

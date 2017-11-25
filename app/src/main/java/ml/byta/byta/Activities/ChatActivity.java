@@ -36,7 +36,7 @@ public class ChatActivity extends AppCompatActivity {
          * este chat.
          */
         AsyncHttpClient client = new AsyncHttpClient();
-        client.get(this, "https://api.swappie.tk/api/SwappieChat/public/index.php/api/chat/" + id + "/messages", new MessageListHandler(this));
+        client.get(this, "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + id + "/messages", new MessageListHandler(this));
 
         sendButton.setOnClickListener(new SendMessageToChatClickListener(this, keyboard, id));
     }

@@ -25,7 +25,7 @@ public class ChatListActivity extends AppCompatActivity {
         int id = settings.getInt("id", 0);
 
         // Se hace la petición al servidor.
-        client.get(this, "https://api.swappie.tk/api/SwappieChat/public/index.php/api/chats/" + id + "", new ChatListHandler(this));
+        client.get(this, "https://byta.ml/api/SwappieChat/public/index.php/api/chats/" + id + "", new ChatListHandler(this));
 
     }
 }

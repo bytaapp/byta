@@ -39,7 +39,7 @@ public class SendNewMessageToChatHandler extends AsyncHttpResponseHandler {
          */
         AsyncHttpClient client = new AsyncHttpClient();
 
-        client.get(activity, "https://api.swappie.tk/api/SwappieChat/public/index.php/api/chat/" + id + "/messages", new MessageListHandler(activity));
+        client.get(activity, "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + id + "/messages", new MessageListHandler(activity));
 
     }
 
