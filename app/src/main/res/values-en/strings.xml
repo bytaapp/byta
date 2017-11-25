@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="facebook_app_id">1588980934457495</string>
+
+    <string name="app_name">Byta</string>
+    <string name="app">Byta</string>
+
+    <string name="nombre">First name</string>
+    <string name="apellidos">Last name</string>
+    <string name="email">Email</string>
+    <string name="pass">Password</string>
+    <string name="pass_confirm">Repeat password</string>
+    <string name="btn1">SIGN IN</string>
+    <string name="registrarsebtn">REGISTER</string>
+    <string name="iniciarSesionbtn">SIGN IN</string>
+
+    <string name="continuar">Continuar sin registrarme</string>
+    <string name="continuarEmail">Continue with e-mail</string>
+    <string name="barra"> | </string>
+
+    <string name="join">Create Account or Sign in</string>
+    <string name="iniciarSesion">Sign in</string>
+    <string name="registrarse">Register</string>
+
+    <string name="registrate">Join now and start swapping!</string>
+    <string name="title_activity_popup">Popup</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="cancel_login">Operation was canceled</string>
+    <string name="error_login">An error occurred while processing your request</string>
+
+    <string name="salir">Logout</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT!</string>
+    <string name="slide_1_title">1. POST</string>
+    <string name="slide_1_desc">Upload anything you want. If necessary, you can also add a short description of the product.</string>
+    <string name="slide_2_title">2. SWIPE </string>
+    <string name="slide_2_desc">Swipe to the right if you like something, and to the left if you don\'t.</string>
+    <string name="slide_3_title">3. MATCH</string>
+    <string name="slide_3_desc">If you like something of someone who also likes something of you, Byta will tell you that a match has been made and will open up a simple messaging function.</string>
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="title_activity_navigation_drawer">Navigation_drawer</string>
+
+    <string name="tutorial">How to use Byta</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_activity_usuario_registrado">UsuarioRegistrado</string>
+    <string name="title_activity_login">Sign in</string>
+
+
+    <string name="aboutus">ABOUT US</string>
+    <string name="contact">Contact</string>
+    <string name="cuentanos">TELL US WHAT YOU THINK</string>
+    <string name="feedback">Send some feedback</string>
+
+    <string name="contact_us">CONTACT US</string>
+    <string name="popup">If you have any questions you can email us at swappieapp2017@gmail.com</string>
+
+    <string name="toastEmailMalo">The format of the email address entered is not valid.</string>
+    <string name="toastPassMal">Passwords don\'t match</string>
+
+    <string name="match">It\'s a match!</string>
+    <string name="abrirChat">SEND A MESSAGE</string>
+    <string name="seguir">KEEP SWAPPING</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+    <!-- Strings related to the chat -->
+    <string name="keyboard_hint">Type a message</string>
+    <string name="send_message_button">Send</string>
+
+    <!-- Strings related to the camera -->
+    <string name="boton_aceptar">ACCEPT</string>
+    <string name="boton_cancelar">CANCEL</string>
+
+    <string name="oops">It seems there are no more images for you</string>
+    <string name="nohaychat">You don\'t have any chats yet\</string>
+    <string name="nointernet">There is no internet connection or it is limited. Make sure Wi-Fi or cellular data
+    is turned on, then try again.</string>
+
+    <!-- Strings related to the object list -->
+    <string name="mis_objetos">My objects</string>
+    <string name="borrar_objeto">Delete objects</string>
+
+</resources>

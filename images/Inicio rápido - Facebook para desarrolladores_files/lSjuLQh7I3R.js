@@ -1,0 +1,3 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["Lc9Xe"]); }
+
+__d("DevsiteAppPlatformCard",["cx","React","XUICard.react","joinClasses"],(function a(b,c,d,e,f,g,h){"use strict";var i,j,k=c("React").PropTypes;i=babelHelpers.inherits(l,c("React").Component);j=i&&i.prototype;l.prototype.render=function(){return c("React").createElement(c("XUICard.react"),babelHelpers["extends"]({},this.props,{className:c("joinClasses")(this.props.className,c("joinClasses")("_5fai",this.props.className))}),this.props.children)};function l(){i.apply(this,arguments)}l.propTypes={className:k.string};f.exports=l}),null);

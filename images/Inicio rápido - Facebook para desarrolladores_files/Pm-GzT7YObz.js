@@ -1,0 +1,3 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["5Di8d"]); }
+
+__d("DevsiteAppPlatformFinishedCard",["cx","React","DevsiteAppPlatformCard","XUIGrayText.react"],(function a(b,c,d,e,f,g,h){var i,j;i=babelHelpers.inherits(k,c("React").Component);j=i&&i.prototype;k.prototype.render=function(){"use strict";return c("React").createElement(c("DevsiteAppPlatformCard"),{className:"_1bpo"},c("React").createElement("div",{className:"_d4w"}),c("React").createElement(c("XUIGrayText.react"),{display:"block",weight:"bold",className:"_1bpp"},"Finished!"))};function k(){"use strict";i.apply(this,arguments)}f.exports=k}),null);

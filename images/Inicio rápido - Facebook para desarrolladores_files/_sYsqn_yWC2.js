@@ -1,0 +1,3 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["EXhbs"]); }
+
+__d("SnappyCompressUtil",["SnappyCompress"],(function a(b,c,d,e,f,g){"use strict";var h={compressStringToSnappy:function i(j){if(window.Uint8Array===undefined||window.btoa===undefined)return null;var k=new window.Uint8Array(j.length);for(var l=0;l<j.length;l++)k[l]=j.charCodeAt(l);var m=null;try{m=c("SnappyCompress").compress(k)}catch(n){return null}var o="";for(var p=0;p<m.length;p++)o+=String.fromCharCode(m[p]);return window.btoa(o)}};f.exports=h}),null);

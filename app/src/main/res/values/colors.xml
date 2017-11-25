@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="ColorActionBarTitle">#F06292</color>
+
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+
+    <color name="message_mine">#58FAF4</color>
+    <color name="message_not_mine">#F5A9F2</color>
+
+    <!-- Screens background color-->
+    <color name="bg_slider_screen1">#c7448d</color>
+    <color name="bg_slider_screen2">#279ec7</color>
+    <color name="bg_slider_screen3">#203d8c</color>
+    <!-- dots inactive colors -->
+    <color name="dot_inactive_screen1">#e9e9e9</color>
+    <color name="dot_inactive_screen2">#e9e9e9</color>
+    <color name="dot_inactive_screen3">#e9e9e9</color>
+    <!-- dots active colors -->
+    <color name="dot_active_screen1">#e5a3c8</color>
+    <color name="dot_active_screen2">#a2daed</color>
+    <color name="dot_active_screen3">#3a67e0</color>
+    <array name="array_dot_active">
+        <item>@color/dot_active_screen1</item>
+        <item>@color/dot_active_screen2</item>
+        <item>@color/dot_active_screen3</item>
+    </array>
+    <array name="array_dot_inactive">
+        <item>@color/dot_inactive_screen1</item>
+        <item>@color/dot_inactive_screen2</item>
+        <item>@color/dot_inactive_screen3</item>
+    </array>
+
+
+</resources>
