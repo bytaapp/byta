@@ -36,23 +36,25 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="20dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/borrar_objeto"
-                android:src="@drawable/x_icon" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/borrar_objeto"
-                android:src="@drawable/tick_icon" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/borrar_objeto"
+            android:src="@drawable/x_icon" />
 
-        </LinearLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/borrar_objeto"
+            android:src="@drawable/tick_icon" />
+
+    </LinearLayout>
 
 
 </RelativeLayout>
