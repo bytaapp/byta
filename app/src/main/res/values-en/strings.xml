@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="facebook_app_id">1588980934457495</string>
+    <string name="facebook_app_id">1957118134535887</string>
+    <string name="fb_login_protocol_scheme">fb1957118134535887</string>
+
 
     <string name="app_name">Byta</string>
     <string name="app">Byta</string>

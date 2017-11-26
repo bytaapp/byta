@@ -24,9 +24,14 @@
         android:roundIcon="@mipmap/byta_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity" />
-        <activity android:name=".Activities.Welcome">
-            android:name=".Welcome"
+        <activity android:name=".Activities.Welcome"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
