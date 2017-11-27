@@ -47,15 +47,11 @@ public class SendMessageToChatClickListener implements View.OnClickListener {
             SharedPreferences settings = activity.getSharedPreferences("Config", 0);
 
             AsyncHttpClient client = new AsyncHttpClient();
-            try {
-                client.post(activity,
-                        "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + id + "/message",
-                        new StringEntity(gson.toJson(new SendNewMessageToChatRequest(settings.getInt("id", 0), keyboard.getText().toString(), dt.format(today)))),
-                        "application/json", new SendNewMessageToChatHandler(activity, keyboard, id));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-                Log.d("Main", "try-catch");
-            }
+            client.post(activity,
+                    "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + id + "/message",
+                    new StringEntity(gson.toJson(new SendNewMessageToChatRequest(settings.getInt("id", 0), keyboard.getText().toString(), dt.format(today))), "UTF-8"),
+                    "application/json", new SendNewMessageToChatHandler(activity, keyboard, id));
+
         }
 
     }
