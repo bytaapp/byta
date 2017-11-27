@@ -80,31 +80,26 @@ public class UsuarioNoRegistrado extends AppCompatActivity
             Intent intent = new Intent(this, UsuarioRegistrado.class);
             startActivity(intent);
             finish();
-        }
-
-
-        // ---------------------- CARGAMOS LAS IMÁGENES ----------------------//
-
-        if (Connectivity.isConnectedFast(this)){
-            new ClasePeticionRest.CogerObjetosAleatoriosInicio(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            text= (TextView) this.findViewById(R.id.no_internet);
-            text.setVisibility(View.GONE);
-            btn = (Button)this.findViewById(R.id.retrybtn);
-            btn.setVisibility(View.GONE);
-
         }else{
-            gif= (GifImageView) this.findViewById(R.id.gif30);
-            gif.setVisibility(View.GONE);
-            img = (ImageView)  this.findViewById(R.id.img50);
-            img.setImageResource(R.drawable.nointernetconnection);
+            // ---------------------- CARGAMOS LAS IMÁGENES ----------------------//
 
+            if (Connectivity.isConnectedFast(this)){
+                new ClasePeticionRest.CogerObjetosAleatoriosInicio(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                text= (TextView) this.findViewById(R.id.no_internet);
+                text.setVisibility(View.GONE);
+                btn = (Button)this.findViewById(R.id.retrybtn);
+                btn.setVisibility(View.GONE);
 
+            }else{
+                gif= (GifImageView) this.findViewById(R.id.gif30);
+                gif.setVisibility(View.GONE);
+                img = (ImageView)  this.findViewById(R.id.img50);
+                img.setImageResource(R.drawable.nointernetconnection);
+            }
         }
-
 
         findViewById(R.id.BotonX).setOnClickListener(new ClickBotonesSwipe(this, false));
         findViewById(R.id.BotonTick).setOnClickListener(new ClickBotonesSwipe(this, true));
-
 
     }
 
