@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ml.byta.byta.Activities.UsuarioRegistrado"
-    tools:showIn="@layout/app_bar_usuario_registrado">
+    tools:context="ml.byta.byta.Activities.UsuarioRegistrado">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -28,31 +27,46 @@
 
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/DescripcionCarta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="20dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
-
     <LinearLayout
+        android:id="@+id/LayoutBotonesYDescripcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/borrar_objeto"
-            android:src="@drawable/x_icon" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="15dp"
+            android:paddingEnd="50dp"
+            android:paddingStart="50dp"
+            android:visibility="visible">
 
-        <ImageView
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/BotonX"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/borrar_objeto"
+                android:src="@drawable/x_icon" />
+
+            <ImageView
+                android:id="@+id/BotonTick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/borrar_objeto"
+                android:src="@drawable/tick_icon" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/DescripcionCarta"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/borrar_objeto"
-            android:src="@drawable/tick_icon" />
+            android:layout_marginBottom="20dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
     </LinearLayout>
 

@@ -24,7 +24,8 @@
             android:orientation="vertical"
             android:layout_marginTop="70dp"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            tools:ignore="UselessParent">
 
 
             <ImageView
@@ -32,7 +33,8 @@
                 android:layout_width="@dimen/img_width_height"
                 android:layout_height="@dimen/img_width_height"
                 android:layout_marginTop="60dp"
-                android:src="@drawable/byta" />
+                android:src="@drawable/byta"
+                tools:ignore="ContentDescription" />
 
             <pl.droidsonroids.gif.GifImageView
                 android:id="@+id/gif"
@@ -46,7 +48,7 @@
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:textSize="20dp"
+                android:textSize="20sp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:text="@string/oops"/>

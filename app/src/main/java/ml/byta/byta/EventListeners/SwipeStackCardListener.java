@@ -30,8 +30,8 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
         this.productos = productos;
         this.settings = activity.getSharedPreferences("Config", 0);
         this.idUsuario = settings.getInt("id", 0);
+        activity.findViewById(R.id.LayoutBotonesYDescripcion).setVisibility(View.VISIBLE);
     }
-
 
     @Override
     public void onViewSwipedToLeft(int position) {
@@ -49,10 +49,6 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
             description.setText(productos.get(position + 1).getDescription());
         }else{
             description.setText("");
-            activity.findViewById(R.id.pila_cartas).setVisibility(View.GONE);
-            ((ImageView)activity.findViewById(R.id.imagen_swappie)).setImageResource(R.drawable.sorry);
-            activity.findViewById(R.id.imagen_swappie).setVisibility(View.VISIBLE);
-            activity.findViewById(R.id.no_imagenes).setVisibility(View.VISIBLE);
         }
 
     }
@@ -76,17 +72,24 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
             description.setText(productos.get(position + 1).getDescription());
         }else{
             description.setText("");
-            activity.findViewById(R.id.pila_cartas).setVisibility(View.GONE);
-            ((ImageView)activity.findViewById(R.id.imagen_swappie)).setImageResource(R.drawable.sorry);
-            activity.findViewById(R.id.imagen_swappie).setVisibility(View.VISIBLE);
-            activity.findViewById(R.id.no_imagenes).setVisibility(View.VISIBLE);
         }
 
     }
 
     @Override
     public void onStackEmpty() {
-        Log.e("etiqueta", "Stack vacio");
+        stackVacio();
+    }
+
+    public void stackVacio(){
+
+        activity.findViewById(R.id.imagen_swappie).setVisibility(View.GONE);
+        activity.findViewById(R.id.no_imagenes).setVisibility(View.GONE);
+        activity.findViewById(R.id.gif).setVisibility(View.GONE);
+
+        activity.findViewById(R.id.LayoutStackVacio).setVisibility(View.VISIBLE);
+        activity.findViewById(R.id.pila_cartas).setVisibility(View.GONE);
+        activity.findViewById(R.id.LayoutBotonesYDescripcion).setVisibility(View.GONE);
     }
 
 }

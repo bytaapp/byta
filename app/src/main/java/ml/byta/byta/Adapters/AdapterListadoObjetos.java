@@ -29,9 +29,6 @@ public class AdapterListadoObjetos extends BaseAdapter {
         this.productos = productos;
         this.activity = activity;
         inflater = LayoutInflater.from(this.activity);
-        for (int i=0;i<productos.size();i++){
-            Log.d("productos",productos.get(i).getDescription());
-        }
     }
 
     @Override

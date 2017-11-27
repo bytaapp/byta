@@ -35,6 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import ml.byta.byta.EventListeners.ClickBotonesSwipe;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
@@ -80,7 +81,6 @@ public class UsuarioRegistrado extends AppCompatActivity
         // Se identifica el método que utilizó el usuario para registrarse.
         SharedPreferences settings = getSharedPreferences("Config", 0);
         metodo = settings.getString("metodo", "");
-        Log.d("elmetodo", metodo);
 
         if (metodo.equals("google")) {
 
@@ -123,9 +123,6 @@ public class UsuarioRegistrado extends AppCompatActivity
             String apellidos = settings.getString("apellidos", "");
             String email = settings.getString("email", "");
 
-            Log.d("etiqueta", String.valueOf(sesion));
-            Log.d("etiqueta", name);
-
             // Se selecciona la cabecera del menú lateral de navegación.
             View headerView = navigationView.getHeaderView(0);
 
@@ -157,10 +154,6 @@ public class UsuarioRegistrado extends AppCompatActivity
             String apellidos = settings.getString("apellidos", "");
             String email = settings.getString("email", "");
 
-            Log.d("etiqueta", name);
-            Log.d("etiqueta", apellidos);
-            Log.d("etiqueta", email);
-
             // Se selecciona la cabecera del menú lateral de navegación.
             View headerView = navigationView.getHeaderView(0);
 
@@ -186,8 +179,10 @@ public class UsuarioRegistrado extends AppCompatActivity
 
         }
 
-        //Log.e("etiqueta", "id_usuario:"+settings.getInt("id", 0));
         new ClasePeticionRest.CogerObjetosInicio(this, settings.getInt("id", 0) + "").executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+        findViewById(R.id.BotonX).setOnClickListener(new ClickBotonesSwipe(this, false));
+        findViewById(R.id.BotonTick).setOnClickListener(new ClickBotonesSwipe(this, true));
 
     }
 
@@ -267,7 +262,6 @@ public class UsuarioRegistrado extends AppCompatActivity
                 editor.putBoolean("sesion", false);
                 editor.commit();
 
-                Log.d("variables", "HE CERRADO LA SESIÓN CON FACEBOOK");
                 // Se carga el layout de invitado, es decir, sin funcionalidades de usuario.
                 Intent intent = new Intent(this, UsuarioNoRegistrado.class);
                 startActivity(intent);

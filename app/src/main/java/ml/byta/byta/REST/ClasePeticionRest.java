@@ -74,8 +74,6 @@ public class ClasePeticionRest {
 
             respuesta.clear();
 
-            Log.d("etiqueta", "size_params = "+parametros.size());
-
             String urlParametros = "";
             if (parametros != null) {
                 if (parametros.size() != 0) {
@@ -100,7 +98,6 @@ public class ClasePeticionRest {
 
             if (myConnection.getResponseCode() == 200){
 
-                Log.d("etiqueta", "entro al if");
                 InputStream responseBody = myConnection.getInputStream();
                 InputStreamReader responseBodyReader = new InputStreamReader(responseBody, "UTF-8");
                 JsonReader jsonReader = new JsonReader(responseBodyReader);
@@ -115,7 +112,6 @@ public class ClasePeticionRest {
                 jsonReader.close();
 
             } else {
-                Log.d("etiqueta", "entro al else");
                 respuesta.add(new KeyValue("ok", "false"));
                 respuesta.add(new KeyValue("error", "error en la peticion"));
             }
@@ -125,7 +121,6 @@ public class ClasePeticionRest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        Log.e("etiqueta", "SALGO");
         return respuesta;
 
     }
@@ -145,7 +140,6 @@ public class ClasePeticionRest {
 
         try {
 
-            Log.d("etiqueta", "URI:"+foto.getAbsolutePath());
             //------------------ CLIENT REQUEST
             FileInputStream fileInputStream = new FileInputStream(foto);
             // open a URL connection to the Servlet
@@ -186,7 +180,6 @@ public class ClasePeticionRest {
             dos.writeBytes(lineEnd);
             dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
             // close streams
-            Log.e("Debug", "File is written");
             fileInputStream.close();
             dos.flush();
             dos.close();
@@ -321,7 +314,6 @@ public class ClasePeticionRest {
             this.activity = activity;
             this.idUsuario = idUsuario;
             this.decision=decision;
-            //Log.d("variables2", String.valueOf(this.idUsuario));
         }
 
         @Override
@@ -440,7 +432,6 @@ public class ClasePeticionRest {
         protected String doInBackground(String... strings) {
 
             int idObjeto = guardarFoto(foto);
-            Log.e("etiqueta", "IDFoto = "+idObjeto);
             parametros.add(new KeyValue("id_objeto", idObjeto+""));
             ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
             if (respuesta.get(0).getKey().equals("ok") && respuesta.get(0).getValue().equals("true")){
@@ -571,9 +562,7 @@ public class ClasePeticionRest {
         @Override
         protected ArrayList<KeyValue> doInBackground(String... strings) {
             ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
-            if (respuesta.size()==0){
-                Log.d("etiqueta","nulo1");
-            }
+
             return respuesta;
         }
 
@@ -633,11 +622,9 @@ public class ClasePeticionRest {
                     text= (TextView) activity.findViewById(R.id.no_imagenes);
                     text.setVisibility(View.GONE);
                     Gson gson = new Gson();
-                    Log.e("etiqueta", result.get(1).getValue());
                     Objeto[] objetos = gson.fromJson(result.get(1).getValue(), Objeto[].class);
                     new CargarDatos(objetos, activity).executeOnExecutor(THREAD_POOL_EXECUTOR);
                 }else{
-                    Log.e("etiqueta", "No hay objetos");
                     gif= (GifImageView) activity.findViewById(R.id.gif);
                     gif.setVisibility(View.GONE);
                     img = (ImageView)  activity.findViewById(R.id.imagen_swappie);
@@ -680,7 +667,6 @@ public class ClasePeticionRest {
 
                 if (!result.get(1).getValue().equals("[]")){
                     Gson gson = new Gson();
-                    Log.e("etiqueta", result.get(1).getValue());
                     rel= (RelativeLayout) activity.findViewById(R.id.loading);
                     rel.setVisibility(View.GONE);
                     Objeto objeto = gson.fromJson(result.get(1).getValue(), Objeto.class);
@@ -722,13 +708,10 @@ public class ClasePeticionRest {
 
                 if (!result.get(1).getValue().equals("[]")){
                     Gson gson = new Gson();
-                    Log.e("etiqueta", result.get(1).getValue());
                     rel= (RelativeLayout) activity.findViewById(R.id.loading);
                     rel.setVisibility(View.GONE);
                     Objeto objeto = gson.fromJson(result.get(1).getValue(), Objeto.class);
                     new CargarObjetoAleatorioNuevo(objeto, activity).executeOnExecutor(THREAD_POOL_EXECUTOR);
-                }else{
-                    Log.e("etiqueta", "No hay objetos nuevos");
                 }
 
             }else if (result.get(1).getKey().equals("error")){
@@ -795,14 +778,7 @@ public class ClasePeticionRest {
         @Override
         protected ArrayList<KeyValue> doInBackground(String... strings) {
             ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
-            if (respuesta.size()==0){
-                Log.d("etiquetafb","nulo1");
-            }
 
-            for (int i=0;i<respuesta.size();i++){
-                Log.d("etiquetafb",respuesta.get(i).getKey());
-                Log.d("etiquetafb",respuesta.get(i).getValue());
-            }
             return respuesta;
         }
 
@@ -811,8 +787,6 @@ public class ClasePeticionRest {
             super.onPostExecute(result);
 
             if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")){
-
-                Log.d("etiquetafb","entro al if");
 
                 this.id = Integer.parseInt(result.get(1).getValue());
 
@@ -823,12 +797,7 @@ public class ClasePeticionRest {
 
             }else if (result.get(1).getKey().equals("error")){
 
-                Log.d("etiquetafb","entro al else");
-
                 if (result.get(1).getValue().equals("no registrado")){
-
-                    Log.d("etiquetafb","entro a no registrado");
-
 
                     SharedPreferences settings = activity.getSharedPreferences("Config", 0);
                     String name=settings.getString("nombre","");
@@ -939,12 +908,10 @@ public class ClasePeticionRest {
         public CogerInfoObjetos(Activity activity, int idUsuario) {
             this.activity = activity;
             parametros.add(new KeyValue("id_usuario", idUsuario+""));
-            Log.d("productos","Entro al constructor de CogerInfoObjetos");
         }
 
         @Override
         protected ArrayList<KeyValue> doInBackground(String... strings) {
-            Log.d("productos","Entro al doInBackground de CogerInfoObjetos");
             ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
             return respuesta;
         }
@@ -952,14 +919,12 @@ public class ClasePeticionRest {
         @Override
         protected void onPostExecute(ArrayList<KeyValue> result) {
             super.onPostExecute(result);
-            Log.d("productos","Entro al onPostExecute de CogerInfoObjetos");
 
             if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")){
 
                 Gson gson = new Gson();
                 Objeto[] objetos = gson.fromJson(result.get(1).getValue(), Objeto[].class);
                 for (int x = 0; x < objetos.length; x++){
-                    Log.d("productos","llamo a cargar lista objetos");
                     new CargarListaObjetos(objetos[x], activity).executeOnExecutor(THREAD_POOL_EXECUTOR);
                 }
                 if (objetos.length == 0){
@@ -1084,7 +1049,6 @@ public class ClasePeticionRest {
         SharedPreferences settings = activity.getSharedPreferences("Config", 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        Log.e("etiqueta", "GUARDAR_ID:"+id);
         editor.putInt("id", id);
         editor.putString("metodo", metodoLogin);
         editor.putBoolean("sesion", true);
@@ -1175,7 +1139,6 @@ public class ClasePeticionRest {
             super();
             this.objeto = objeto;
             this.activity = activity;
-            Log.d("productos","entro al constructor de cargarlistaobjetos");
         }
 
         @Override
@@ -1198,10 +1161,6 @@ public class ClasePeticionRest {
             super.onPostExecute(productos);
 
             ListView listaObjetos = (ListView) activity.findViewById(R.id.ListViewMisObjetos);
-
-            for (int i=0;i<productos.size();i++){
-                Log.d("productos",productos.get(i).getDescription());
-            }
 
             AdapterListadoObjetos adapterListadoObjetos = new AdapterListadoObjetos(activity, productos);
             listaObjetos.setAdapter(adapterListadoObjetos);

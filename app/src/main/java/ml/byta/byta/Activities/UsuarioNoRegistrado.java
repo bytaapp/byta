@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ml.byta.byta.EventListeners.ClickBotonesSwipe;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
@@ -99,6 +100,10 @@ public class UsuarioNoRegistrado extends AppCompatActivity
 
 
         }
+
+
+        findViewById(R.id.BotonX).setOnClickListener(new ClickBotonesSwipe(this, false));
+        findViewById(R.id.BotonTick).setOnClickListener(new ClickBotonesSwipe(this, true));
 
 
     }
