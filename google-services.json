@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "154154941011",
+    "firebase_url": "https://fir-byta.firebaseio.com",
+    "project_id": "firebase-byta",
+    "storage_bucket": "firebase-byta.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:154154941011:android:b4fb6102fe295fbd",
+        "android_client_info": {
+          "package_name": "ml.byta.byta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "154154941011-esuv3al0cfpaash8vm73jifadnvak0hi.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "154154941011-vnasisc4foctauje8rhad2gmi86kmpd0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDf_CoOIcatvMKpPFjSmVFRGcUVbe0KoNI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
