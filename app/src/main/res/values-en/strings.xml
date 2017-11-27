@@ -92,6 +92,8 @@
     <!-- Strings related to the chat -->
     <string name="keyboard_hint">Type a message</string>
     <string name="send_message_button">Send</string>
+    <string name="unknown_receptor">Name unknown</string>
+    <string name="chat_with_title">Chat with: </string>
 
     <!-- Strings related to the camera -->
     <string name="boton_aceptar">ACCEPT</string>

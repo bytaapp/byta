@@ -23,6 +23,7 @@ public class ChatActivity extends AppCompatActivity {
     private EditText keyboard;
     private Button sendButton;
     private int id;
+    private String receptor;
     private Handler handler;            // Se necesita para el hilo de refresco.
     private Activity activity = this;   // Se necesita para el hilo de refresco.
 
@@ -36,9 +37,17 @@ public class ChatActivity extends AppCompatActivity {
         keyboard = (EditText) findViewById(R.id.keyboard);
         sendButton = (Button) findViewById(R.id.send_button);
 
-        // Se toma el id del chat en el que estamos.
         Bundle bundle = getIntent().getExtras();
+
+        // Se toma el id del chat en el que estamos.
         id = bundle.getInt("chatId");
+
+        // Se toma el nombre de la persona con la que estamos chateando.
+        receptor = bundle.getString("receptor");
+
+        // Se pone como título el nombre de la persona con la que estamos chateando.
+        setTitle(getResources().getString(R.string.chat_with_title) + "  " + receptor);
+
 
         /* Se hace una petición al servidor para obtener los mensajes correspondientes a
          * este chat.
@@ -60,9 +69,6 @@ public class ChatActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Para hacer la petición de los mensajes de este chat se necesita el token de la sesión.
-                SharedPreferences settings = getSharedPreferences("Config", 0);
-
                 // Se hace una petición.
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get(

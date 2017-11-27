@@ -15,7 +15,8 @@
         android:layout_weight="0.9"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:transcriptMode="alwaysScroll"></ListView>
+        android:transcriptMode="alwaysScroll"
+        android:background="@drawable/chatbackground"></ListView>
 
     <!-- Layout para escribir un nuevo mensaje. Teclado y botón de enviar. -->
     <LinearLayout

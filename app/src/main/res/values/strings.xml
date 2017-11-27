@@ -88,6 +88,8 @@
     <!-- Strings related to the chat -->
     <string name="keyboard_hint">Escribe tu mensaje</string>
     <string name="send_message_button">Enviar</string>
+    <string name="unknown_receptor">Nombre desconocido</string>
+    <string name="chat_with_title">Chat con: </string>
 
     <!-- Strings related to the camera -->
     <string name="boton_aceptar">ACEPTAR</string>

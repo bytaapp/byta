@@ -70,8 +70,7 @@
             android:name=".Activities.ChatListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Activities.ChatActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:name=".Activities.ChatActivity"/>
 
         <activity android:name=".Activities.Splash" />
         <activity android:name=".Activities.ListadoObjetos"
