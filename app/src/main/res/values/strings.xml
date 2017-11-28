@@ -103,6 +103,9 @@
     <string name="mis_objetos">Mis objetos</string>
     <string name="borrar_objeto">Borrar objeto</string>
 
+    <!-- No hay chats -->
+    <string name="recordatorio">Recuerda que solo se abrirá un chat con alguien en caso de que
+    a esa persona le haya interesado un producto tuyo y a ti uno suyo. </string>
 
 
 </resources>
