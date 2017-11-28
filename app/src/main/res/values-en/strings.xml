@@ -108,8 +108,6 @@
     <string name="mis_objetos">My objects</string>
     <string name="borrar_objeto">Delete objects</string>
 
-    <!-- No hay chats -->
-    <string name="recordatorio">Remember that you won\'t have any chats until you like something of someone who also likes something of you </string>
-
+    <string name="crop">Crop</string>
 
 </resources>
