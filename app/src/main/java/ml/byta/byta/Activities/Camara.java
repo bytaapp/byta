@@ -83,6 +83,7 @@ public class Camara extends AppCompatActivity {
         verifyStoragePermissions(this);
 
         CropImage.activity()
+                .setCropMenuCropButtonTitle(getResources().getString(R.string.crop))
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(3,4)
                 .setFixAspectRatio(true)

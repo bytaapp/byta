@@ -108,4 +108,6 @@
     <string name="mis_objetos">My objects</string>
     <string name="borrar_objeto">Delete objects</string>
 
+    <string name="crop">Crop</string>
+
 </resources>
