@@ -105,4 +105,6 @@
 
     <string name="crop">Recortar</string>
 
+    <string name="recordatorio">Recuerda solo se abrirá un chat en caso de que a alguien le haya interesado un producto tuyo y a ti uno suyo </string>
+
 </resources>

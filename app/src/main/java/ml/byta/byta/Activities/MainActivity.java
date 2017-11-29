@@ -256,6 +256,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
+
+
         new ClasePeticionRest.ComprobarFacebook(MainActivity.this,email).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         //prefs = getSharedPreferences("es.unavarra.tlm", Context.MODE_PRIVATE);
         //prefs.edit().putString("es.unavarra.tlm.sesion", "true").apply();
@@ -295,19 +297,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String email = account.getEmail();
             String ubicacion = GetLocation.getCoords(this);
 
-            SharedPreferences info = getSharedPreferences("Config", 0);
-            SharedPreferences.Editor editor = info.edit();
-            editor.putString("metodo","google");
-            editor.putString("nombre",first_name);
-            editor.putString("apellidos",last_name);
-            editor.putString("email",email);
-            editor.putBoolean("sesion", true);
-            editor.putString("foto", imagen);
-            editor.commit();
+            if (ubicacion != null) {
+
+                SharedPreferences info = getSharedPreferences("Config", 0);
+                SharedPreferences.Editor editor = info.edit();
+                editor.putString("metodo", "google");
+                editor.putString("nombre", first_name);
+                editor.putString("apellidos", last_name);
+                editor.putString("email", email);
+                editor.putBoolean("sesion", true);
+                editor.putString("foto", imagen);
+                editor.commit();
 
 
-            new ClasePeticionRest.ComprobarGoogle(MainActivity.this,first_name,last_name,email,ubicacion).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                new ClasePeticionRest.ComprobarGoogle(MainActivity.this, first_name, last_name, email, ubicacion).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
 
+            progressDialog.dismiss();
 
         } else {
             // Signed out, show unauthenticated UI.

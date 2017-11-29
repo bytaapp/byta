@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.google.gson.Gson;
 
 import java.io.DataInputStream;
@@ -800,15 +801,24 @@ public class ClasePeticionRest {
                 if (result.get(1).getValue().equals("no registrado")){
 
                     SharedPreferences settings = activity.getSharedPreferences("Config", 0);
-                    String name=settings.getString("nombre","");
-                    String apellidos= settings.getString("apellidos","");
-                    this.nombre=name;
-                    this.apellidos=apellidos;
-                    this.password="";
-                    this.ubicacion = GetLocation.getCoords(activity);
-                    this.metodoLogin="facebook";
 
-                    new ClasePeticionRest.GuardarUsuario(this.activity,this.nombre,this.apellidos,this.email,this.password,this.ubicacion,this.metodoLogin).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    this.ubicacion = GetLocation.getCoords(activity);
+
+                    if (ubicacion != null) {
+
+                        String name=settings.getString("nombre","");
+                        String apellidos= settings.getString("apellidos","");
+                        this.nombre=name;
+                        this.apellidos=apellidos;
+                        this.password="";
+                        this.metodoLogin="facebook";
+                        new ClasePeticionRest.GuardarUsuario(this.activity,this.nombre,this.apellidos,this.email,this.password,this.ubicacion,this.metodoLogin).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    }
+
+                    LoginManager.getInstance().logOut();
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.clear();
+
 
                 }
                 //mostrarToast(activity, "ERROR: " + result.get(1).getValue());
