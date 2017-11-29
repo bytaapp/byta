@@ -36,6 +36,11 @@ public class MessageListHandler extends AsyncHttpResponseHandler {
         // Se selecciona la ListView para la lista de mensajes.
         messagesList = (ListView) activity.findViewById(R.id.messages_list);
 
+        // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
+        if (response.getCount() > 11) {
+            messagesList.setStackFromBottom(true);
+        }
+
         // ArrayList que contiene los mensajes.
         List<Message> messages = new ArrayList<>();
 
