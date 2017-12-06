@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 
 import link.fls.swipestack.SwipeStack;
@@ -25,6 +27,8 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
     Activity activity;
     int idUsuario;
     SharedPreferences settings;
+
+    final String tag = "swipe";
 
     public SwipeStackCardListener(Activity activity, ArrayList<Producto> productos) {
         this.activity = activity;
@@ -43,21 +47,20 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
         if (this.idUsuario != 0) {
             new ClasePeticionRest.GuardarSwipe(activity, this.idUsuario, idObjeto, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            if (productos.size() > position + 1){
+                description.setText(productos.get(position + 1).getDescription());
+            }else{
+                description.setText("");
+            }
         }else{
             //Log.d("entro", String.valueOf(position));
-            if(position>=4) {
+            if(position >= 4) {
                 Intent intent = new Intent(activity, AvisoIniciarSesion.class);
                 activity.startActivity(intent);
                 activity.finish();
             }else {
                 new ClasePeticionRest.CogerObjetoAleatorioSwipe(activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
-        }
-
-        if (productos.size() > position + 1){
-            description.setText(productos.get(position + 1).getDescription());
-        }else{
-            description.setText("");
         }
 
     }
@@ -70,17 +73,16 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
         if (this.idUsuario != 0) {
             new ClasePeticionRest.GuardarSwipe(activity, this.idUsuario, idObjeto, true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            if (productos.size() > position + 1){
+                description.setText(productos.get(position + 1).getDescription());
+            }else{
+                description.setText("");
+            }
         }else{
             ClasePeticionRest.mostrarCustomToast(activity);
             Intent intent = new Intent(activity, MainActivity.class);
             activity.startActivity(intent);
             activity.finish();
-        }
-
-        if (productos.size() > position + 1){
-            description.setText(productos.get(position + 1).getDescription());
-        }else{
-            description.setText("");
         }
 
     }

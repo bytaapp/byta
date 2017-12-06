@@ -334,7 +334,9 @@ public class ClasePeticionRest {
             super.onPostExecute(result);
             if (result.equals("true")){
                 new CogerObjetoSwipe(activity, idUsuario).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                new ComprobarSwipe(activity, Integer.parseInt(parametros.get(0).getValue()), Integer.parseInt(parametros.get(1).getValue())).executeOnExecutor(THREAD_POOL_EXECUTOR);
+                if (decision) {
+                    new ComprobarSwipe(activity, Integer.parseInt(parametros.get(0).getValue()), Integer.parseInt(parametros.get(1).getValue())).executeOnExecutor(THREAD_POOL_EXECUTOR);
+                }
             }else{
                 mostrarToast(activity, "Error al guardar el swipe: " + result);
             }
@@ -671,6 +673,7 @@ public class ClasePeticionRest {
                     rel= (RelativeLayout) activity.findViewById(R.id.loading);
                     rel.setVisibility(View.GONE);
                     Objeto objeto = gson.fromJson(result.get(1).getValue(), Objeto.class);
+                    Log.d("swipe", "OBJETO NUEVO: " + objeto.getDescripcion());
                     new CargarObjetoNuevo(objeto, activity).executeOnExecutor(THREAD_POOL_EXECUTOR);
                 }else{
                     Log.e("etiqueta", "No hay objetos nuevos");
