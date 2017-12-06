@@ -107,4 +107,8 @@
 
     <string name="recordatorio">Recuerda solo se abrirá un chat en caso de que a alguien le haya interesado un producto tuyo y a ti uno suyo </string>
 
+    <string name="mensaje_registrate">¡Inicia sesión para poder seguir viendo objetos y publicar los tuyos!</string>
+    <string name="mensaje_registrate2">Además, si te registras tampoco verás objetos repetidos</string>
+
+
 </resources>

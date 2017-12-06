@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -92,6 +93,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             finish();
         }
 
+        //SHA1: FB:57:28:44:5A:27:FD:7F:77:05:F5:02:23:19:91:51:C7:30:FB:8A
+        byte[] sha1 = {
+                (byte) 0xFB, 0x57, 0x28, 0x44, 0x5A, 0x27, (byte) 0xFD, 0x7F, 0x77, 0x05, (byte) 0xF5, 0x02, 0x23, 0x19, (byte) 0x91, 0x51, (byte)0xC7, (byte)0x30, (byte)0xFB, (byte)0x8A
+        };
+        Log.d("keyhash", Base64.encodeToString(sha1, Base64.NO_WRAP));
 
         // ----------------------  LOGIN CON GOOGLE ----------------------//
 

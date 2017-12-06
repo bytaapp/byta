@@ -3,9 +3,7 @@
     package="ml.byta.byta">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.READ_PROFILE" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <!-- CAMARA -->
@@ -29,8 +27,10 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
         <activity android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity" />
-        <activity android:name=".Activities.Welcome"
+        <activity
+            android:name=".Activities.Welcome"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,12 +69,13 @@
         <activity
             android:name=".Activities.ChatListActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Activities.ChatActivity"/>
-
+        <activity android:name=".Activities.ChatActivity" />
         <activity android:name=".Activities.Splash" />
-        <activity android:name=".Activities.ListadoObjetos"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.ListadoObjetos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.AvisoIniciarSesion"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
     </application>
 
 </manifest>

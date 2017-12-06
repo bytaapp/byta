@@ -112,4 +112,7 @@
 
     <string name="recordatorio">Remember that you won\'t have any chats until you like something of someone who also likes something of you</string>
 
+    <string name="mensaje_registrate">Login now so you can keep swiping objects and posting your own! </string>
+    <string name="mensaje_registrate2">Also if you sign up you won\'t see repeated items</string>
+
 </resources>

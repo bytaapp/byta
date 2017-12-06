@@ -75,11 +75,12 @@ public class UsuarioNoRegistrado extends AppCompatActivity
 
         SharedPreferences settings = getSharedPreferences("Config", 0);
         boolean sesion = settings.getBoolean("sesion",false);
-        if(sesion==true){
+        if(sesion){
 
             Intent intent = new Intent(this, UsuarioRegistrado.class);
             startActivity(intent);
             finish();
+
         }else{
             // ---------------------- CARGAMOS LAS IMÁGENES ----------------------//
 

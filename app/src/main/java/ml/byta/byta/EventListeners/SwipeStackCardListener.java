@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import link.fls.swipestack.SwipeStack;
+import ml.byta.byta.Activities.AvisoIniciarSesion;
 import ml.byta.byta.Activities.MainActivity;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
@@ -33,6 +34,7 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
         activity.findViewById(R.id.LayoutBotonesYDescripcion).setVisibility(View.VISIBLE);
     }
 
+
     @Override
     public void onViewSwipedToLeft(int position) {
         int idObjeto = productos.get(position).getId();
@@ -42,7 +44,14 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
         if (this.idUsuario != 0) {
             new ClasePeticionRest.GuardarSwipe(activity, this.idUsuario, idObjeto, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }else{
-            new ClasePeticionRest.CogerObjetoAleatorioSwipe(activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            //Log.d("entro", String.valueOf(position));
+            if(position>=4) {
+                Intent intent = new Intent(activity, AvisoIniciarSesion.class);
+                activity.startActivity(intent);
+                activity.finish();
+            }else {
+                new ClasePeticionRest.CogerObjetoAleatorioSwipe(activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+            }
         }
 
         if (productos.size() > position + 1){
