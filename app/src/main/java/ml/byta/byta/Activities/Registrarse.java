@@ -3,6 +3,7 @@ package ml.byta.byta.Activities;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Patterns;
 import android.view.View;
@@ -67,6 +68,9 @@ public class Registrarse extends AppCompatActivity {
                     toastMailMalo.show();
                 }
             }
+        }else{
+            Toast.makeText(this, "Por favor, activa la ubicación", Toast.LENGTH_LONG).show();
+            startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
         }
 
     }

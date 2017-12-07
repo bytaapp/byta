@@ -45,7 +45,6 @@ public class GetLocation {
                 activity.startActivityForResult(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS), 0);
                 return null;
             }
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, locationListener);
 
             Double longitude = location.getLongitude();
             Double latitude = location.getLatitude();

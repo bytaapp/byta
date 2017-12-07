@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.v4.widget.DrawerLayout;
 import android.util.JsonReader;
 import android.util.Log;
@@ -88,7 +89,7 @@ public class ClasePeticionRest {
             String stringURL = "https://byta.ml/api/" + funcionAPI + ".php?"+urlParametros;
             URL url = new URL(stringURL);
 
-            Log.d("etiqueta", String.valueOf(url));
+            //Log.d("etiqueta", String.valueOf(url));
 
             final HttpURLConnection myConnection = (HttpURLConnection) url.openConnection();
             myConnection.setInstanceFollowRedirects(false);
@@ -673,7 +674,6 @@ public class ClasePeticionRest {
                     rel= (RelativeLayout) activity.findViewById(R.id.loading);
                     rel.setVisibility(View.GONE);
                     Objeto objeto = gson.fromJson(result.get(1).getValue(), Objeto.class);
-                    Log.d("swipe", "OBJETO NUEVO: " + objeto.getDescripcion());
                     new CargarObjetoNuevo(objeto, activity).executeOnExecutor(THREAD_POOL_EXECUTOR);
                 }else{
                     Log.e("etiqueta", "No hay objetos nuevos");
@@ -843,20 +843,20 @@ public class ClasePeticionRest {
     public static class ComprobarGoogle extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
         String funcionAPI = "comprobar_google";
-        String nombre, apellidos, email, metodoLogin,password,ubicacion;
+        String nombre, apellidos, email, metodoLogin, password, ubicacion, imagen;
 
         ArrayList<KeyValue> parametros = new ArrayList<>();
         Activity activity;
 
 
-        public ComprobarGoogle(Activity activity, String nombre, String apellidos, String email, String ubicacion) {
-
+        public ComprobarGoogle(Activity activity, String nombre, String apellidos, String email, String imagen) {
             parametros.add(new KeyValue("email", email));
             this.activity = activity;
             this.nombre = nombre;
             this.apellidos = apellidos;
-            this.ubicacion = ubicacion;
+            //this.ubicacion = ubicacion;
             this.email=email;
+            this.imagen = imagen;
         }
 
         @Override
@@ -872,28 +872,29 @@ public class ClasePeticionRest {
             if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")){
 
                 int idUsuario = Integer.parseInt(result.get(1).getValue());
-
-                this.guardarUsuarioEnSharedPreferences(Integer.parseInt(result.get(1).getValue()));
-                //mostrarToast(activity, "Logueado usuario Nº " + result.get(1).getValue());
-
+                this.guardarUsuarioEnSharedPreferences(idUsuario);
 
             }else if (result.get(1).getKey().equals("error")){
                 if (result.get(1).getValue().equals("no registrado")){
 
-                    SharedPreferences settings = activity.getSharedPreferences("Config", 0);
-                    String name=settings.getString("nombre","");
-                    String apellidos= settings.getString("apellidos","");
-                    this.nombre=name;
-                    this.apellidos=apellidos;
-                    this.password="";
-                    this.ubicacion=GetLocation.getCoords(activity);
-                    this.metodoLogin="google";
+                    this.ubicacion = GetLocation.getCoords(activity);
 
-                    new ClasePeticionRest.GuardarUsuario(this.activity,this.nombre,this.apellidos,this.email,this.password,this.ubicacion,this.metodoLogin).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-
+                    if (ubicacion != null) {
+                        this.password="";
+                        this.metodoLogin = "google";
+                        new ClasePeticionRest.GuardarUsuario(this.activity, this.nombre, this.apellidos, this.email, this.password, this.ubicacion, this.metodoLogin).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+                    }
 
                 }else{
-                    //mostrarToast(activity, "ERROR: " + result.get(1).getValue());
+                    SharedPreferences info = activity.getSharedPreferences("Config", 0);
+                    SharedPreferences.Editor editor = info.edit();
+                    editor.putString("metodo", "google");
+                    editor.putString("nombre", nombre);
+                    editor.putString("apellidos", apellidos);
+                    editor.putString("email", email);
+                    editor.putBoolean("sesion", true);
+                    editor.putString("foto", imagen);
+                    editor.commit();
                 }
             }
         }
@@ -1316,7 +1317,6 @@ public class ClasePeticionRest {
         Bitmap bmp =null;
         try{
             URL ulrn = new URL("https://byta.ml/api/img/fotos_objetos/" + id + ".jpg");
-            Log.e("etiqueta", "URL:"+ulrn.toString());
             HttpURLConnection con = (HttpURLConnection)ulrn.openConnection();
             con.setUseCaches(true);
             InputStream is = con.getInputStream();

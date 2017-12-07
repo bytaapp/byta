@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
-            //Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
@@ -301,8 +300,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String imagen = String.valueOf(account.getPhotoUrl());
             String id = account.getIdToken();
             String email = account.getEmail();
-            String ubicacion = GetLocation.getCoords(this);
+            //String ubicacion = GetLocation.getCoords(this);
 
+            new ClasePeticionRest.ComprobarGoogle(MainActivity.this, first_name, last_name, email, imagen).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+            /*
             if (ubicacion != null) {
 
                 SharedPreferences info = getSharedPreferences("Config", 0);
@@ -314,10 +316,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.putBoolean("sesion", true);
                 editor.putString("foto", imagen);
                 editor.commit();
-
-
-                new ClasePeticionRest.ComprobarGoogle(MainActivity.this, first_name, last_name, email, ubicacion).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             }
+            */
 
             progressDialog.dismiss();
 
