@@ -886,15 +886,7 @@ public class ClasePeticionRest {
                     }
 
                 }else{
-                    SharedPreferences info = activity.getSharedPreferences("Config", 0);
-                    SharedPreferences.Editor editor = info.edit();
-                    editor.putString("metodo", "google");
-                    editor.putString("nombre", nombre);
-                    editor.putString("apellidos", apellidos);
-                    editor.putString("email", email);
-                    editor.putBoolean("sesion", true);
-                    editor.putString("foto", imagen);
-                    editor.commit();
+                    //TOAST DEL ERROR DESCONOCIDO
                 }
             }
         }
@@ -902,6 +894,15 @@ public class ClasePeticionRest {
         public void guardarUsuarioEnSharedPreferences(int id){
 
             ClasePeticionRest.guardaridUsuario(activity,id);
+            SharedPreferences info = activity.getSharedPreferences("Config", 0);
+            SharedPreferences.Editor editor = info.edit();
+            editor.putString("metodo", "google");
+            editor.putString("nombre", nombre);
+            editor.putString("apellidos", apellidos);
+            editor.putString("email", email);
+            editor.putBoolean("sesion", true);
+            editor.putString("foto", imagen);
+            editor.commit();
 
             Intent intent = new Intent(activity, UsuarioRegistrado.class);
             activity.startActivity(intent);
