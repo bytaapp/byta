@@ -1,5 +1,6 @@
 package ml.byta.byta.Activities;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -210,22 +211,19 @@ public class UsuarioNoRegistrado extends AppCompatActivity
     };
 
     protected void sendEmail() {
-        String[] TO = {"swappieapp2017@gmail.com"}; //aquí pon tu correo
-        String[] CC = {""};
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("message/rfc822");
-        //text/plain
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_CC, CC);
-// Esto podrás modificarlo si quieres, el asunto y el cuerpo del mensaje
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Asunto");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Escribe aquí tu mensaje");
+
+        String mailto = "mailto:bytaapp@gmail.com" +
+                "?cc=" + "" +
+                "&subject=" + Uri.encode(getString(R.string.asunto)) +
+                "&body=" + Uri.encode(getString(R.string.cuerpo));
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse(mailto));
+
 
         try {
-            startActivity(Intent.createChooser(emailIntent, "Indícanos qué te gustaría modificar de la aplicación"));
-
-        } catch (android.content.ActivityNotFoundException ex) {
+            startActivity(emailIntent);
+        } catch (ActivityNotFoundException e) {
             Toast.makeText(UsuarioNoRegistrado.this,
                     "No tienes clientes de email instalados.", Toast.LENGTH_SHORT).show();
         }

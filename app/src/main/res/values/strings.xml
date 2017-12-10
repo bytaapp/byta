@@ -110,5 +110,7 @@
     <string name="mensaje_registrate">¡Inicia sesión para poder seguir viendo objetos y publicar los tuyos!</string>
     <string name="mensaje_registrate2">Además, si te registras tampoco verás objetos repetidos</string>
 
+    <string name="asunto">Asunto</string>
+    <string name="cuerpo">Escribe aquí tu mensaje</string>
 
 </resources>
