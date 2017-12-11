@@ -41,13 +41,6 @@ public class Tutorial extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Checking for first time launch - before calling setContentView()
-        //   prefManager = new PreferenceManager(this);
-        //  if (!prefManager.isFirstTimeLaunch()) {
-        //  launchHomeScreen();
-        //finish();
-        // }
-
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -61,7 +54,7 @@ public class Tutorial extends AppCompatActivity {
         btnNext = (Button) findViewById(R.id.btn_next);
 
         // layouts of all welcome sliders
-        // add few more layouts if you want
+
         layouts = new int[]{
                 R.layout.slide_screen1,
                 R.layout.slide_screen2,
@@ -131,7 +124,7 @@ public class Tutorial extends AppCompatActivity {
 
         Log.d("etiqueta", String.valueOf(sesion));
 
-        if (sesion == true) {
+        if (sesion) {
             startActivity(new Intent(Tutorial.this, UsuarioRegistrado.class));
             finish();
         }else{
