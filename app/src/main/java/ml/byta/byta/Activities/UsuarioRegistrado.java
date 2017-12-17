@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -49,7 +50,7 @@ public class UsuarioRegistrado extends AppCompatActivity
     TextView txt;
     CircleImageView img;
 
-    private String metodo;          // Contiene el método que utilizó el usuario para registrarse.
+    private String metodo,token,email;          // Contiene el método que utilizó el usuario para registrarse.
 
     private DrawerLayout drawer;
 
@@ -85,6 +86,11 @@ public class UsuarioRegistrado extends AppCompatActivity
         // Se identifica el método que utilizó el usuario para registrarse.
         SharedPreferences settings = getSharedPreferences("Config", 0);
         metodo = settings.getString("metodo", "");
+        token = FirebaseInstanceId.getInstance().getToken();
+        email = settings.getString("email","");
+
+        //Guardamos el token actual del usuario en la base de datos
+        new ClasePeticionRest.GuardarToken(UsuarioRegistrado.this, token, email).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         if (metodo.equals("google")) {
 

@@ -89,7 +89,7 @@ public class ClasePeticionRest {
             String stringURL = "https://byta.ml/api/" + funcionAPI + ".php?"+urlParametros;
             URL url = new URL(stringURL);
 
-            //Log.d("etiqueta", String.valueOf(url));
+            Log.d("etiqueta", String.valueOf(url));
 
             final HttpURLConnection myConnection = (HttpURLConnection) url.openConnection();
             myConnection.setInstanceFollowRedirects(false);
@@ -351,10 +351,14 @@ public class ClasePeticionRest {
 
         ArrayList<KeyValue> parametros = new ArrayList<>();
         Activity activity;
+        int idUsuario1;
+        int idUsuario2;
 
         public GuardarMatch(Activity activity, int idUsuario1, int idUsuario2) {
             parametros.add(new KeyValue("id_usuario1", idUsuario1+""));
             parametros.add(new KeyValue("id_objeto", idUsuario2+""));
+            this.idUsuario1=idUsuario1;
+            this.idUsuario2=idUsuario2;
             this.activity = activity;
         }
 
@@ -374,6 +378,10 @@ public class ClasePeticionRest {
             super.onPostExecute(result);
             if (result.equals("true")){
                 mostrarToast(activity, "Match guardado correctamente");
+                //new GetUserToken(this.activity,this.idUsuario2).executeOnExecutor(THREAD_POOL_EXECUTOR);
+                //SharedPreferences settings = activity.getSharedPreferences("Config", 0);
+                //new NotificarMatch(this.activity,settings.getString("token2","")).executeOnExecutor(THREAD_POOL_EXECUTOR);
+
             }else{
                 mostrarToast(activity, "Error al guardar el match");
             }
@@ -1331,127 +1339,26 @@ public class ClasePeticionRest {
     }
 
 
+    public static class GuardarToken extends AsyncTask<String, String, String> {
 
-
-
-        /******************************************/
-       /*                                        */
-      /*    CLASES INÚTILES (POR EL MOMENTO)    */
-     /*                                        */
-    /******************************************/
-
-
-    public static class CogerSwipes extends AsyncTask<String, String, ArrayList<KeyValue>> {
-
-        String funcionAPI = "coger_swipes";
+        String funcionAPI = "guardar_token";
 
         ArrayList<KeyValue> parametros = new ArrayList<>();
         Activity activity;
+        String token;
 
-        public CogerSwipes(Activity activity, int idUsuario1) {
-            parametros.add(new KeyValue("id_usuario1", idUsuario1+""));
-            this.activity = activity;
-        }
-
-        @Override
-        protected ArrayList<KeyValue> doInBackground(String... strings) {
-            ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
-            return respuesta;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<KeyValue> result) {
-            super.onPostExecute(result);
-            if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")){
-                //mostrarToast(activity, "\"JSON: \" + result.get(1).getValue()");
-            }else if (result.get(1).getKey().equals("error")){
-                //mostrarToast(activity, "\"JSON: \" + result.get(1).getValue()");
-            }
-
-        }
-
-    }
-
-    public static class CogerInfoObjeto extends AsyncTask<String, String, ArrayList<KeyValue>> {
-
-        String funcionAPI = "coger_info_objeto";
-
-        ArrayList<KeyValue> parametros = new ArrayList<>();
-        Activity activity;
-
-        public CogerInfoObjeto(Activity activity, int idObjeto) {
-            parametros.add(new KeyValue("id_objeto", idObjeto+""));
-            this.activity = activity;
-        }
-
-        @Override
-        protected ArrayList<KeyValue> doInBackground(String... strings) {
-            ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
-            return respuesta;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<KeyValue> result) {
-            super.onPostExecute(result);
-            if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")){
-                //mostrarToast(activity, "JSON: " + result.get(1).getValue());
-            }else if (result.get(1).getKey().equals("error")){
-                //mostrarToast(activity, "JSON: " + result.get(1).getValue());
-            }
-
-        }
-
-    }
-
-    public static class ActualizarChat extends AsyncTask<String, String, ArrayList<KeyValue>> {
-
-        String funcionAPI = "actualizar_chat";
-
-        ArrayList<KeyValue> parametros = new ArrayList<>();
-        Activity activity;
-
-        public ActualizarChat(Activity activity, int idUsuario, int idChat) {
-            parametros.add(new KeyValue("id_usuario", idUsuario + ""));
-            parametros.add(new KeyValue("id_chat", idChat + ""));
-            this.activity = activity;
-        }
-
-        @Override
-        protected ArrayList<KeyValue> doInBackground(String... strings) {
-            ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
-            return respuesta;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<KeyValue> result) {
-            super.onPostExecute(result);
-            if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")){
-                //mostrarToast(activity, "JSON: " + result.get(1).getValue());
-            }else if (result.get(1).getKey().equals("error")){
-                //mostrarToast(activity, "JSON: " + result.get(1).getValue());
-            }
-
-        }
-
-    }
-
-    public static class GuardarMensaje extends AsyncTask<String, String, String> {
-
-        String funcionAPI = "guardar_mensaje";
-
-        ArrayList<KeyValue> parametros = new ArrayList<>();
-        Activity activity;
-
-        public GuardarMensaje(Activity activity, int idChat, int idAutor, String mensaje) {
-            parametros.add(new KeyValue("id_chat", idChat+""));
-            parametros.add(new KeyValue("id_autor", idAutor+""));
-            parametros.add(new KeyValue("mensaje", mensaje));
+        public GuardarToken(Activity activity, String token, String emailUser) {
+            this.token=token;
+            parametros.add(new KeyValue("user_token", token));
+            parametros.add(new KeyValue("user_email", emailUser));
             this.activity = activity;
         }
 
         @Override
         protected String doInBackground(String... strings) {
+
             ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
+
             if (respuesta.get(0).getKey().equals("ok") && respuesta.get(0).getValue().equals("true")){
                 return "true";
             }else if (respuesta.get(1).getKey().equals("error")){
@@ -1464,12 +1371,232 @@ public class ClasePeticionRest {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             if (result.equals("true")){
-                mostrarToast(activity, "Mensaje guardado correctamente");
+                //mostrarToast(activity, "Mensaje guardado correctamente");
+                Log.d("añado",this.token);
             }else{
-                mostrarToast(activity, "Error al guardar el mensaje");
+                //mostrarToast(activity, "Error al guardar el mensaje");
             }
         }
 
     }
+
+
+    public static class GetUserToken extends AsyncTask<String, String, String> {
+
+        String funcionAPI = "get_user_token";
+
+        ArrayList<KeyValue> parametros = new ArrayList<>();
+        Activity activity;
+        int idUser;
+
+        public GetUserToken(Activity activity, int idUser) {
+
+            this.activity = activity;
+            this.idUser = idUser;
+            parametros.add(new KeyValue("user_id", idUser + ""));
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String token = null;
+
+            ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
+
+            if (respuesta.get(0).getKey().equals("ok") && respuesta.get(0).getValue().equals("true")) {
+                if (respuesta.get(1).getKey().equals("token")) {
+                    token = respuesta.get(1).getValue();
+                }
+            } else if (respuesta.get(1).getKey().equals("error")) {
+                return respuesta.get(1).getValue();
+            }
+            return token;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+                //mostrarToast(activity,result);
+                SharedPreferences info = activity.getSharedPreferences("Config", 0);
+                SharedPreferences.Editor editor = info.edit();
+                editor.putString("token2", result);
+
+        }
+
+    }
+
+        public static class NotificarMatch extends AsyncTask<String, String, String> {
+
+            String funcionAPI = "notification";
+
+            ArrayList<KeyValue> parametros = new ArrayList<>();
+            Activity activity;
+
+
+            public NotificarMatch(Activity activity, String token) {
+
+                this.activity = activity;
+                parametros.add(new KeyValue("token", token));
+            }
+
+            @Override
+            protected String doInBackground(String... strings) {
+
+                String token = null;
+
+                ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
+
+                return token;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+
+            }
+
+
+        }
+
+
+        /******************************************/
+       /*                                        */
+      /*    CLASES INÚTILES (POR EL MOMENTO)    */
+     /*                                        */
+
+        /******************************************/
+
+
+        public static class CogerSwipes extends AsyncTask<String, String, ArrayList<KeyValue>> {
+
+            String funcionAPI = "coger_swipes";
+
+            ArrayList<KeyValue> parametros = new ArrayList<>();
+            Activity activity;
+
+            public CogerSwipes(Activity activity, int idUsuario1) {
+                parametros.add(new KeyValue("id_usuario1", idUsuario1 + ""));
+                this.activity = activity;
+            }
+
+            @Override
+            protected ArrayList<KeyValue> doInBackground(String... strings) {
+                ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
+                return respuesta;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<KeyValue> result) {
+                super.onPostExecute(result);
+                if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")) {
+                    //mostrarToast(activity, "\"JSON: \" + result.get(1).getValue()");
+                } else if (result.get(1).getKey().equals("error")) {
+                    //mostrarToast(activity, "\"JSON: \" + result.get(1).getValue()");
+                }
+
+            }
+
+        }
+
+        public static class CogerInfoObjeto extends AsyncTask<String, String, ArrayList<KeyValue>> {
+
+            String funcionAPI = "coger_info_objeto";
+
+            ArrayList<KeyValue> parametros = new ArrayList<>();
+            Activity activity;
+
+            public CogerInfoObjeto(Activity activity, int idObjeto) {
+                parametros.add(new KeyValue("id_objeto", idObjeto + ""));
+                this.activity = activity;
+            }
+
+            @Override
+            protected ArrayList<KeyValue> doInBackground(String... strings) {
+                ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
+                return respuesta;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<KeyValue> result) {
+                super.onPostExecute(result);
+                if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")) {
+                    //mostrarToast(activity, "JSON: " + result.get(1).getValue());
+                } else if (result.get(1).getKey().equals("error")) {
+                    //mostrarToast(activity, "JSON: " + result.get(1).getValue());
+                }
+
+            }
+
+        }
+
+        public static class ActualizarChat extends AsyncTask<String, String, ArrayList<KeyValue>> {
+
+            String funcionAPI = "actualizar_chat";
+
+            ArrayList<KeyValue> parametros = new ArrayList<>();
+            Activity activity;
+
+            public ActualizarChat(Activity activity, int idUsuario, int idChat) {
+                parametros.add(new KeyValue("id_usuario", idUsuario + ""));
+                parametros.add(new KeyValue("id_chat", idChat + ""));
+                this.activity = activity;
+            }
+
+            @Override
+            protected ArrayList<KeyValue> doInBackground(String... strings) {
+                ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
+                return respuesta;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<KeyValue> result) {
+                super.onPostExecute(result);
+                if (result.get(0).getKey().equals("ok") && result.get(0).getValue().equals("true")) {
+                    //mostrarToast(activity, "JSON: " + result.get(1).getValue());
+                } else if (result.get(1).getKey().equals("error")) {
+                    //mostrarToast(activity, "JSON: " + result.get(1).getValue());
+                }
+
+            }
+
+        }
+
+        public static class GuardarMensaje extends AsyncTask<String, String, String> {
+
+            String funcionAPI = "guardar_mensaje";
+
+            ArrayList<KeyValue> parametros = new ArrayList<>();
+            Activity activity;
+
+            public GuardarMensaje(Activity activity, int idChat, int idAutor, String mensaje) {
+                parametros.add(new KeyValue("id_chat", idChat + ""));
+                parametros.add(new KeyValue("id_autor", idAutor + ""));
+                parametros.add(new KeyValue("mensaje", mensaje));
+                this.activity = activity;
+            }
+
+            @Override
+            protected String doInBackground(String... strings) {
+                ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
+                if (respuesta.get(0).getKey().equals("ok") && respuesta.get(0).getValue().equals("true")) {
+                    return "true";
+                } else if (respuesta.get(1).getKey().equals("error")) {
+                    return respuesta.get(1).getValue();
+                }
+                return "";
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                super.onPostExecute(result);
+                if (result.equals("true")) {
+                    mostrarToast(activity, "Mensaje guardado correctamente");
+                } else {
+                    mostrarToast(activity, "Error al guardar el mensaje");
+                }
+            }
+
+        }
+
 
 }

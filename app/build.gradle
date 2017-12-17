@@ -15,8 +15,8 @@ android {
         applicationId "ml.byta.byta"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -72,9 +72,11 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.3'
     compile 'com.google.firebase:firebase-core:10.2.0'
     compile 'com.google.firebase:firebase-auth:10.2.0'
+    compile 'com.google.firebase:firebase-messaging:10.2.0'
     compile 'com.google.android.gms:play-services-auth:10.2.0'
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     testCompile 'junit:junit:4.12'
 }
+
 
 apply plugin: 'com.google.gms.google-services'
