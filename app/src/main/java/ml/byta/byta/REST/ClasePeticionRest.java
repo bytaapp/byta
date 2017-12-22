@@ -380,7 +380,7 @@ public class ClasePeticionRest {
                 mostrarToast(activity, "Match guardado correctamente");
                 //new GetUserToken(this.activity,this.idUsuario2).executeOnExecutor(THREAD_POOL_EXECUTOR);
                 //SharedPreferences settings = activity.getSharedPreferences("Config", 0);
-                //new NotificarMatch(this.activity,settings.getString("token2","")).executeOnExecutor(THREAD_POOL_EXECUTOR);
+                new NotificarMatch(this.activity,idUsuario1,idUsuario2).executeOnExecutor(THREAD_POOL_EXECUTOR);
 
             }else{
                 mostrarToast(activity, "Error al guardar el match");
@@ -1433,10 +1433,12 @@ public class ClasePeticionRest {
             Activity activity;
 
 
-            public NotificarMatch(Activity activity, String token) {
+            public NotificarMatch(Activity activity, int idUser1, int idUser2) {
 
+                Log.d("match","entro");
                 this.activity = activity;
-                parametros.add(new KeyValue("token", token));
+                parametros.add(new KeyValue("id_usuario1", idUser1 +""));
+                parametros.add(new KeyValue("id_objeto", idUser2 +""));
             }
 
             @Override
