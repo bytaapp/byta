@@ -1,0 +1,43 @@
+package ml.byta.byta.DataBase;
+import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Query;
+
+import java.util.List;
+
+@Dao
+public interface MessageDao {
+
+    // Selecciona todos los mensajes.
+    @Query("SELECT * FROM message")
+    List<Message> getAllMessages();
+
+    // Selecciona un mensaje por su ID.
+    @Query("SELECT * FROM message WHERE id = :id")
+    Message getById(int id);
+
+    // Selecciona todos los mensajes de un chat por el ID del chat.
+    @Query("SELECT * FROM message WHERE chat_id = :id")
+    List<Message> getByChatId(int id);
+
+    // Selecciona todos los mensajes de un chat por el ID del autor.
+    @Query("SELECT * FROM message WHERE author_id = :id")
+    List<Message> getByAuthorId(int id);
+
+    // Selecciona todos los mensajes de un chat en concreto y escritos por un usuario en concreto.
+    @Query("SELECT * FROM message WHERE chat_id = :chatId AND author_id = :authorId")
+    List<Message> getByAuthorIdInChat(int chatId, int authorId);
+
+    // Selecciona el último mensaje de un chat por el ID del chat.
+    @Query("SELECT * FROM message WHERE chat_id = :id ORDER BY id DESC LIMIT 1")
+    Message getLastMessageFromChat(int id);
+
+    // Elimina un mensaje por su ID.
+    @Query("DELETE FROM message WHERE id = :id")
+    void deleteById(int id);
+
+    // Elimina un mensaje pasado como parámetro.
+    @Delete
+    void delete(Message message);
+
+}
