@@ -1,97 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.UsuarioRegistrado"
     tools:showIn="@layout/app_bar_usuario_registrado">
 
-    <!--
-    <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp" />
-
-        -->
-
-    <LinearLayout
-        android:id="@+id/LayoutStackVacio"
+    <com.google.android.flexbox.FlexboxLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="70dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone"
-        tools:ignore="UseCompoundDrawables">
-
-
-        <ImageView
-            android:layout_width="@dimen/img_width_height"
-            android:layout_height="@dimen/img_width_height"
-            android:layout_marginTop="60dp"
-            android:src="@drawable/byta"
-            app:srcCompat="@drawable/sorry"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:text="@string/oops"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/LayoutPilaCartas"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-        <link.fls.swipestack.SwipeStack
-            android:id="@+id/pila_cartas"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            android:visibility="visible"
-            app:stack_rotation="0" />
-
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/LayoutBotonesYDescripcion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:visibility="gone">
+        app:flexWrap="wrap">
 
         <LinearLayout
+            android:id="@+id/LayoutPilaCartas"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:paddingEnd="50dp"
-            android:paddingStart="50dp"
-            android:visibility="visible">
+            android:layout_height="400dp"
+            android:orientation="vertical">
+
+            <link.fls.swipestack.SwipeStack
+                android:id="@+id/pila_cartas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="20dp"
+                android:visibility="visible"
+                app:stack_rotation="0" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/botones"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/LayoutPilaCartas"
+            android:layout_marginTop="10dp">
 
             <ImageView
                 android:id="@+id/BotonX"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:contentDescription="@string/borrar_objeto"
+                android:src="@drawable/x_icon" />
+
+            <ImageView
+                android:id="@+id/BotonSuper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -108,14 +66,28 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/DescripcionCarta"
+        <LinearLayout
+            android:id="@+id/descripcion"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:layout_height="60dp"
+            android:layout_below="@+id/botones">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/DescripcionCarta"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/botones"
+                android:text="HOLA"
+                android:textAlignment="center"
+                android:textSize="12dp"
+                android:layout_marginTop="10dp"/>
 
-</RelativeLayout>
+        </LinearLayout>
+
+
+    </com.google.android.flexbox.FlexboxLayout>
+
+
+
+
+</LinearLayout>

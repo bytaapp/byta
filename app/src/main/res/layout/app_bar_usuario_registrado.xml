@@ -16,31 +16,47 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/colorPrimary"
-            app:popupTheme="@style/MyDrawerArrowToggle" >
+            app:popupTheme="@style/MyDrawerArrowToggle">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/app"
-                android:textColor="@color/ColorActionBarTitle"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="4">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="right"
-                android:onClick="abrirCamara"
-                android:src="@drawable/ic_menu_camera"
-                android:layout_marginRight="20dp"/>
+                <ImageView
+                    android:id="@+id/liked"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:src="@drawable/heart"/>
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="right"
-                android:onClick="openChat"
-                android:src="@drawable/conversaciones"
-                android:layout_marginRight="20dp"/>
+                <ImageView
+                    android:id="@+id/rewind"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:src="@drawable/icon"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:onClick="openChat"
+                    android:src="@drawable/conversaciones"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    android:onClick="openChat"
+                    android:src="@drawable/camera" />
+
+
+            </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
 
@@ -51,3 +67,4 @@
 
 
 </android.support.design.widget.CoordinatorLayout>
+
