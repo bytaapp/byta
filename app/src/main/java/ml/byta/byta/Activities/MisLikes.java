@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutCompat;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,11 +50,20 @@ public class MisLikes extends AppCompatActivity {
                 //Botones
                 ImageView superlike = new ImageView(MisLikes.this);
                 superlike.setImageResource(R.drawable.x_icon);
+
+                ImageView white = new ImageView(MisLikes.this);
+                white.setImageResource(R.drawable.white);
+
                 ImageView dislike = new ImageView(MisLikes.this);
                 dislike.setImageResource(R.drawable.supericon);
+
+
                 //Añadimos los botones
-                botones.addView(superlike,width/7,width/7);
-                botones.addView(dislike,width/7,width/7);
+                botones.addView(superlike,width/9,width/9);
+                botones.addView(white,width/20, width/20);
+                botones.addView(dislike,width/9,width/9);
+
+
             //Añadimos el imageview al linearLayout
             linearLayout.setOrientation(LinearLayout.VERTICAL);
             linearLayout.setGravity(Gravity.CENTER);
