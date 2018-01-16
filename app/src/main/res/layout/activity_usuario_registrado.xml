@@ -28,21 +28,6 @@
             tools:ignore="UselessParent">
 
 
-            <ImageView
-                android:id="@+id/imagen_swappie"
-                android:layout_width="@dimen/img_width_height"
-                android:layout_height="@dimen/img_width_height"
-                android:layout_marginTop="60dp"
-                android:src="@drawable/byta"
-                tools:ignore="ContentDescription" />
-
-            <pl.droidsonroids.gif.GifImageView
-                android:id="@+id/gif"
-                android:layout_width="match_parent"
-                android:layout_height="140dp"
-                android:src="@drawable/loading2"
-                android:layout_marginTop="10dp"
-                />
             <TextView
                 android:id="@+id/no_imagenes"
                 android:layout_width="200dp"

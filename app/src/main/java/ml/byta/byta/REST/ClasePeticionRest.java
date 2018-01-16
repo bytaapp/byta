@@ -637,10 +637,10 @@ public class ClasePeticionRest {
                     Objeto[] objetos = gson.fromJson(result.get(1).getValue(), Objeto[].class);
                     new CargarDatos(objetos, activity).executeOnExecutor(THREAD_POOL_EXECUTOR);
                 }else{
-                    gif= (GifImageView) activity.findViewById(R.id.gif);
-                    gif.setVisibility(View.GONE);
-                    img = (ImageView)  activity.findViewById(R.id.imagen_swappie);
-                    img.setImageResource(R.drawable.sorry);
+                    //gif= (GifImageView) activity.findViewById(R.id.gif);
+                    //gif.setVisibility(View.GONE);
+                    //img = (ImageView)  activity.findViewById(R.id.imagen_swappie);
+                    //img.setImageResource(R.drawable.sorry);
 
                 }
 

@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    app:flexWrap="wrap"
+    app:alignItems="stretch"
+    app:alignContent="stretch"
+    android:clipChildren="false"
+    app:flexDirection="column"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.UsuarioRegistrado"
     tools:showIn="@layout/app_bar_usuario_registrado">
 
-    <com.google.android.flexbox.FlexboxLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:flexWrap="wrap">
 
-        <LinearLayout
-            android:id="@+id/LayoutPilaCartas"
+        <link.fls.swipestack.SwipeStack
+            android:id="@+id/pila_cartas"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:visibility="visible"
+            app:layout_flexBasisPercent="60%"
+            app:stack_rotation="0" />
 
-            <link.fls.swipestack.SwipeStack
-                android:id="@+id/pila_cartas"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="20dp"
-                android:visibility="visible"
-                app:stack_rotation="0" />
-
-        </LinearLayout>
 
         <LinearLayout
+            app:layout_alignSelf="center"
             android:id="@+id/botones"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/LayoutPilaCartas"
-            android:layout_marginTop="10dp">
+            android:layout_below="@+id/pila_cartas"
+            android:layout_marginTop="50dp">
 
             <ImageView
                 android:id="@+id/BotonX"
@@ -67,9 +62,10 @@
         </LinearLayout>
 
         <LinearLayout
+            app:layout_alignSelf="flex_end"
             android:id="@+id/descripcion"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_below="@+id/botones">
 
             <TextView
@@ -79,15 +75,10 @@
                 android:layout_below="@+id/botones"
                 android:text="HOLA"
                 android:textAlignment="center"
-                android:textSize="12dp"
-                android:layout_marginTop="10dp"/>
+                android:textSize="18dp"
+                android:layout_marginTop="20dp"/>
 
         </LinearLayout>
 
 
-    </com.google.android.flexbox.FlexboxLayout>
-
-
-
-
-</LinearLayout>
+</com.google.android.flexbox.FlexboxLayout>
