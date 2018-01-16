@@ -113,4 +113,6 @@
     <string name="asunto">Asunto</string>
     <string name="cuerpo">Escribe aquí tu mensaje</string>
 
+    <string name="description">descripción (opcional). máx 100 caracteres. </string>
+
 </resources>

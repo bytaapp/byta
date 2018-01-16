@@ -19,8 +19,7 @@ public class Object {
     @ColumnInfo(name = "owner_id")
     private int ownerId;
 
-    public Object(int id, String description, boolean viewed, int ownerId) {
-        this.id = id;
+    public Object(String description, boolean viewed, int ownerId) {
         this.description = description;
         this.viewed = viewed;
         this.ownerId = ownerId;

@@ -78,7 +78,8 @@
             android:id="@+id/camera_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Descripcion (opcional)"
+            android:hint="@string/description"
+            android:maxLength="100"
             android:textAlignment="center"
             android:layout_marginTop="10dp"
             android:backgroundTint="#3283c2"/>

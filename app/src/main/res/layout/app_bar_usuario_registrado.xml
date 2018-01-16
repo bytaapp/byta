@@ -52,7 +52,7 @@
                     android:layout_height="35dp"
                     android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_weight="1"
-                    android:onClick="openChat"
+                    android:onClick="abrirCamara"
                     android:src="@drawable/camera" />
 
 

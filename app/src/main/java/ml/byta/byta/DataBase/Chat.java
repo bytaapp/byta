@@ -16,8 +16,7 @@ public class Chat {
     @ColumnInfo(name = "second_user_id")
     private int secondUserId;
 
-    public Chat(int id, int firstUserId, int secondUserId) {
-        this.id = id;
+    public Chat(int firstUserId, int secondUserId) {
         this.firstUserId = firstUserId;
         this.secondUserId = secondUserId;
     }

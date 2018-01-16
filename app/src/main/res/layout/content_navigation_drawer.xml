@@ -1,74 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.flexbox.FlexboxLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:flexWrap="wrap"
+    app:alignItems="stretch"
+    app:alignContent="stretch"
+    android:clipChildren="false"
+    app:flexDirection="column"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="ml.byta.byta.Activities.UsuarioRegistrado">
 
-    <FrameLayout
+    <link.fls.swipestack.SwipeStack
+        android:id="@+id/pila_cartas"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:ignore="UselessParent">
+        android:layout_height="400dp"
+        android:layout_gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="20dp"
+        android:visibility="visible"
+        app:layout_flexBasisPercent="60%"
+        app:stack_rotation="0" />
 
-        <link.fls.swipestack.SwipeStack
-            android:id="@+id/pila_cartas"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:paddingTop="20dp"
-            android:visibility="visible"
-            app:stack_rotation="0" />
-
-    </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/LayoutBotonesYDescripcion"
+
+        app:layout_alignSelf="center"
+        android:id="@+id/descripcion"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="15dp"
-            android:paddingEnd="50dp"
-            android:paddingStart="50dp"
-            android:visibility="visible">
-
-            <ImageView
-                android:id="@+id/BotonX"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/borrar_objeto"
-                android:src="@drawable/x_icon" />
-
-            <ImageView
-                android:id="@+id/BotonTick"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/borrar_objeto"
-                android:src="@drawable/tick_icon" />
-
-        </LinearLayout>
+        android:layout_height="70dp"
+        android:layout_below="@+id/pila_cartas"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:padding="6dp">
 
         <TextView
             android:id="@+id/DescripcionCarta"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="16dp" />
 
     </LinearLayout>
 
+    <LinearLayout
+        app:layout_alignSelf="center"
+        android:id="@+id/botones"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_below="@+id/descripcion"
+        android:layout_marginTop="15dp">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/BotonX"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:contentDescription="@string/borrar_objeto"
+            android:src="@drawable/x_icon" />
+        <ImageView
+            android:id="@+id/BotonTick"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="30dp"
+            android:contentDescription="@string/borrar_objeto"
+            android:src="@drawable/tick_icon" />
+
+    </LinearLayout>
+
+</com.google.android.flexbox.FlexboxLayout>

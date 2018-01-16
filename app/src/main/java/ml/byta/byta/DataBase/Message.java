@@ -22,8 +22,7 @@ public class Message {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
-    public Message(int id, int chatId, int authorId, String text, long timestamp) {
-        this.id = id;
+    public Message(int chatId, int authorId, String text, long timestamp) {
         this.chatId = chatId;
         this.authorId = authorId;
         this.text = text;

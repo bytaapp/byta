@@ -136,10 +136,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onSuccess(LoginResult loginResult) {
 
 
+
+
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
 
+                        Log.d("tokenfacebook", response.toString());
 
                         displayUserInfo(object);
 
@@ -290,6 +293,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount account = result.getSignInAccount();
 
+            Log.d("tokengoogle",account.getIdToken());
+           // Log.d("tokengoogle",account.getServerAuthCode());
             String name = account.getDisplayName();
             String[] name2 = name.split(" ");
             String first_name = name2[0];
