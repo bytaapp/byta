@@ -14,7 +14,7 @@ public interface MessageDao {
     List<Message> getAllMessages();
 
     // Selecciona un mensaje por su ID.
-    @Query("SELECT * FROM message WHERE id = :id")
+    @Query("SELECT * FROM message WHERE id = :id LIMIT 1")
     Message getById(int id);
 
     // Selecciona todos los mensajes de un chat por el ID del chat.
@@ -32,6 +32,10 @@ public interface MessageDao {
     // Selecciona el último mensaje de un chat por el ID del chat.
     @Query("SELECT * FROM message WHERE chat_id = :id ORDER BY id DESC LIMIT 1")
     Message getLastMessageFromChat(int id);
+
+    // Selecciona un mensaje por su ID en el servidor.
+    @Query("SELECT * FROM message WHERE server_id = :id LIMIT 1")
+    Message getByServerId(int id);
 
     // Inserta un nuevo mensaje.
     @Insert

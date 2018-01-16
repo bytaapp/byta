@@ -40,6 +40,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 import link.fls.swipestack.SwipeStack;
 import ml.byta.byta.Activities.ChatListActivity;
@@ -1145,16 +1146,6 @@ public class ClasePeticionRest {
             super.onPostExecute(productos);
 
             // ¿AQUÍ SE ALMACENAN LOS OBJETOS EN LA BASE DE DATOS LOCAL?
-            /*
-            AppDatabase db = Room.databaseBuilder(activity.getApplicationContext(), AppDatabase.class, "database-name").build();
-
-            Object object = new Object("Descripción de prueba", false, 22);
-            db.objectDao().insert(object);
-
-            Object object2 = db.objectDao().
-
-            Log.d("Main", "Descripción --> " + )
-            */
 
             AdapterProductos adapterProductos = new AdapterProductos(activity, productos);
             pilaCartas.setAdapter(adapterProductos);

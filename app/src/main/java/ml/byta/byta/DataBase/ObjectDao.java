@@ -16,7 +16,7 @@ public interface ObjectDao {
     List<Object> getAllObjects();
 
     // Selecciona un objeto por su ID.
-    @Query("SELECT * FROM object WHERE id = :id")
+    @Query("SELECT * FROM object WHERE id = :id LIMIT 1")
     Object getById(int id);
 
     // Selecciona todos los objetos que se han visto.
@@ -28,8 +28,12 @@ public interface ObjectDao {
     List<Object> getAllNotViewed();
 
     // Selecciona un objeto por el ID de su dueño.
-    @Query("SELECT * FROM object WHERE owner_id = :id")
+    @Query("SELECT * FROM object WHERE owner_id = :id LIMIT 1")
     Object getByOwnerId(int id);
+
+    // Selecciona un objeto por el ID del objeto en el servidor.
+    @Query("SELECT * FROM object WHERE server_id = :id LIMIT 1")
+    Object getByServerId(int id);
 
     // Inserta un nuevo objeto.
     @Insert

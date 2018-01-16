@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Message {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "chat_id")
@@ -22,11 +22,15 @@ public class Message {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
-    public Message(int chatId, int authorId, String text, long timestamp) {
+    @ColumnInfo(name = "server_id")
+    private int serverId;
+
+    public Message(int chatId, int authorId, String text, long timestamp, int serverId) {
         this.chatId = chatId;
         this.authorId = authorId;
         this.text = text;
         this.timestamp = timestamp;
+        this.serverId = serverId;
     }
 
     public int getId() {
@@ -69,5 +73,12 @@ public class Message {
         this.timestamp = timestamp;
     }
 
+    public int getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
+    }
 }
 

@@ -15,12 +15,16 @@ public interface ChatDao {
     List<Chat> getAllChats();
 
     // Selecciona un chat por su ID.
-    @Query("SELECT * FROM chat WHERE id = :id")
+    @Query("SELECT * FROM chat WHERE id = :id LIMIT 1")
     Chat getById(int id);
 
     // Selecciona un chat por el ID del usuario.
-    @Query("SELECT * FROM chat WHERE first_user_id = :id OR second_user_id = :id")
+    @Query("SELECT * FROM chat WHERE first_user_id = :id OR second_user_id = :id LIMIT 1")
     Chat getByUserId(int id);
+
+    // Selecciona un chat por el ID del chat en el servidor.
+    @Query("SELECT * FROM chat WHERE server_id = :id LIMIT 1")
+    Chat getByServerId(int id);
 
     // Inserta un nuevo chat.
     @Insert

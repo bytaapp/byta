@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Chat {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "first_user_id")
@@ -16,9 +16,13 @@ public class Chat {
     @ColumnInfo(name = "second_user_id")
     private int secondUserId;
 
-    public Chat(int firstUserId, int secondUserId) {
+    @ColumnInfo(name = "server_id")
+    private int serverId;
+
+    public Chat(int firstUserId, int secondUserId, int serverId) {
         this.firstUserId = firstUserId;
         this.secondUserId = secondUserId;
+        this.serverId = serverId;
     }
 
     public int getId() {
@@ -45,4 +49,11 @@ public class Chat {
         this.secondUserId = secondUserId;
     }
 
+    public int getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
+    }
 }

@@ -7,7 +7,7 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Object {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo(name = "description")
@@ -19,10 +19,14 @@ public class Object {
     @ColumnInfo(name = "owner_id")
     private int ownerId;
 
-    public Object(String description, boolean viewed, int ownerId) {
+    @ColumnInfo(name = "server_id")
+    private int serverId;
+
+    public Object(String description, boolean viewed, int ownerId, int serverId) {
         this.description = description;
         this.viewed = viewed;
         this.ownerId = ownerId;
+        this.serverId = serverId;
     }
 
     public int getId() {
@@ -57,5 +61,12 @@ public class Object {
         this.ownerId = ownerId;
     }
 
+    public int getServerId() {
+        return serverId;
+    }
+
+    public void setServerId(int serverId) {
+        this.serverId = serverId;
+    }
 }
 
