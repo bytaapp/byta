@@ -91,9 +91,13 @@
             android:name=".Activities.ListadoObjetos"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.AvisoIniciarSesion"
+
+        <activity
+            android:name=".Activities.AvisoIniciarSesion"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".Activities.MisLikes"></activity>
 
         <service android:name=".Tools.MyFirebaseMessagingService">
             <intent-filter>
