@@ -2,6 +2,7 @@ package ml.byta.byta.REST;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +48,8 @@ import ml.byta.byta.Activities.UsuarioNoRegistrado;
 import ml.byta.byta.Activities.UsuarioRegistrado;
 import ml.byta.byta.Adapters.AdapterProductos;
 import ml.byta.byta.Adapters.AdapterListadoObjetos;
+import ml.byta.byta.DataBase.AppDatabase;
+import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.EventListeners.SwipeStackCardListener;
 import ml.byta.byta.Objects.Objeto;
 import ml.byta.byta.Objects.Producto;
@@ -1140,6 +1143,18 @@ public class ClasePeticionRest {
         @Override
         protected void onPostExecute(ArrayList<Producto> productos) {
             super.onPostExecute(productos);
+
+            // ¿AQUÍ SE ALMACENAN LOS OBJETOS EN LA BASE DE DATOS LOCAL?
+            /*
+            AppDatabase db = Room.databaseBuilder(activity.getApplicationContext(), AppDatabase.class, "database-name").build();
+
+            Object object = new Object("Descripción de prueba", false, 22);
+            db.objectDao().insert(object);
+
+            Object object2 = db.objectDao().
+
+            Log.d("Main", "Descripción --> " + )
+            */
 
             AdapterProductos adapterProductos = new AdapterProductos(activity, productos);
             pilaCartas.setAdapter(adapterProductos);
