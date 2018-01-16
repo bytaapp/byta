@@ -1,6 +1,7 @@
 package ml.byta.byta.DataBase;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
+import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
 import java.util.List;
@@ -31,6 +32,14 @@ public interface MessageDao {
     // Selecciona el último mensaje de un chat por el ID del chat.
     @Query("SELECT * FROM message WHERE chat_id = :id ORDER BY id DESC LIMIT 1")
     Message getLastMessageFromChat(int id);
+
+    // Inserta un nuevo mensaje.
+    @Insert
+    void insert(Message message);
+
+    // Inserta más de un mensaje.
+    @Insert
+    void insertMessages(List<Message> messages);
 
     // Elimina un mensaje por su ID.
     @Query("DELETE FROM message WHERE id = :id")

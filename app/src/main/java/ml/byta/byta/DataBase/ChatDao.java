@@ -26,6 +26,10 @@ public interface ChatDao {
     @Insert
     void insert(Chat chat);
 
+    // Inserta más de un chat.
+    @Insert
+    void insertChats(List<Chat> chats);
+
     // Elimina un chat por su ID.
     @Query("DELETE FROM chat WHERE id = :id")
     void deleteById(int id);

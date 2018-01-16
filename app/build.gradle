@@ -78,8 +78,8 @@ dependencies {
     compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
     compile 'com.google.android:flexbox:0.2.5'
     compile 'com.mindorks:placeholderview:0.7.1'
-    compile 'android.arch.persistence.room:runtime:' + rootProject.archRoomVersion;
-    annotationProcessor 'android.arch.persistence.room:compiler:' + rootProject.archRoomVersion;
+    compile 'android.arch.persistence.room:runtime:1.0.0'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 
     testCompile 'junit:junit:4.12'
 }
