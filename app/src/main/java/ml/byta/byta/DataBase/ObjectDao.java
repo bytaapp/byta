@@ -58,5 +58,13 @@ public interface ObjectDao {
     // Elimina un objeto pasado como parámetro.
     @Delete
     void delete(Object object);
+
+    // Elimina todos los objetos de la tabla (equivalente a TRUNCATE en SQL).
+    @Query("DELETE FROM object")
+    void deleteAllObjects();
+
+    // Elimina la tabla.
+    @Query("DROP TABLE object")
+    void dropTable();
 }
 

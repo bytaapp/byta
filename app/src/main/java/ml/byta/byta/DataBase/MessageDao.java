@@ -53,4 +53,12 @@ public interface MessageDao {
     @Delete
     void delete(Message message);
 
+    // Elimina todos los mensajes de la tabla (equivalente a TRUNCATE en SQL).
+    @Query("DELETE FROM message")
+    void deleteAllMessages();
+
+    // Elimina la tabla.
+    @Query("DROP TABLE message")
+    void dropTable();
+
 }

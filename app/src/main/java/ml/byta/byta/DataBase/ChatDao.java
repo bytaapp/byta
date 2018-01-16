@@ -42,4 +42,12 @@ public interface ChatDao {
     @Delete
     void delete(Chat chat);
 
+    // Elimina todos los chats de la tabla (equivalente a TRUNCATE en SQL).
+    @Query("DELETE FROM chat")
+    void deleteAllChats();
+
+    // Elimina la tabla.
+    @Query("DROP TABLE chat")
+    void dropTable();
+
 }
