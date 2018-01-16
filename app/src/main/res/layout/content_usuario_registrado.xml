@@ -71,7 +71,7 @@
                 android:layout_height="50dp"
                 android:layout_marginLeft="30dp"
                 android:contentDescription="@string/borrar_objeto"
-                android:src="@drawable/tick_icon" />
+                android:src="@drawable/heart" />
 
         </LinearLayout>
 
@@ -89,7 +89,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:contentDescription="@string/borrar_objeto"
-                android:src="@drawable/heart" />
+                android:src="@drawable/supericon" />
 
         </LinearLayout>
 

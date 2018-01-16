@@ -59,6 +59,7 @@ dependencies {
     compile files('libs/httpcomponents-client-4.5.3/lib/httpclient-4.5.3.jar')
     compile files('libs/httpcomponents-client-4.5.3/lib/httpcore-4.4.6.jar')
     compile files('libs/httpcomponents-client-4.5.3/lib/httpmime-4.5.3.jar')
+
     compile 'com.android.support:appcompat-v7:27.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:27.0.1'
@@ -79,10 +80,10 @@ dependencies {
     compile 'com.google.android:flexbox:0.2.5'
     compile 'com.mindorks:placeholderview:0.7.1'
     compile 'android.arch.persistence.room:runtime:1.0.0'
-    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
-
     testCompile 'junit:junit:4.12'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 }
+
 
 
 apply plugin: 'com.google.gms.google-services'

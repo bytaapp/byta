@@ -361,6 +361,13 @@ public class UsuarioRegistrado extends AppCompatActivity
 
     }
 
+    public void mislikes(View view) {
+
+        Intent intent = new Intent(this, MisLikes.class);
+        startActivity(intent);
+
+    }
+
     public ArrayList<Producto> getProductos() {
         return productos;
     }

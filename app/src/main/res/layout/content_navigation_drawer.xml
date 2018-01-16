@@ -69,7 +69,7 @@
             android:layout_height="50dp"
             android:layout_marginLeft="30dp"
             android:contentDescription="@string/borrar_objeto"
-            android:src="@drawable/tick_icon" />
+            android:src="@drawable/heart" />
 
     </LinearLayout>
 
