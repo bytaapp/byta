@@ -13,10 +13,13 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -71,6 +74,7 @@ public class Camara extends AppCompatActivity {
     private ImageView mImageView;
     private int result_code;
     private boolean foto_hecha;
+    private TextView limit;
 
 
 
@@ -124,6 +128,7 @@ public class Camara extends AppCompatActivity {
                             @Override
                             public void onClick(View view) {
                                 EditText descripcion = findViewById(R.id.camera_description);
+
                                 File foto = new File(resultUri.getPath());
                                 new ClasePeticionRest.GuardarObjeto(activity,getSharedPreferences("Config", 0).getInt("id", 0),descripcion.getText().toString(),foto).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
                             }

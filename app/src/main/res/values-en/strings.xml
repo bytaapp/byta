@@ -118,4 +118,6 @@
     <string name="asunto">Subject</string>
     <string name="cuerpo">Compose email</string>
 
+    <string name="description">description (optional). max 100 characters. </string>
+
 </resources>
