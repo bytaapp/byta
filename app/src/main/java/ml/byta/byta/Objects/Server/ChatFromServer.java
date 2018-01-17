@@ -8,10 +8,10 @@ import ml.byta.byta.Objects.User;
 public class ChatFromServer {
 
     private int serverId;
-    private List<User> users;
+    private List<UserFromServer> users;
     private List<Object> objects;
 
-    public ChatFromServer(int serverId, List<User> users, List<Object> objects) {
+    public ChatFromServer(int serverId, List<UserFromServer> users, List<Object> objects) {
         this.serverId = serverId;
         this.users = users;
         this.objects = objects;
@@ -25,11 +25,11 @@ public class ChatFromServer {
         this.serverId = serverId;
     }
 
-    public List<User> getUsers() {
+    public List<UserFromServer> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(List<UserFromServer> users) {
         this.users = users;
     }
 

@@ -1,6 +1,7 @@
 package ml.byta.byta.Activities;
 
 import android.app.Activity;
+import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -17,7 +18,9 @@ import com.loopj.android.http.AsyncHttpClient;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ml.byta.byta.DataBase.AppDatabase;
 import ml.byta.byta.Objects.Server.ChatsHandler;
+import ml.byta.byta.Objects.Server.ObjectsHandler;
 import ml.byta.byta.Objects.Server.RequestsToServer;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
@@ -31,6 +34,7 @@ public class Splash extends Activity implements RequestsToServer {
     private static final long SPLASH_SCREEN_DELAY = 2400;
 
     private Intent intent;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,13 @@ public class Splash extends Activity implements RequestsToServer {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.activity_splash);
+
+        // TODO: comprobar que no peta la base de datos local por lo que se explica a continuación.
+
+        /* PUEDE QUE AQUÍ DE ERROR LA BASE DE DATOS PORQUE SE HACE getApplicationContext() EN UNA
+         * ACTIVITY QUE SE CIERRA. COMPROBARLO!!!!
+         */
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "local-database").build();
 
         AsyncTask.execute(new Runnable() {
             @Override
@@ -106,7 +117,22 @@ public class Splash extends Activity implements RequestsToServer {
         client.get(
                 this,
                 "https://byta.ml/api/SwappieChat/public/index.php/api/chats/" + settings.getInt("id", 0) + "",
-                new ChatsHandler(this)
+                new ChatsHandler(this, db)
+        );
+    }
+
+    @Override
+    public void getObjects() {
+        // Se hace una petición asíncrona para obtener la lista de chats.
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        // TODO: terminar de implementar esta petición.
+
+        // Se hace la petición al servidor.
+        client.get(
+                this,
+                "",
+                new ObjectsHandler(db)
         );
     }
 }

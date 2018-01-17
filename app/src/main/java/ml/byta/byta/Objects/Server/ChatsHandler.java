@@ -1,6 +1,7 @@
 package ml.byta.byta.Objects.Server;
 
 import android.app.Activity;
+import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.content.SharedPreferences;
 
@@ -18,9 +19,11 @@ import ml.byta.byta.DataBase.Chat;
 public class ChatsHandler extends AsyncHttpResponseHandler {
 
     private Activity activity;
+    private AppDatabase db;
 
-    public ChatsHandler(Activity activity) {
+    public ChatsHandler(Activity activity, AppDatabase db) {
         this.activity = activity;
+        this.db = db;
     }
 
     @Override
@@ -36,8 +39,6 @@ public class ChatsHandler extends AsyncHttpResponseHandler {
 
         if (response.getChats().size() > 0) {
             // Como aquí ya estamos en un hilo independiente del principal, supongo que no hay que crear otro hilo (COMPROBAR POR SI ACASO).
-
-            AppDatabase db = Room.databaseBuilder(activity.getApplicationContext(), AppDatabase.class, "local-database").build();
 
             // Se eliminan todos los chats que haya almacenados en la base de datos local.
             db.chatDao().deleteAllChats();
