@@ -115,4 +115,6 @@
 
     <string name="description">descripción (opcional). máx 100 caracteres. </string>
 
+    <string name="recuperar">Si te has quedado con las ganas de volver a ver algún objeto, a continuación puedes indicar la cantidad que te gustaría recuperar</string>
+
 </resources>

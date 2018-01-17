@@ -368,6 +368,13 @@ public class UsuarioRegistrado extends AppCompatActivity
 
     }
 
+    public void rewind(View view) {
+
+        Intent intent = new Intent(this, Rewind.class);
+        startActivity(intent);
+
+    }
+
     public ArrayList<Producto> getProductos() {
         return productos;
     }

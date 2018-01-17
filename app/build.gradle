@@ -44,9 +44,8 @@ android {
 repositories {
     mavenCentral()
     jcenter()
-    maven {
-        url "https://maven.google.com"
-    }
+    maven { url "https://maven.google.com"}
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -80,9 +79,11 @@ dependencies {
     compile 'com.google.android:flexbox:0.2.5'
     compile 'com.mindorks:placeholderview:0.7.1'
     compile 'android.arch.persistence.room:runtime:1.0.0'
+    compile 'com.github.adityagohad:HorizontalPicker:1.0.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
 }
+
 
 
 

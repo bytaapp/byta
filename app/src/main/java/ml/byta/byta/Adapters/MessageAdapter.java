@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class MessageAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_cell_message, null, false);
         }
 
-        LinearLayout parentLayout = (LinearLayout) convertView.findViewById(R.id.message_text_linear_layout);
+        RelativeLayout parentLayout = (RelativeLayout) convertView.findViewById(R.id.message_text_relative_layout);
 
         TextView messageText = (TextView) convertView.findViewById(R.id.message_text);
 
@@ -61,10 +62,10 @@ public class MessageAdapter extends BaseAdapter {
         // Si yo escribí el mensaje, alinear a la derecha. En caso contrario, alinear a la izquierda.
         if (message.getUser().getId() == settings.getInt("id", 0)) {
             parentLayout.setGravity(Gravity.RIGHT);
-            messageText.setBackgroundColor(activity.getResources().getColor(R.color.message_mine));
+            messageText.setBackgroundResource(R.drawable.rounded_rectangle_2);
         } else {
             parentLayout.setGravity(Gravity.LEFT);
-            messageText.setBackgroundColor(activity.getResources().getColor(R.color.message_not_mine));
+            messageText.setBackgroundResource(R.drawable.rounded_rectangle);
         }
 
         messageText.setText(message.getText());

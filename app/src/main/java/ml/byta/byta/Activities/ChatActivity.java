@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.loopj.android.http.AsyncHttpClient;
 
@@ -21,7 +23,7 @@ import ml.byta.byta.REST.MessageListHandler;
 public class ChatActivity extends AppCompatActivity {
 
     private EditText keyboard;
-    private Button sendButton;
+    private ImageButton sendButton;
     private int id;
     private String receptor;
     private Handler handler;            // Se necesita para el hilo de refresco.
@@ -35,7 +37,7 @@ public class ChatActivity extends AppCompatActivity {
         handler = new Handler();
 
         keyboard = (EditText) findViewById(R.id.keyboard);
-        sendButton = (Button) findViewById(R.id.send_button);
+        sendButton = (ImageButton) findViewById(R.id.send_button);
 
         Bundle bundle = getIntent().getExtras();
 
