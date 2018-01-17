@@ -16,15 +16,19 @@ public class Object {
     @ColumnInfo(name = "viewed")
     private boolean viewed;
 
+    @ColumnInfo(name = "location")
+    private String location;
+
     @ColumnInfo(name = "owner_id")
     private int ownerId;
 
     @ColumnInfo(name = "server_id")
     private int serverId;
 
-    public Object(String description, boolean viewed, int ownerId, int serverId) {
+    public Object(String description, boolean viewed, String location, int ownerId, int serverId) {
         this.description = description;
         this.viewed = viewed;
+        this.location = location;
         this.ownerId = ownerId;
         this.serverId = serverId;
     }
@@ -51,6 +55,14 @@ public class Object {
 
     public void setViewed(boolean viewed) {
         this.viewed = viewed;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getOwnerId() {
