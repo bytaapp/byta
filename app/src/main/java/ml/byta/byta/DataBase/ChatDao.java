@@ -46,8 +46,4 @@ public interface ChatDao {
     @Query("DELETE FROM chat")
     void deleteAllChats();
 
-    // Elimina la tabla.
-    @Query("DROP TABLE chat")
-    void dropTable();
-
 }

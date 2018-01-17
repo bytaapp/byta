@@ -63,8 +63,5 @@ public interface ObjectDao {
     @Query("DELETE FROM object")
     void deleteAllObjects();
 
-    // Elimina la tabla.
-    @Query("DROP TABLE object")
-    void dropTable();
 }
 

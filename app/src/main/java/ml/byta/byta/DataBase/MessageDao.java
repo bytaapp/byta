@@ -57,8 +57,4 @@ public interface MessageDao {
     @Query("DELETE FROM message")
     void deleteAllMessages();
 
-    // Elimina la tabla.
-    @Query("DROP TABLE message")
-    void dropTable();
-
 }
