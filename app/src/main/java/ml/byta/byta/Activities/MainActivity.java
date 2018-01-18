@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onSuccess(LoginResult loginResult) {
 
 
-                Log.d("tokenfacebook", String.valueOf(loginResult.getAccessToken()));
+                Log.d("tokenfacebook", String.valueOf(loginResult.getAccessToken().getToken()));
 
 
 

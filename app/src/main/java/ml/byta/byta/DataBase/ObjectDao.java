@@ -35,6 +35,10 @@ public interface ObjectDao {
     @Query("SELECT * FROM object WHERE server_id = :id LIMIT 1")
     Object getByServerId(int id);
 
+    // Selecciona el último objeto almacenado por su timestamp.
+    @Query("SELECT * FROM object ORDER BY timestamp DESC LIMIT 1")
+    Object getLastObjectInTime();
+
     // Inserta un nuevo objeto.
     @Insert
     void insert(Object object);

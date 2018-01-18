@@ -1,8 +1,6 @@
-package ml.byta.byta.Objects.Server;
+package ml.byta.byta.Server.Handlers;
 
 import android.app.Activity;
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
@@ -15,6 +13,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import ml.byta.byta.DataBase.AppDatabase;
 import ml.byta.byta.DataBase.Chat;
+import ml.byta.byta.Server.Responses.ChatsResponse;
 
 public class ChatsHandler extends AsyncHttpResponseHandler {
 
@@ -37,7 +36,7 @@ public class ChatsHandler extends AsyncHttpResponseHandler {
         // Respuesta del servidor.
         ChatsResponse response = gson.fromJson(new String(responseBody), ChatsResponse.class);
 
-        if (response.getChats().size() > 0) {
+        if (response.isOk() && response.getChats().size() > 0) {
             // Como aquí ya estamos en un hilo independiente del principal, supongo que no hay que crear otro hilo (COMPROBAR POR SI ACASO).
 
             // Se eliminan todos los chats que haya almacenados en la base de datos local.

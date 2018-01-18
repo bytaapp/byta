@@ -1,9 +1,8 @@
-package ml.byta.byta.Objects.Server;
+package ml.byta.byta.Server.Models;
 
 import java.util.List;
 
 import ml.byta.byta.DataBase.Object;
-import ml.byta.byta.Objects.User;
 
 public class ChatFromServer {
 

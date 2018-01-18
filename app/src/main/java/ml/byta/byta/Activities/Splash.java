@@ -7,11 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 
@@ -19,13 +15,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ml.byta.byta.DataBase.AppDatabase;
-import ml.byta.byta.Objects.Server.ChatsHandler;
-import ml.byta.byta.Objects.Server.ObjectsHandler;
-import ml.byta.byta.Objects.Server.RequestsToServer;
+import ml.byta.byta.Server.Handlers.ChatsHandler;
+import ml.byta.byta.Server.Handlers.ObjectsHandler;
+import ml.byta.byta.Server.RequestsToServer;
 import ml.byta.byta.R;
-import ml.byta.byta.REST.ClasePeticionRest;
-import ml.byta.byta.Tools.Connectivity;
-import pl.droidsonroids.gif.GifImageView;
 
 
 public class Splash extends Activity implements RequestsToServer {

@@ -1,4 +1,4 @@
-package ml.byta.byta.Objects.Server;
+package ml.byta.byta.Server.Handlers;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -9,6 +9,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import ml.byta.byta.DataBase.AppDatabase;
 import ml.byta.byta.DataBase.Object;
+import ml.byta.byta.Server.Responses.ObjectsResponse;
 
 public class ObjectsHandler extends AsyncHttpResponseHandler {
 
@@ -25,7 +26,7 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
         // Respuesta del servidor.
         ObjectsResponse response = gson.fromJson(new String(responseBody), ObjectsResponse.class);
 
-        if (response.getObjects().size() > 0) {
+        if (response.isOk() && response.getObjects().size() > 0) {
             List<Object> objects = new ArrayList<>();
 
             for (int i = 0; i < response.getObjects().size(); i++) {

@@ -1,4 +1,4 @@
-package ml.byta.byta.Objects.Server;
+package ml.byta.byta.Server.Handlers;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -9,6 +9,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import ml.byta.byta.DataBase.AppDatabase;
 import ml.byta.byta.DataBase.Message;
+import ml.byta.byta.Server.Responses.MessagesFromChatResponse;
 
 public class MessagesHandler extends AsyncHttpResponseHandler {
 
@@ -25,7 +26,7 @@ public class MessagesHandler extends AsyncHttpResponseHandler {
         // Respuesta del servidor.
         MessagesFromChatResponse response = gson.fromJson(new String(responseBody), MessagesFromChatResponse.class);
 
-        if (response.getMessages().size() > 0) {
+        if (response.isOk() && response.getMessages().size() > 0) {
 
             // Se eliminan todos los mensajes que haya almacenados en la base de datos local.
             db.messageDao().deleteAllMessages();
