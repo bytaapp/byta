@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -21,7 +22,7 @@ import ml.byta.byta.Server.RequestsToServer;
 import ml.byta.byta.R;
 
 
-public class Splash extends Activity implements RequestsToServer {
+public class Splash extends Activity {
 
     // Set the duration of the splash screen
     private static final long SPLASH_SCREEN_DELAY = 2400;
@@ -46,14 +47,7 @@ public class Splash extends Activity implements RequestsToServer {
          */
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "local-database").build();
 
-        /*AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                firstLogin();
-            }
-        });*/
-
-
+        // Se hace login.
         login();
 
         TimerTask task = new TimerTask() {
@@ -73,43 +67,30 @@ public class Splash extends Activity implements RequestsToServer {
 
     }
 
-    @Override
-    public void getChatsAndMessages() {
-        // Se hace una petición asíncrona para obtener la lista de chats.
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        // Se toma el ID del usuario.
-        SharedPreferences settings = getSharedPreferences("Config", 0);
-
-        // Se hace la petición al servidor. Los mensajes se piden en el handler de los chats.
-        client.get(
-                this,
-                "https://byta.ml/api/SwappieChat/public/index.php/api/chats/" + settings.getInt("id", 0) + "",
-                new ChatsHandler(this, db)
-        );
-    }
-
-    @Override
-    public void getObjects() {
-        // Se hace una petición asíncrona para obtener la lista de chats.
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        // TODO: terminar de implementar esta petición.
-
-        // Se hace la petición al servidor.
-        client.get(
-                this,
-                "https://byta.ml/apiV2/obtener_objetos.php?modo=aleatorio",
-                new ObjectsHandler(db)
-        );
-    }
-
-
-    @Override
-    public void login() {
+    private void login() {
         SharedPreferences settings = getSharedPreferences("Config", 0);
 
         AsyncHttpClient client = new AsyncHttpClient();
+
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "SessionID --> " + settings.getString("sessionID", ""));
+        Log.d("Main", "Email --> " + settings.getString("email", ""));
+        Log.d("Main", "Password --> " + settings.getString("password", ""));
+        Log.d("Main", "Name --> " + settings.getString("name", ""));
+        Log.d("Main", "Surname --> " + settings.getString("surname", ""));
+        Log.d("Main", "Location --> " + settings.getString("location", ""));
+        Log.d("Main", "-------------------------------------------------------------------");
+
+        LoginHandler loginHandler;
+
+        if (settings.getString("sessionID", "").equals("")) {
+            // No hay una sesión iniciada.
+            loginHandler = new LoginHandler(this, settings, db);
+        } else {
+            // Hay una sesión iniciada.
+            loginHandler = new LoginHandler(this, settings.getString("email", ""), settings.getString("password", ""),
+                    settings.getString("method", ""), settings, db);
+        }
 
         // Se hace la petición al servidor.
         client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
@@ -119,7 +100,7 @@ public class Splash extends Activity implements RequestsToServer {
                         + "&password=" + settings.getString("password", "") + "&nombre=" +
                         settings.getString("name", "") + "&apellidos=" + settings.getString("surname", "")
                         + "&ubicacion=" + settings.getString("location", ""),
-                new LoginHandler(this, settings)
+                loginHandler
         );
 
     }

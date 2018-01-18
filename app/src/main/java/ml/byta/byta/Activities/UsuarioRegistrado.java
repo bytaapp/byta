@@ -85,7 +85,7 @@ public class UsuarioRegistrado extends AppCompatActivity
 
         // Se identifica el método que utilizó el usuario para registrarse.
         SharedPreferences settings = getSharedPreferences("Config", 0);
-        metodo = settings.getString("metodo", "");
+        metodo = settings.getString("method", "");
         token = FirebaseInstanceId.getInstance().getToken();
         email = settings.getString("email","");
 
@@ -96,8 +96,8 @@ public class UsuarioRegistrado extends AppCompatActivity
 
             // Se extrae la información almacenada en Shared Preferences.
             boolean sesion = settings.getBoolean("sesion", false);
-            String name = settings.getString("nombre", "");
-            String apellidos = settings.getString("apellidos", "");
+            String name = settings.getString("name", "");
+            String surname = settings.getString("surname", "");
             String imagen = settings.getString("foto", "");
             String email = settings.getString("email", "");
 
@@ -106,7 +106,7 @@ public class UsuarioRegistrado extends AppCompatActivity
 
             // Se asigna el nombre del usuario al campo correspondiente.
             txt = (TextView) headerView.findViewById(R.id.nameUser);
-            txt.setText(name + " " + apellidos);
+            txt.setText(name + " " + surname);
 
             // Se asigna el email del usuario al campo correspondiente.
             txt = (TextView) headerView.findViewById(R.id.emailUser);
@@ -128,9 +128,9 @@ public class UsuarioRegistrado extends AppCompatActivity
 
             // Se extrae la información almacenada en Shared Preferences.
             boolean sesion = settings.getBoolean("sesion", false);
-            String name = settings.getString("nombre", "");
-            String idFacebook = settings.getString("idFacebook", "");
-            String apellidos = settings.getString("apellidos", "");
+            String name = settings.getString("name", "");
+            String idFacebook = settings.getString("facebookID", "");
+            String surname = settings.getString("surname", "");
             String email = settings.getString("email", "");
 
             // Se selecciona la cabecera del menú lateral de navegación.
@@ -138,7 +138,7 @@ public class UsuarioRegistrado extends AppCompatActivity
 
             // Se asigna el nombre completo del usuario al campo correspondiente.
             txt = (TextView) headerView.findViewById(R.id.nameUser);
-            txt.setText(name + " " + apellidos);
+            txt.setText(name + " " + surname);
 
             // Se asigna el email del usuario al campo correspondiente.
             txt = (TextView) headerView.findViewById(R.id.emailUser);
@@ -160,8 +160,8 @@ public class UsuarioRegistrado extends AppCompatActivity
 
             // Se extrae la información almacenada en Shared Preferences.
             boolean sesion = settings.getBoolean("sesion", false);
-            String name = settings.getString("nombre", "");
-            String apellidos = settings.getString("apellidos", "");
+            String name = settings.getString("name", "");
+            String surname = settings.getString("surname", "");
             String email = settings.getString("email", "");
 
             // Se selecciona la cabecera del menú lateral de navegación.
@@ -169,7 +169,7 @@ public class UsuarioRegistrado extends AppCompatActivity
 
             // Se asigna el nombre completo del usuario al campo correspondiente.
             txt = (TextView) headerView.findViewById(R.id.nameUser);
-            txt.setText(name + " " + apellidos);
+            txt.setText(name + " " + surname);
 
             // Se asigna el email del usuario al campo correspondiente.
             txt = (TextView) headerView.findViewById(R.id.emailUser);
@@ -241,60 +241,50 @@ public class UsuarioRegistrado extends AppCompatActivity
 
         } else if (id == R.id.nav_close) {          // Click en cerrar sesión.
 
-            if (metodo.equals("google")) {
-                // Se registró con Google.
+            SharedPreferences settings = getSharedPreferences("Config", 0);
+            SharedPreferences.Editor editor = settings.edit();
 
+            // TODO: depurar esta parte de código.
 
-                SharedPreferences info = getSharedPreferences("Config", 0);
-                SharedPreferences.Editor editor = info.edit();
+            if (metodo.equals("google")) {  // Se registró con Google.
+
+                // Se limpian todos los datos almacenados en SharedPreferences.
                 editor.clear();
-
-                // Se borra la sesión de Shared Preferences.
-                editor.putBoolean("sesion", false);
                 editor.commit();
 
-                // Se carga el layout de invitado, es decir, sin funcionalidades de usuario.
+                // Se carga la activity "UsuarioNoRegistrado".
                 Intent intent = new Intent(this, UsuarioNoRegistrado.class);
                 startActivity(intent);
-
                 finish();
 
-            } else if (metodo.equals("facebook")) {
-                // Se registró con Facebook.
+            } else if (metodo.equals("facebook")) { // Se registró con Facebook.
 
+                // TODO: ¿Qué hace esto?
                 LoginManager.getInstance().logOut();
 
-                SharedPreferences info = getSharedPreferences("Config", 0);
-                SharedPreferences.Editor editor = info.edit();
+                // Se limpian todos los datos almacenados en SharedPreferences.
                 editor.clear();
-
-                // Se borra la sesión de Shared Preferences.
-                editor.putBoolean("sesion", false);
                 editor.commit();
 
-                // Se carga el layout de invitado, es decir, sin funcionalidades de usuario.
+                // Se carga la activity "UsuarioNoRegistrado".
                 Intent intent = new Intent(this, UsuarioNoRegistrado.class);
                 startActivity(intent);
-
                 finish();
 
-            } else if (metodo.equals("email")) {
-                // Se registró manualmente.
+            } else if (metodo.equals("email")) {    // Se registró con usuario y contraseña.
 
-                SharedPreferences info = getSharedPreferences("Config", 0);
-                SharedPreferences.Editor editor = info.edit();
+                // Se limpian todos los datos almacenados en SharedPreferences.
                 editor.clear();
-
-                // Se borra la sesión de Shared Preferences.
-                editor.putBoolean("sesion", false);
                 editor.commit();
 
-                // Se carga el layout de invitado, es decir, sin funcionalidades de usuario.
+                // // Se carga la activity "UsuarioNoRegistrado".
                 Intent intent = new Intent(this, UsuarioNoRegistrado.class);
                 startActivity(intent);
-
                 finish();
+
             }
+
+
 
         } else if (id == R.id.nav_contact2) {
             // Click en contacto.

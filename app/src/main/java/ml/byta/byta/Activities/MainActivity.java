@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String email = "";
     String id = "";
     String birthday ="";
-    Activity activity = this;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // ----------------------  COMPROBAMOS SI YA HAY UNA SESIÓN INICIADA, Y SI LA HAY
         //                          INICIAMOS LA ACTIITY UsuarioRegistrado ----------------------//
 
+        /*
         SharedPreferences settings = getSharedPreferences("Config", 0);
         boolean sesion = settings.getBoolean("sesion",false);
         if(sesion==true){
@@ -94,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
             finish();
         }
+        */
 
         //SHA1: FB:57:28:44:5A:27:FD:7F:77:05:F5:02:23:19:91:51:C7:30:FB:8A
         byte[] sha1 = {
@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("keyhash", Base64.encodeToString(sha1, Base64.NO_WRAP));
 
         // ----------------------  LOGIN CON GOOGLE ----------------------//
+
+        // TODO: hacer login con Google.
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -131,9 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LoginButton loginButton = (LoginButton) findViewById(R.id.loginButton);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "user_friends", "email", "user_birthday"));
 
-
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-
 
             @Override
             public void onSuccess(final LoginResult loginResult) {
@@ -142,11 +142,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("tokenfacebook", String.valueOf(loginResult.getAccessToken().getToken()));
 
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
 
                         Log.d("tokenfacebook", response.toString());
 
+                        // Se almacena en SharedPreferences la info del usuario enviada por Facebook.
                         saveUserInfo(object, loginResult);
 
                         SharedPreferences settings = getSharedPreferences("Config", 0);
@@ -163,16 +165,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // Se hace la petición al servidor.
                         client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
                         client.get(
-                                activity,
+                                MainActivity.this,
                                 "https://byta.ml/apiV2/login.php?email=" + settings.getString("email", "")
                                         + "&password=" + settings.getString("password", "") + "&nombre=" +
                                         settings.getString("name", "") + "&apellidos=" + settings.getString("surname", "")
                                         + "&ubicacion=" + settings.getString("location", ""),
-                                new LoginHandler(activity, settings.getString("email", ""), settings.getString("password", ""),
+                                new LoginHandler(MainActivity.this, settings.getString("email", ""), settings.getString("password", ""),
                                         settings.getString("method", ""), settings)
                         );
-
-
 
                     }
                 });
@@ -254,20 +254,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void saveUserInfo(JSONObject object, LoginResult loginResult){
+    // Método que almacena en SharedPreferences la info del usuario enviada por Facebook.
+    public void saveUserInfo(JSONObject object, LoginResult loginResult) {
 
-
-        String name ="";
-        String email = "";
-        String id="";
+        String name = "";
 
         try {
             name = object.getString("name");
-            String[] name2 = name.split(" ");
-            String first_name = name2[0];
-            String last_name = name2[1];
-            if (name2.length==3){
-                last_name=last_name+" "+name2[2];
+
+            String[] names = name.split(" ");
+            String firstName = names[0];
+            String lastName = names[1];
+
+            if (names.length==3){
+                lastName = lastName + " " + names[2];
             }
             email = object.getString("email");
             id = object.getString("id");
@@ -276,25 +276,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences.Editor editor = info.edit();
             editor.putString("method","facebook");
             editor.putString("password", loginResult.getAccessToken().getToken());
-            editor.putString("name",first_name);
-            editor.putString("surname",last_name);
+            editor.putString("name", firstName);
+            editor.putString("surname", lastName);
             editor.putString("location", GetLocation.getCoords(this));
-            editor.putString("email",email);
-            //editor.putString("idFacebook",id);
-
-
+            editor.putString("email", object.getString("email"));
+            editor.putString("facebookID", object.getString("id"));
             editor.commit();
-
-            Log.d("variables","HE INICIADO LA SESIÓN CON FACEBOOK");
-
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
+        //new ClasePeticionRest.ComprobarFacebook(MainActivity.this,email).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-
-        new ClasePeticionRest.ComprobarFacebook(MainActivity.this,email).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         //prefs = getSharedPreferences("es.unavarra.tlm", Context.MODE_PRIVATE);
         //prefs.edit().putString("es.unavarra.tlm.sesion", "true").apply();
         //prefs.edit().putString("es.unavarra.tlm.email", email).apply();
