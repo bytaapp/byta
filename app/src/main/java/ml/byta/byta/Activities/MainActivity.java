@@ -34,6 +34,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.loopj.android.http.AsyncHttpClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +43,7 @@ import java.util.Arrays;
 
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
+import ml.byta.byta.Server.Handlers.LoginHandler;
 import ml.byta.byta.Tools.GetLocation;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -70,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String email = "";
     String id = "";
     String birthday ="";
+    Activity activity = this;
 
 
     @Override
@@ -133,12 +136,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess(final LoginResult loginResult) {
 
 
                 Log.d("tokenfacebook", String.valueOf(loginResult.getAccessToken().getToken()));
-
-
 
                 GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
@@ -146,7 +147,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         Log.d("tokenfacebook", response.toString());
 
-                        displayUserInfo(object);
+                        saveUserInfo(object, loginResult);
+
+                        SharedPreferences settings = getSharedPreferences("Config", 0);
+
+                        AsyncHttpClient client = new AsyncHttpClient();
+
+                        String url = "https://byta.ml/apiV2/login.php?email=" + settings.getString("email", "")
+                                + "&password=" + settings.getString("password", "") + "&nombre=" +
+                                settings.getString("name", "") + "&apellidos=" + settings.getString("surname", "")
+                                + "&ubicacion=" + settings.getString("location", "");
+
+                        Log.d("Main", url);
+
+                        // Se hace la petición al servidor.
+                        client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
+                        client.get(
+                                activity,
+                                "https://byta.ml/apiV2/login.php?email=" + settings.getString("email", "")
+                                        + "&password=" + settings.getString("password", "") + "&nombre=" +
+                                        settings.getString("name", "") + "&apellidos=" + settings.getString("surname", "")
+                                        + "&ubicacion=" + settings.getString("location", ""),
+                                new LoginHandler(activity, settings.getString("email", ""), settings.getString("password", ""),
+                                        settings.getString("method", ""), settings)
+                        );
+
+
 
                     }
                 });
@@ -228,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void displayUserInfo(JSONObject object){
+    public void saveUserInfo(JSONObject object, LoginResult loginResult){
 
 
         String name ="";
@@ -248,14 +274,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             SharedPreferences info = getSharedPreferences("Config", 0);
             SharedPreferences.Editor editor = info.edit();
-            editor.putString("metodo","facebook");
-            editor.putBoolean("sesion", true);
-
-            editor.putString("nombre",first_name);
-            editor.putString("apellidos",last_name);
-
-            editor.putString("idFacebook",id);
+            editor.putString("method","facebook");
+            editor.putString("password", loginResult.getAccessToken().getToken());
+            editor.putString("name",first_name);
+            editor.putString("surname",last_name);
+            editor.putString("location", GetLocation.getCoords(this));
             editor.putString("email",email);
+            //editor.putString("idFacebook",id);
+
 
             editor.commit();
 

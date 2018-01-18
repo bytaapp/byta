@@ -2,7 +2,6 @@ package ml.byta.byta.Activities;
 
 import android.app.Activity;
 import android.arch.persistence.room.Room;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
@@ -16,6 +15,7 @@ import java.util.TimerTask;
 
 import ml.byta.byta.DataBase.AppDatabase;
 import ml.byta.byta.Server.Handlers.ChatsHandler;
+import ml.byta.byta.Server.Handlers.LoginHandler;
 import ml.byta.byta.Server.Handlers.ObjectsHandler;
 import ml.byta.byta.Server.RequestsToServer;
 import ml.byta.byta.R;
@@ -26,7 +26,6 @@ public class Splash extends Activity implements RequestsToServer {
     // Set the duration of the splash screen
     private static final long SPLASH_SCREEN_DELAY = 2400;
 
-    private Intent intent;
     private AppDatabase db;
 
     @Override
@@ -47,25 +46,15 @@ public class Splash extends Activity implements RequestsToServer {
          */
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "local-database").build();
 
-        AsyncTask.execute(new Runnable() {
+        /*AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-
-                if (sessionExists()) {
-                    /* Hay una sesión iniciada. Se piden los objetos, chats y mensajes.
-                     * Se asigna a "intent" la actividad "UsuarioRegistrado".
-                     */
-                    //getChatsAndMessages();
-                    intent = new Intent(Splash.this, UsuarioRegistrado.class);
-                } else {
-                    /* No hay una sesión iniciada.
-                     * Se asigna a "intent" la actividad "UsuarioNoRegistrado".
-                     */
-                    intent = new Intent(Splash.this, UsuarioNoRegistrado.class);
-                }
-
+                firstLogin();
             }
-        });
+        });*/
+
+
+        login();
 
         TimerTask task = new TimerTask() {
             @Override
@@ -74,7 +63,6 @@ public class Splash extends Activity implements RequestsToServer {
                  * "UsuarioNoRegistrado", dependiendo de si hay una sesión iniciada o no, y finaliza
                  * la actividad del inicio (la de las imágenes).
                  */
-                startActivity(intent);
                 finish();
             }
         };
@@ -82,19 +70,6 @@ public class Splash extends Activity implements RequestsToServer {
         // Simulate a long loading process on application startup.
         Timer timer = new Timer();
         timer.schedule(task, SPLASH_SCREEN_DELAY);
-
-    }
-
-    // Comprueba si hay una sesión iniciada y devuelve el intent para iniciar la activity que corresponda.
-    private boolean sessionExists() {
-        SharedPreferences settings = getSharedPreferences("Config", 0);
-        boolean session = settings.getBoolean("sesion",false);
-
-        if (session) {
-            return true;
-        } else {
-            return false;
-        }
 
     }
 
@@ -124,8 +99,29 @@ public class Splash extends Activity implements RequestsToServer {
         // Se hace la petición al servidor.
         client.get(
                 this,
-                "",
+                "https://byta.ml/apiV2/obtener_objetos.php?modo=aleatorio",
                 new ObjectsHandler(db)
         );
     }
+
+
+    @Override
+    public void login() {
+        SharedPreferences settings = getSharedPreferences("Config", 0);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        // Se hace la petición al servidor.
+        client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
+        client.get(
+                this,
+                "https://byta.ml/apiV2/login.php?email=" + settings.getString("email", "")
+                        + "&password=" + settings.getString("password", "") + "&nombre=" +
+                        settings.getString("name", "") + "&apellidos=" + settings.getString("surname", "")
+                        + "&ubicacion=" + settings.getString("location", ""),
+                new LoginHandler(this, settings)
+        );
+
+    }
+
 }

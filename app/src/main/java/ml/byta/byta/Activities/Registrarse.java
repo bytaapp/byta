@@ -1,6 +1,7 @@
 package ml.byta.byta.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -54,7 +55,20 @@ public class Registrarse extends AppCompatActivity {
         if (ubicacion != null){
             if (esMailValido(email) && !pass.equals("")) {
                 if (pass.equals(pass2)) {
-                    new ClasePeticionRest.GuardarUsuario(Registrarse.this, nombre, apellidos, email, pass, ubicacion, metodo).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+                    // TODO: AQUÍ HACER PETICIÓN AL SERVIDOR PARA REGISTRAR EL USUARIO
+
+                    // Se almacena la info en SharedPreferences.
+                    SharedPreferences settings = getSharedPreferences("Config", 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("name", nombre);
+                    editor.putString("surname", apellidos);
+                    editor.putString("email", email);
+                    editor.putString("password", pass);
+                    editor.putString("location", ubicacion);
+                    editor.putString("method", metodo);
+                    editor.commit();
+
                 } else {
                     Toast toastPassMal = Toast.makeText(getApplicationContext(), getString(R.string.toastPassMal), Toast.LENGTH_LONG);
                     toastPassMal.show();

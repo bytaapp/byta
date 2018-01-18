@@ -8,10 +8,12 @@ public class ObjectsResponse {
 
     private boolean ok;
     private List<Object> objects;
+    private String error;
 
-    public ObjectsResponse(boolean ok, List<Object> objects) {
+    public ObjectsResponse(boolean ok, List<Object> objects, String error) {
         this.ok = ok;
         this.objects = objects;
+        this.error = error;
     }
 
     public boolean isOk() {
@@ -28,5 +30,13 @@ public class ObjectsResponse {
 
     public void setObjects(List<Object> objects) {
         this.objects = objects;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

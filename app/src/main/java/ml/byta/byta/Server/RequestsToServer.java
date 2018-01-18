@@ -8,4 +8,7 @@ public interface RequestsToServer {
     // Pide los objetos en el inicio.
     void getObjects();
 
+    // Hace la petición de login la primera vez.
+    void login();
+
 }

@@ -1,4 +1,4 @@
-package ml.byta.byta.Server.Models;
+package ml.byta.byta.Server.ModelsFromServer;
 
 public class UserFromServer {
 

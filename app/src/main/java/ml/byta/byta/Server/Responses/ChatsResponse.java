@@ -2,7 +2,7 @@ package ml.byta.byta.Server.Responses;
 
 import java.util.List;
 
-import ml.byta.byta.Server.Models.ChatFromServer;
+import ml.byta.byta.Server.ModelsFromServer.ChatFromServer;
 
 public class ChatsResponse {
 

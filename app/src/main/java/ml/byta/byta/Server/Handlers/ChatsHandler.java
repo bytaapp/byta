@@ -84,6 +84,6 @@ public class ChatsHandler extends AsyncHttpResponseHandler {
 
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-        // TRATAR EL FALLO, ¿CÓMO?
+        // TODO: TRATAR EL FALLO, ¿CÓMO?
     }
 }
