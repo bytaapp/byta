@@ -318,18 +318,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("tokengoogle",account.getIdToken());
            // Log.d("tokengoogle",account.getServerAuthCode());
             String name = account.getDisplayName();
-            String[] name2 = name.split(" ");
-            String first_name = name2[0];
-            String last_name = name2[1];
-            if (name2.length==3){
-                last_name=last_name+" "+name2[2];
+            String[] names = name.split(" ");
+            String firstName = names[0];
+            String lastName = names[1];
+            if (names.length == 3){
+                lastName = lastName + " " + names[2];
             }
+
+            SharedPreferences settings = getSharedPreferences("Config", 0);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("method","google");
+            editor.putString("password", account.getIdToken());
+            editor.putString("name", firstName);
+            editor.putString("surname", lastName);
+            editor.putString("location", GetLocation.getCoords(this));
+            editor.putString("email", account.getEmail());
+            editor.commit();
+
+            AsyncHttpClient client = new AsyncHttpClient();
+
+            String url = "https://byta.ml/apiV2/login.php?email=" + settings.getString("email", "")
+                    + "&password=" + settings.getString("password", "") + "&nombre=" +
+                    settings.getString("name", "") + "&apellidos=" + settings.getString("surname", "")
+                    + "&ubicacion=" + settings.getString("location", "");
+
+            Log.d("Main", url);
+
+            // Se hace la petición al servidor.
+            client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
+            client.get(
+                    MainActivity.this,
+                    "https://byta.ml/apiV2/login.php?email=" + settings.getString("email", "")
+                            + "&password=" + settings.getString("password", "") + "&nombre=" +
+                            settings.getString("name", "") + "&apellidos=" + settings.getString("surname", "")
+                            + "&ubicacion=" + settings.getString("location", ""),
+                    new LoginHandler(MainActivity.this, settings.getString("email", ""), settings.getString("password", ""),
+                            settings.getString("method", ""), settings)
+            );
+
+
+
             String imagen = String.valueOf(account.getPhotoUrl());
             String id = account.getIdToken();
             String email = account.getEmail();
             //String ubicacion = GetLocation.getCoords(this);
 
-            new ClasePeticionRest.ComprobarGoogle(MainActivity.this, first_name, last_name, email, imagen).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+
+
+            //new ClasePeticionRest.ComprobarGoogle(MainActivity.this, first_name, last_name, email, imagen).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
             /*
             if (ubicacion != null) {
