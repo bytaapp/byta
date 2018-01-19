@@ -15,6 +15,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import ml.byta.byta.DataBase.AppDatabase;
+import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.Server.Handlers.ChatsHandler;
 import ml.byta.byta.Server.Handlers.LoginHandler;
 import ml.byta.byta.Server.Handlers.ObjectsHandler;
@@ -27,7 +28,8 @@ public class Splash extends Activity {
     // Set the duration of the splash screen
     private static final long SPLASH_SCREEN_DELAY = 2400;
 
-    private AppDatabase db;
+    private Database database;
+    public static AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,10 @@ public class Splash extends Activity {
         /* PUEDE QUE AQUÍ DE ERROR LA BASE DE DATOS PORQUE SE HACE getApplicationContext() EN UNA
          * ACTIVITY QUE SE CIERRA. COMPROBARLO!!!!
          */
-        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "local-database").build();
+
+        this.database = new Database(this);
+        db = Database.db;
+        //db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "local-database").build();
 
         // Se hace login.
         login();

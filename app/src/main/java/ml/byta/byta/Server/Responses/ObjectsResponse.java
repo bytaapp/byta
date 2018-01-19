@@ -3,14 +3,15 @@ package ml.byta.byta.Server.Responses;
 import java.util.List;
 
 import ml.byta.byta.DataBase.Object;
+import ml.byta.byta.Server.ModelsFromServer.ObjectFromServer;
 
 public class ObjectsResponse {
 
     private boolean ok;
-    private List<Object> objects;
+    private List<ObjectFromServer> objects;
     private String error;
 
-    public ObjectsResponse(boolean ok, List<Object> objects, String error) {
+    public ObjectsResponse(boolean ok, List<ObjectFromServer> objects, String error) {
         this.ok = ok;
         this.objects = objects;
         this.error = error;
@@ -24,11 +25,11 @@ public class ObjectsResponse {
         this.ok = ok;
     }
 
-    public List<Object> getObjects() {
+    public List<ObjectFromServer> getObjects() {
         return objects;
     }
 
-    public void setObjects(List<Object> objects) {
+    public void setObjects(List<ObjectFromServer> objects) {
         this.objects = objects;
     }
 

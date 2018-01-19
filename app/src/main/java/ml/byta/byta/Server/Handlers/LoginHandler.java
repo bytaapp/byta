@@ -3,16 +3,20 @@ package ml.byta.byta.Server.Handlers;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
 
 import cz.msebera.android.httpclient.Header;
 import ml.byta.byta.Activities.UsuarioNoRegistrado;
 import ml.byta.byta.Activities.UsuarioRegistrado;
 import ml.byta.byta.DataBase.AppDatabase;
+import ml.byta.byta.DataBase.Database;
+import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.Server.RequestsToServer;
 import ml.byta.byta.Server.Responses.LoginResponse;
 
@@ -54,14 +58,23 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
         LoginResponse response = gson.fromJson(new String(responseBody), LoginResponse.class);
 
-        Log.d("Main", gson.toJson(response).toString());
+        //Log.d("Main", gson.toJson(response).toString());
 
         Intent intent;
 
         if (response.isOk()) {  // Login con éxito.
 
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Respuesta del servidor " + gson.toJson(response).toString());
+            Log.d("Main", "-------------------------------------------------------------------");
+
             // Se cargan los objetos.
-            //getObjects();
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    getObjectsLogged();
+                }
+            });
 
             // Se cargan los chats y mensajes.
             //getChatsAndMessages();
@@ -113,17 +126,46 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
     }
 
     @Override
-    public void getObjects() {
+    public void getObjectsLogged() {
+        // Se selecciona el último objeto almacenado por su timestamp.
+        Object lastObjectInTime = Database.db.objectDao().getLastObjectInTime();
+
         // Se hace una petición asíncrona para obtener la lista de chats.
-        AsyncHttpClient client = new AsyncHttpClient();
+        SyncHttpClient client = new SyncHttpClient();
 
         // TODO: terminar de implementar esta petición.
 
-        // Se hace la petición al servidor.
-        client.get(
-                activity,
-                "https://byta.ml/apiV2/obtener_objetos.php?modo=aleatorio",
-                new ObjectsHandler(db)
-        );
+        if (lastObjectInTime == null) {
+            // Timestamp = 0
+
+            Log.d("Main", "lastObjectInTime es NULL");
+
+            // Se hace la petición al servidor.
+            //client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
+            client.get(
+                    activity,
+                    "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=0&sessionID=" +
+                            settings.getString("sessionID", ""),
+                    new ObjectsHandler(db)
+            );
+
+        } else {
+
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Valor de getTimestamp() --> " + lastObjectInTime.getTimestamp());
+            Log.d("Main", "Petición a la URL --> " + "https://byta.ml/apiV2/obtener_objetos.php?modo=registrado&timestamp=" + lastObjectInTime.getTimestamp()
+                    + "&sessionID=" + settings.getString("sessionID", ""));
+            Log.d("Main", "-------------------------------------------------------------------");
+
+            // Se hace la petición al servidor.
+            client.get(
+                    activity,
+                    "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=" + lastObjectInTime.getTimestamp()
+                            + "&sessionID=" + settings.getString("sessionID", ""),
+                    new ObjectsHandler(db)
+            );
+
+        }
+
     }
 }

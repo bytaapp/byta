@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
 
+import ml.byta.byta.DataBase.AppDatabase;
+import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
 import ml.byta.byta.Server.Handlers.LoginHandler;
@@ -49,8 +51,10 @@ public class IniciarSesion extends AppCompatActivity {
         if (esMailValido(email)) {
             AsyncHttpClient client = new AsyncHttpClient();
 
+
+
             // Se hace la petición al servidor.
-            client.addHeader("X-AUTH-TOKEN", "0");
+            client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
             client.get(
                     this,
                     "https://byta.ml/apiV2/login.php?email=" + email + "&password=" + password
