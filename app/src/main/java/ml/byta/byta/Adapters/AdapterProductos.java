@@ -20,7 +20,7 @@ import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 
 
-public class AdapterProductos extends BaseAdapter implements Runnable {
+public class AdapterProductos extends BaseAdapter{
 
     Activity activity;
     private List<Producto> productos;
@@ -85,8 +85,4 @@ public class AdapterProductos extends BaseAdapter implements Runnable {
         return bitmap;
     }
 
-    @Override
-    public void run() {
-
-    }
 }

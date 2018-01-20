@@ -18,6 +18,8 @@ import java.util.List;
 import link.fls.swipestack.SwipeStack;
 import ml.byta.byta.Activities.AvisoIniciarSesion;
 import ml.byta.byta.Activities.MainActivity;
+import ml.byta.byta.DataBase.Database;
+import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
@@ -43,6 +45,8 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
     @Override
     public void onViewSwipedToLeft(int position) {
         int idObjeto = productos.get(position).getId();
+
+        Database.db.objectDao().deleteByServerId(idObjeto);
 
         TextView description = activity.findViewById(R.id.DescripcionCarta);
 
@@ -74,6 +78,10 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
     @Override
     public void onViewSwipedToRight(int position) {
         int idObjeto = productos.get(position).getId();
+
+        Object object = Database.db.objectDao().getByServerId(idObjeto);
+        object.setViewed(true);
+        Database.db.objectDao().update(object);
 
         TextView description = activity.findViewById(R.id.DescripcionCarta);
 

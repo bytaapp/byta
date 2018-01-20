@@ -1,10 +1,13 @@
 package ml.byta.byta.Activities;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -16,6 +19,12 @@ import android.widget.Toast;
 
 import com.google.android.flexbox.FlexboxLayout;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+
+import ml.byta.byta.DataBase.Database;
+import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.R;
 
 public class MisLikes extends AppCompatActivity {
@@ -36,6 +45,21 @@ public class MisLikes extends AppCompatActivity {
         }
         int width = size.x;
         int height = size.y;
+
+
+
+        /* En "likedObjects" están todos los objetos que te gustan.
+         * Para mostrar la imagen de un objeto hay que usar el método "loadImage(serverId)" donde el
+         * parámetro "serverId" es el ID del objeto en el servidor. El método devuelve un Bitmap.
+         * Por lo tanto, para cada objeto se debería hacer:
+         *
+         *      Bitmap bitmap = loadImage(object.getServerId());
+         */
+
+        List<Object> likedObjects = Database.db.objectDao().getAllViewed();
+
+
+
 
 
         FlexboxLayout flex = (FlexboxLayout) findViewById(R.id.likedimages);
@@ -81,4 +105,17 @@ public class MisLikes extends AppCompatActivity {
         }
 
     }
+
+    public Bitmap loadImage(int id) {
+        Bitmap bitmap = null;
+
+        try {
+            bitmap = BitmapFactory.decodeStream(new URL("https://byta.ml/api/img/fotos_objetos/" + id + ".jpg").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
+    }
+
 }

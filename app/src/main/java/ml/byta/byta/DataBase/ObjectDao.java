@@ -59,6 +59,10 @@ public interface ObjectDao {
     @Query("DELETE FROM object WHERE id = :id")
     void deleteById(int id);
 
+    // Elimina un objeto por el ID del objeto en el servidor.
+    @Query("DELETE FROM object WHERE server_id = :id")
+    void deleteByServerId(int id);
+
     // Elimina un objeto pasado como parámetro.
     @Delete
     void delete(Object object);
