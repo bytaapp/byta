@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ml.byta.byta.Objects.Message;
+import ml.byta.byta.DataBase.Message;
 import ml.byta.byta.R;
 
 
@@ -60,7 +60,7 @@ public class MessageAdapter extends BaseAdapter {
         SharedPreferences settings = activity.getSharedPreferences("Config", 0);
 
         // Si yo escribí el mensaje, alinear a la derecha. En caso contrario, alinear a la izquierda.
-        if (message.getUser().getId() == settings.getInt("id", 0)) {
+        if (message.getAuthorId() == settings.getInt("userID", 0)) {
             parentLayout.setGravity(Gravity.RIGHT);
             messageText.setBackgroundResource(R.drawable.rounded_rectangle_2);
         } else {

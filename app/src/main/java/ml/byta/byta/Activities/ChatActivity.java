@@ -2,6 +2,7 @@ package ml.byta.byta.Activities;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
 
+import java.util.List;
+
+import ml.byta.byta.Adapters.MessageAdapter;
+import ml.byta.byta.DataBase.Chat;
+import ml.byta.byta.DataBase.Database;
+import ml.byta.byta.DataBase.Message;
 import ml.byta.byta.EventListeners.SendMessageToChatClickListener;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.MessageListHandler;
@@ -24,8 +32,9 @@ public class ChatActivity extends AppCompatActivity {
 
     private EditText keyboard;
     private ImageButton sendButton;
-    private int id;
     private String receptor;
+    private int chatId;
+    private ListView messagesList;
     private Handler handler;            // Se necesita para el hilo de refresco.
     private Activity activity = this;   // Se necesita para el hilo de refresco.
 
@@ -40,20 +49,35 @@ public class ChatActivity extends AppCompatActivity {
         sendButton = (ImageButton) findViewById(R.id.send_button);
 
         Bundle bundle = getIntent().getExtras();
+        chatId = bundle.getInt("chatID");
 
-        // Se toma el id del chat en el que estamos.
-        id = bundle.getInt("chatId");
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Message> messages = Database.db.messageDao().getByChatId(chatId);
+                Chat chat = Database.db.chatDao().getByServerId(chatId);
 
-        // Se toma el nombre de la persona con la que estamos chateando.
-        receptor = bundle.getString("receptor");
+                if (chat != null) {     // Hay mensajes almacenados.
 
-        // Se pone como título el nombre de la persona con la que estamos chateando.
-        setTitle(getResources().getString(R.string.chat_with_title) + "  " + receptor);
+                    setTitle(getResources().getString(R.string.chat_with_title) + " " + chat.getInterlocutorName());
 
+                    // Se selecciona la ListView para la lista de mensajes.
+                    messagesList = (ListView) activity.findViewById(R.id.messages_list);
 
-        /* Se hace una petición al servidor para obtener los mensajes correspondientes a
-         * este chat.
-         */
+                    // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
+                    if (messages.size() > 11) {
+                        messagesList.setStackFromBottom(true);
+                    }
+
+                    messagesList.setAdapter(new MessageAdapter(ChatActivity.this, messages));
+
+                } else {    // No hay mensajes almacenados.
+
+                }
+            }
+        });
+
+        /*
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(
                 this,
@@ -65,6 +89,7 @@ public class ChatActivity extends AppCompatActivity {
 
         // Se refresca la lista de mensajes cada 3 segundos.
         refreshMessages(handler, 3000);
+        */
     }
 
     private void refreshMessages(final Handler handler, final int miliseconds) {
@@ -75,7 +100,7 @@ public class ChatActivity extends AppCompatActivity {
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get(
                         activity,
-                        "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + id + "/messages",
+                        "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + chatId + "/messages",
                         new MessageListHandler(activity)
                 );
 

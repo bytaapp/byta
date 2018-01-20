@@ -8,10 +8,12 @@ public class ChatsResponse {
 
     private boolean ok;
     private List<ChatFromServer> chats;
+    private String error;
 
-    public ChatsResponse(boolean ok, List<ChatFromServer> chats) {
+    public ChatsResponse(boolean ok, List<ChatFromServer> chats, String error) {
         this.ok = ok;
         this.chats = chats;
+        this.error = error;
     }
 
     public boolean isOk() {
@@ -28,5 +30,13 @@ public class ChatsResponse {
 
     public void setChats(List<ChatFromServer> chats) {
         this.chats = chats;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

@@ -50,7 +50,7 @@ public class MessageListHandler extends AsyncHttpResponseHandler {
         }
 
         // Se asigna el adaptador a la ListView.
-        messagesList.setAdapter(new MessageAdapter(activity, messages));
+        //messagesList.setAdapter(new MessageAdapter(activity, messages));
     }
 
     @Override

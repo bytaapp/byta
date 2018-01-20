@@ -36,6 +36,8 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
         // Respuesta del servidor.
         ObjectsResponse response = gson.fromJson(new String(responseBody), ObjectsResponse.class);
 
+        Log.d("Main", "Respuesta del servidor --> " + gson.toJson(response));
+
         if (response.isOk() && response.getObjects().size() > 0) {
 
             List<Object> objects = new ArrayList<>();
@@ -47,8 +49,6 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
                 int ownerId = response.getObjects().get(i).getId_usuario();
                 int serverId = response.getObjects().get(i).getId();
                 long timestamp = (long) response.getObjects().get(i).getFecha_subido();
-
-                Log.d("Main", "" + timestamp);
 
                 Object object = new Object(description, false, location, timestamp, ownerId, serverId);
 
@@ -62,24 +62,6 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
             Intent intent = new Intent(splashActivity, UsuarioRegistrado.class);
             splashActivity.startActivity(intent);
             splashActivity.finish();
-
-            // LO SIGUIENTE ES PARA VER SI LO ALMACENADO EN LA BD ES CORRECTO
-
-            Log.d("Main", "-------------------------------------------------------------------");
-            Log.d("Main", "" + response.getObjects().size() + " objetos insertados");
-            Log.d("Main", "-------------------------------------------------------------------");
-
-            List<Object> objectsFromDB;
-            objectsFromDB = Database.db.objectDao().getAllObjects();
-
-            for (int i = 0; i < objectsFromDB.size(); i++) {
-                Log.d("Main", "-------------------------------------------------------------------");
-                Log.d("Main", "Description --> " + objectsFromDB.get(i).getDescription());
-                Log.d("Main", "Viewed --> " + objectsFromDB.get(i).isViewed());
-                Log.d("Main", "Location --> " + objectsFromDB.get(i).getLocation());
-                Log.d("Main", "Timestamp --> " + objectsFromDB.get(i).getTimestamp());
-                Log.d("Main", "-------------------------------------------------------------------");
-            }
 
         } else {
             // TODO: ¿Qué hacer aquí? La respuesta no es correcta o no se han enviado objetos.

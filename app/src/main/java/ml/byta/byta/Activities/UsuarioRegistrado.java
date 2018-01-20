@@ -65,6 +65,8 @@ public class UsuarioRegistrado extends AppCompatActivity
 
     private PopupWindow popUpWindow;
 
+    private AdapterProductos adapterProductos;
+
     public static ArrayList<Producto> productos = new ArrayList<>();
 
     @Override
@@ -104,6 +106,7 @@ public class UsuarioRegistrado extends AppCompatActivity
         // --------------------------------------------------------------------------------------
 
         AsyncTask.execute(new Runnable() {
+
             @Override
             public void run() {
                 // Pila de cartas.
@@ -126,16 +129,24 @@ public class UsuarioRegistrado extends AppCompatActivity
                     productos.add(producto);
                 }
 
-                AdapterProductos adapterProductos = new AdapterProductos(UsuarioRegistrado.this, productos);
+                adapterProductos = new AdapterProductos(UsuarioRegistrado.this, productos);
 
                 swipeStack.setAdapter(adapterProductos);
                 swipeStack.setListener(new SwipeStackCardListener(UsuarioRegistrado.this, productos));
-                adapterProductos.notifyDataSetChanged();
+
+                UsuarioRegistrado.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapterProductos.notifyDataSetChanged();
+                    }
+                });
 
                 TextView textView = findViewById(R.id.DescripcionCarta);
                 //textView.setText(productos.get(0).getDescription());
+
             }
         });
+
 
         // --------------------------------------------------------------------------------------
 

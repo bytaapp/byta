@@ -69,15 +69,6 @@ public class Splash extends Activity {
 
         AsyncHttpClient client = new AsyncHttpClient();
 
-        Log.d("Main", "-------------------------------------------------------------------");
-        Log.d("Main", "SessionID --> " + settings.getString("sessionID", ""));
-        Log.d("Main", "Email --> " + settings.getString("email", ""));
-        Log.d("Main", "Password --> " + settings.getString("password", ""));
-        Log.d("Main", "Name --> " + settings.getString("name", ""));
-        Log.d("Main", "Surname --> " + settings.getString("surname", ""));
-        Log.d("Main", "Location --> " + settings.getString("location", ""));
-        Log.d("Main", "-------------------------------------------------------------------");
-
         LoginHandler loginHandler;
 
         if (settings.getString("sessionID", "").equals("")) {

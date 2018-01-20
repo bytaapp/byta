@@ -8,7 +8,7 @@
     tools:context=".Activities.ChatActivity">
 
     <!-- Contenido de un chat. -->
-    <ListView
+    <!--<ListView
         android:id="@+id/messages_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,7 +16,16 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:transcriptMode="alwaysScroll"
-        android:background="@drawable/whatsappback"></ListView>
+        android:background="@drawable/whatsappback"></ListView>-->
+
+    <ListView
+        android:id="@+id/messages_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.9"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:transcriptMode="alwaysScroll"></ListView>
 
     <!-- Layout para escribir un nuevo mensaje. Teclado y botón de enviar. -->
     <ImageButton

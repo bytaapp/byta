@@ -49,20 +49,6 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
         if (response.isOk()) {  // Login con éxito.
 
-            /* Se cargan los objetos. Como primero hay que acceder a la BD local, se crea un hilo
-             * independiente. La petición al servidor es síncrona porque ya estamos en un hilo
-             * independiente del hilo principal.
-             */
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    getObjectsLogged();
-                }
-            });
-
-            // Se cargan los chats y mensajes.
-            //getChatsAndMessages();
-
             // Se almacena la info en SharedPreferences.
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("sessionID", response.getSessionID());
@@ -73,6 +59,25 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
             editor.putString("password", password);
             editor.putString("method", method);
             editor.commit();
+
+            /* Se cargan los objetos, chats y mensajes. Como primero hay que acceder a la BD local,
+             * se crean hilos independientes. La petición al servidor es síncrona porque ya estamos
+             * en un hilo independiente del hilo principal.
+             */
+
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    getObjectsLogged();
+                }
+            });
+
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    getChatsAndMessages();
+                }
+            });
 
         } else {    // El login no ha tenido éxito.
 
@@ -101,12 +106,12 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
     @Override
     public void getChatsAndMessages() {
         // Se hace una petición asíncrona para obtener la lista de chats.
-        AsyncHttpClient client = new AsyncHttpClient();
+        SyncHttpClient client = new SyncHttpClient();
 
         // Se hace la petición al servidor. Los mensajes se piden en el handler de los chats.
         client.get(
                 activity,
-                "https://byta.ml/api/SwappieChat/public/index.php/api/chats/" + settings.getInt("id", 0) + "",
+                "https://byta.ml/apiV2/BytaChat/public/index.php/api/chats/" + settings.getInt("userID", 0),
                 new ChatsHandler(activity)
         );
     }

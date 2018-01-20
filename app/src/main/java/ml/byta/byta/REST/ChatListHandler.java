@@ -86,10 +86,10 @@ public class ChatListHandler extends AsyncHttpResponseHandler {
             }
 
             // Se asigna el adaptador a la ListView.
-            chatList.setAdapter(new ChatAdapter(activity, chats, pares));
+            //chatList.setAdapter(new ChatAdapter(activity, chats, pares));
 
             // Listener para abrir cada chat.
-            chatList.setOnItemClickListener(new ChatListItemClickListener(activity, chats));
+            //chatList.setOnItemClickListener(new ChatListItemClickListener(activity, chats));
         }
 
 
