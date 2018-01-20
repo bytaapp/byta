@@ -8,16 +8,11 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import ml.byta.byta.DataBase.AppDatabase;
+import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.DataBase.Message;
 import ml.byta.byta.Server.Responses.MessagesFromChatResponse;
 
 public class MessagesHandler extends AsyncHttpResponseHandler {
-
-    private AppDatabase db;
-
-    public MessagesHandler(AppDatabase db) {
-        this.db = db;
-    }
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -29,7 +24,7 @@ public class MessagesHandler extends AsyncHttpResponseHandler {
         if (response.isOk() && response.getMessages().size() > 0) {
 
             // Se eliminan todos los mensajes que haya almacenados en la base de datos local.
-            db.messageDao().deleteAllMessages();
+            Database.db.messageDao().deleteAllMessages();
 
             List<Message> messages = new ArrayList<>();
 
@@ -38,7 +33,7 @@ public class MessagesHandler extends AsyncHttpResponseHandler {
             }
 
             // Se almacenan los mensajes recibidos en la base de datos local.
-            db.messageDao().insertMessages(messages);
+            Database.db.messageDao().insertMessages(messages);
 
         }
     }

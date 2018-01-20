@@ -26,10 +26,7 @@ import ml.byta.byta.R;
 public class Splash extends Activity {
 
     // Set the duration of the splash screen
-    private static final long SPLASH_SCREEN_DELAY = 2400;
-
-    private Database database;
-    public static AppDatabase db;
+    private static final long SPLASH_SCREEN_DELAY = 3400;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +39,10 @@ public class Splash extends Activity {
 
         setContentView(R.layout.activity_splash);
 
-        // TODO: comprobar que no peta la base de datos local por lo que se explica a continuación.
-
-        /* PUEDE QUE AQUÍ DE ERROR LA BASE DE DATOS PORQUE SE HACE getApplicationContext() EN UNA
-         * ACTIVITY QUE SE CIERRA. COMPROBARLO!!!!
+        /* Se crea un objeto de la clase "Database" para inicializar la variable estática que nos
+         * permite acceder a la base de datos local.
          */
-
-        this.database = new Database(this);
-        db = Database.db;
-        //db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "local-database").build();
+        Database database = new Database(this);
 
         // Se hace login.
         login();
@@ -90,11 +82,11 @@ public class Splash extends Activity {
 
         if (settings.getString("sessionID", "").equals("")) {
             // No hay una sesión iniciada.
-            loginHandler = new LoginHandler(this, settings, db);
+            loginHandler = new LoginHandler(this, settings);
         } else {
             // Hay una sesión iniciada.
             loginHandler = new LoginHandler(this, settings.getString("email", ""), settings.getString("password", ""),
-                    settings.getString("method", ""), settings, db);
+                    settings.getString("method", ""), settings);
         }
 
         // Se hace la petición al servidor.

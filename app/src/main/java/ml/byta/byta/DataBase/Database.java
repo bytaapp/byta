@@ -10,7 +10,7 @@ public class Database {
 
     public Database(Activity activity) {
         this.activity = activity;
-        this.db = Room.databaseBuilder(activity.getApplicationContext(), AppDatabase.class, "local-database").build();
+        this.db = Room.databaseBuilder(this.activity.getApplicationContext(), AppDatabase.class, "local-database").build();
     }
 
     public AppDatabase getDb() {

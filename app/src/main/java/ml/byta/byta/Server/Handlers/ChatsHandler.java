@@ -13,16 +13,15 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import ml.byta.byta.DataBase.AppDatabase;
 import ml.byta.byta.DataBase.Chat;
+import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.Server.Responses.ChatsResponse;
 
 public class ChatsHandler extends AsyncHttpResponseHandler {
 
     private Activity activity;
-    private AppDatabase db;
 
-    public ChatsHandler(Activity activity, AppDatabase db) {
+    public ChatsHandler(Activity activity) {
         this.activity = activity;
-        this.db = db;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class ChatsHandler extends AsyncHttpResponseHandler {
             // Como aquí ya estamos en un hilo independiente del principal, supongo que no hay que crear otro hilo (COMPROBAR POR SI ACASO).
 
             // Se eliminan todos los chats que haya almacenados en la base de datos local.
-            db.chatDao().deleteAllChats();
+            Database.db.chatDao().deleteAllChats();
 
             List<Chat> chats = new ArrayList<>();
 
@@ -73,12 +72,12 @@ public class ChatsHandler extends AsyncHttpResponseHandler {
                 client.get(
                         activity,
                         "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + chats.get(i).getServerId() + "/messages",
-                        new MessagesHandler(db)
+                        new MessagesHandler()
                 );
             }
 
             // Se almacenan los chats recibidos en la base de datos local.
-            db.chatDao().insertChats(chats);
+            Database.db.chatDao().insertChats(chats);
         }
     }
 

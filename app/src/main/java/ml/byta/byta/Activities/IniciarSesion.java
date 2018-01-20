@@ -51,8 +51,6 @@ public class IniciarSesion extends AppCompatActivity {
         if (esMailValido(email)) {
             AsyncHttpClient client = new AsyncHttpClient();
 
-
-
             // Se hace la petición al servidor.
             client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
             client.get(

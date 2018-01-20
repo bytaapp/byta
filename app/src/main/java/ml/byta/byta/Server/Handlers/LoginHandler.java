@@ -27,21 +27,10 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
     private String email = "";
     private String password = "";
     private String method = "";
-    private AppDatabase db;
 
-    public LoginHandler(Activity activity, SharedPreferences settings, AppDatabase db) {
+    public LoginHandler(Activity activity, SharedPreferences settings) {
         this.activity = activity;
         this.settings = settings;
-        this.db = db;
-    }
-
-    public LoginHandler(Activity activity, String email, String password, String method, SharedPreferences settings, AppDatabase db) {
-        this.activity = activity;
-        this.email = email;
-        this.password = password;
-        this.method = method;
-        this.settings = settings;
-        this.db = db;
     }
 
     public LoginHandler(Activity activity, String email, String password, String method, SharedPreferences settings) {
@@ -58,17 +47,12 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
         LoginResponse response = gson.fromJson(new String(responseBody), LoginResponse.class);
 
-        //Log.d("Main", gson.toJson(response).toString());
-
-        Intent intent;
-
         if (response.isOk()) {  // Login con éxito.
 
-            Log.d("Main", "-------------------------------------------------------------------");
-            Log.d("Main", "Respuesta del servidor " + gson.toJson(response).toString());
-            Log.d("Main", "-------------------------------------------------------------------");
-
-            // Se cargan los objetos.
+            /* Se cargan los objetos. Como primero hay que acceder a la BD local, se crea un hilo
+             * independiente. La petición al servidor es síncrona porque ya estamos en un hilo
+             * independiente del hilo principal.
+             */
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -78,9 +62,6 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
             // Se cargan los chats y mensajes.
             //getChatsAndMessages();
-
-            // Se carga la activity "UsuarioRegistrado".
-            intent = new Intent(activity, UsuarioRegistrado.class);
 
             // Se almacena la info en SharedPreferences.
             SharedPreferences.Editor editor = settings.edit();
@@ -99,17 +80,22 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
             //getObjects();
 
             // Se carga la activity "UsuarioNoRegistrado".
-            intent = new Intent(activity, UsuarioNoRegistrado.class);
+            Intent intent = new Intent(activity, UsuarioNoRegistrado.class);
+            activity.startActivity(intent);
+            //activity.finish();
             Log.d("Main", "Error en la petición: " + response.getError());
         }
 
-        activity.startActivity(intent);
-        activity.finish();
     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
         // TODO: TRATAR EL FALLO, ¿CÓMO?
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "ERROR --> Ha entrado en onFailure");
+        Log.d("Main", "Código de error --> " + statusCode);
+        Log.d("Main", "Throwable error --> " + error);
+        Log.d("Main", "-------------------------------------------------------------------");
     }
 
     @Override
@@ -121,7 +107,7 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
         client.get(
                 activity,
                 "https://byta.ml/api/SwappieChat/public/index.php/api/chats/" + settings.getInt("id", 0) + "",
-                new ChatsHandler(activity, db)
+                new ChatsHandler(activity)
         );
     }
 
@@ -130,42 +116,31 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
         // Se selecciona el último objeto almacenado por su timestamp.
         Object lastObjectInTime = Database.db.objectDao().getLastObjectInTime();
 
-        // Se hace una petición asíncrona para obtener la lista de chats.
+        // Se hace una petición síncrona porque ya se hace en un hilo independiente.
         SyncHttpClient client = new SyncHttpClient();
 
-        // TODO: terminar de implementar esta petición.
+        String url = "";
 
+        // Se comprueba si el objeto extraido de la BD no es null, es decir, si hay objetos almacenados.
         if (lastObjectInTime == null) {
-            // Timestamp = 0
-
-            Log.d("Main", "lastObjectInTime es NULL");
-
-            // Se hace la petición al servidor.
-            //client.addHeader("X-AUTH-TOKEN", settings.getString("sessionID", ""));
-            client.get(
-                    activity,
-                    "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=0&sessionID=" +
-                            settings.getString("sessionID", ""),
-                    new ObjectsHandler(db)
-            );
-
+            // Timestamp = 0.
+            url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=0&sessionID=" +
+                    settings.getString("sessionID", "");
         } else {
+            url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=" + lastObjectInTime.getTimestamp()
+                    + "&sessionID=" + settings.getString("sessionID", "");
 
             Log.d("Main", "-------------------------------------------------------------------");
             Log.d("Main", "Valor de getTimestamp() --> " + lastObjectInTime.getTimestamp());
-            Log.d("Main", "Petición a la URL --> " + "https://byta.ml/apiV2/obtener_objetos.php?modo=registrado&timestamp=" + lastObjectInTime.getTimestamp()
-                    + "&sessionID=" + settings.getString("sessionID", ""));
             Log.d("Main", "-------------------------------------------------------------------");
-
-            // Se hace la petición al servidor.
-            client.get(
-                    activity,
-                    "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=" + lastObjectInTime.getTimestamp()
-                            + "&sessionID=" + settings.getString("sessionID", ""),
-                    new ObjectsHandler(db)
-            );
-
         }
+
+        // Se hace la petición al servidor.
+        client.get(
+                activity,
+                url,
+                new ObjectsHandler(activity)
+        );
 
     }
 }

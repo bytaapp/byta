@@ -50,7 +50,7 @@ public class UsuarioRegistrado extends AppCompatActivity
     TextView txt;
     CircleImageView img;
 
-    private String metodo,token,email;          // Contiene el método que utilizó el usuario para registrarse.
+    private String token,email;          // Contiene el método que utilizó el usuario para registrarse.
 
     private DrawerLayout drawer;
 
@@ -83,39 +83,34 @@ public class UsuarioRegistrado extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Se identifica el método que utilizó el usuario para registrarse.
         SharedPreferences settings = getSharedPreferences("Config", 0);
-        metodo = settings.getString("method", "");
         token = FirebaseInstanceId.getInstance().getToken();
         email = settings.getString("email","");
 
         //Guardamos el token actual del usuario en la base de datos
         new ClasePeticionRest.GuardarToken(UsuarioRegistrado.this, token, email).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        if (metodo.equals("google")) {
+        // A continuación, se asigna la información del usuario que aparece en el menú lateral.
 
-            // Se extrae la información almacenada en Shared Preferences.
-            boolean sesion = settings.getBoolean("sesion", false);
-            String name = settings.getString("name", "");
-            String surname = settings.getString("surname", "");
-            String imagen = settings.getString("foto", "");
-            String email = settings.getString("email", "");
+        // Se selecciona la cabecera del menú lateral de navegación.
+        View headerView = navigationView.getHeaderView(0);
 
-            // Se selecciona la cabecera del menú lateral de navegación.
-            View headerView = navigationView.getHeaderView(0);
+        // Se asigna el nombre del usuario al campo correspondiente.
+        txt = (TextView) headerView.findViewById(R.id.nameUser);
+        txt.setText(settings.getString("name", "") + " " + settings.getString("surname", ""));
 
-            // Se asigna el nombre del usuario al campo correspondiente.
-            txt = (TextView) headerView.findViewById(R.id.nameUser);
-            txt.setText(name + " " + surname);
+        // Se asigna el email del usuario al campo correspondiente.
+        txt = (TextView) headerView.findViewById(R.id.emailUser);
+        txt.setText(settings.getString("email", ""));
 
-            // Se asigna el email del usuario al campo correspondiente.
-            txt = (TextView) headerView.findViewById(R.id.emailUser);
-            txt.setText(email);
+        // Se asigna la imagen de perfil del usuario al campo correspondiente.
+        img = (CircleImageView) headerView.findViewById(R.id.imageUser);
 
-            // Se asigna la imagen de perfil del usuario al campo correspondiente.
-            img = (CircleImageView) headerView.findViewById(R.id.imageUser);
+        // Se comprueba el método de registro para tratar la imagen del usuario.
+        if (settings.getString("method", "").equals("google")) {
+
             try {
-                URL url = new URL(imagen);
+                URL url = new URL(settings.getString("foto", ""));
                 Bitmap bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                 img.setImageBitmap(bmp);
             } catch (MalformedURLException e) {
@@ -124,30 +119,11 @@ public class UsuarioRegistrado extends AppCompatActivity
                 e.printStackTrace();
             }
 
-        } else if (metodo.equals("facebook")) {
+        } else if (settings.getString("method", "").equals("facebook")) {
 
-            // Se extrae la información almacenada en Shared Preferences.
-            boolean sesion = settings.getBoolean("sesion", false);
-            String name = settings.getString("name", "");
-            String idFacebook = settings.getString("facebookID", "");
-            String surname = settings.getString("surname", "");
-            String email = settings.getString("email", "");
-
-            // Se selecciona la cabecera del menú lateral de navegación.
-            View headerView = navigationView.getHeaderView(0);
-
-            // Se asigna el nombre completo del usuario al campo correspondiente.
-            txt = (TextView) headerView.findViewById(R.id.nameUser);
-            txt.setText(name + " " + surname);
-
-            // Se asigna el email del usuario al campo correspondiente.
-            txt = (TextView) headerView.findViewById(R.id.emailUser);
-            txt.setText(email);
-
-            // Se asigna la imagen de perfil del usuario al campo correspondiente.
-            img = (CircleImageView) headerView.findViewById(R.id.imageUser);
             try {
-                imageUrl = new URL("https://graph.facebook.com/" + idFacebook + "/picture?type=large");
+                imageUrl = new URL("https://graph.facebook.com/" + settings.getString("facebookID", "")
+                        + "/picture?type=large");
                 Bitmap bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
                 img.setImageBitmap(bmp);
             } catch (MalformedURLException e) {
@@ -156,27 +132,8 @@ public class UsuarioRegistrado extends AppCompatActivity
                 e.printStackTrace();
             }
 
-        } else if (metodo.equals("email")) {
+        } else if (settings.getString("method", "").equals("email")) {
 
-            // Se extrae la información almacenada en Shared Preferences.
-            boolean sesion = settings.getBoolean("sesion", false);
-            String name = settings.getString("name", "");
-            String surname = settings.getString("surname", "");
-            String email = settings.getString("email", "");
-
-            // Se selecciona la cabecera del menú lateral de navegación.
-            View headerView = navigationView.getHeaderView(0);
-
-            // Se asigna el nombre completo del usuario al campo correspondiente.
-            txt = (TextView) headerView.findViewById(R.id.nameUser);
-            txt.setText(name + " " + surname);
-
-            // Se asigna el email del usuario al campo correspondiente.
-            txt = (TextView) headerView.findViewById(R.id.emailUser);
-            txt.setText(email);
-
-            // Se asigna la imagen de perfil del usuario al campo correspondiente.
-            img = (CircleImageView) headerView.findViewById(R.id.imageUser);
             try {
                 imageUrl = new URL("https://www.viawater.nl/files/default-user.png");
                 Bitmap bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
@@ -188,8 +145,6 @@ public class UsuarioRegistrado extends AppCompatActivity
             }
 
         }
-
-        new ClasePeticionRest.CogerObjetosInicio(this, settings.getInt("id", 0) + "").executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         findViewById(R.id.BotonX).setOnClickListener(new ClickBotonesSwipe(this, false));
         findViewById(R.id.BotonTick).setOnClickListener(new ClickBotonesSwipe(this, true));
@@ -244,47 +199,19 @@ public class UsuarioRegistrado extends AppCompatActivity
             SharedPreferences settings = getSharedPreferences("Config", 0);
             SharedPreferences.Editor editor = settings.edit();
 
-            // TODO: depurar esta parte de código.
-
-            if (metodo.equals("google")) {  // Se registró con Google.
-
-                // Se limpian todos los datos almacenados en SharedPreferences.
-                editor.clear();
-                editor.commit();
-
-                // Se carga la activity "UsuarioNoRegistrado".
-                Intent intent = new Intent(this, UsuarioNoRegistrado.class);
-                startActivity(intent);
-                finish();
-
-            } else if (metodo.equals("facebook")) { // Se registró con Facebook.
-
+            if (settings.getString("method", "").equals("facebook")) {
                 // TODO: ¿Qué hace esto?
                 LoginManager.getInstance().logOut();
-
-                // Se limpian todos los datos almacenados en SharedPreferences.
-                editor.clear();
-                editor.commit();
-
-                // Se carga la activity "UsuarioNoRegistrado".
-                Intent intent = new Intent(this, UsuarioNoRegistrado.class);
-                startActivity(intent);
-                finish();
-
-            } else if (metodo.equals("email")) {    // Se registró con usuario y contraseña.
-
-                // Se limpian todos los datos almacenados en SharedPreferences.
-                editor.clear();
-                editor.commit();
-
-                // // Se carga la activity "UsuarioNoRegistrado".
-                Intent intent = new Intent(this, UsuarioNoRegistrado.class);
-                startActivity(intent);
-                finish();
-
             }
 
+            // Se limpian todos los datos almacenados en SharedPreferences.
+            editor.clear();
+            editor.commit();
 
+            // Se carga la activity "UsuarioNoRegistrado".
+            Intent intent = new Intent(this, UsuarioNoRegistrado.class);
+            startActivity(intent);
+            finish();
 
         } else if (id == R.id.nav_contact2) {
             // Click en contacto.
