@@ -44,9 +44,14 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
     @Override
     public void onViewSwipedToLeft(int position) {
-        int idObjeto = productos.get(position).getId();
+        final int idObjeto = productos.get(position).getId();
 
-        Database.db.objectDao().deleteByServerId(idObjeto);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Database.db.objectDao().deleteByServerId(idObjeto);
+            }
+        });
 
         TextView description = activity.findViewById(R.id.DescripcionCarta);
 
@@ -77,11 +82,16 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
     @Override
     public void onViewSwipedToRight(int position) {
-        int idObjeto = productos.get(position).getId();
+        final int idObjeto = productos.get(position).getId();
 
-        Object object = Database.db.objectDao().getByServerId(idObjeto);
-        object.setViewed(true);
-        Database.db.objectDao().update(object);
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Object object = Database.db.objectDao().getByServerId(idObjeto);
+                object.setViewed(true);
+                Database.db.objectDao().update(object);
+            }
+        });
 
         TextView description = activity.findViewById(R.id.DescripcionCarta);
 

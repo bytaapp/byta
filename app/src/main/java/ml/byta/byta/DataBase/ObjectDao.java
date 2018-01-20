@@ -19,8 +19,8 @@ public interface ObjectDao {
     @Query("SELECT * FROM object WHERE id = :id LIMIT 1")
     Object getById(int id);
 
-    // Selecciona todos los objetos que se han visto.
-    @Query("SELECT * FROM object WHERE viewed = 1")
+    // Selecciona todos los objetos que se han visto ordenados del más reciente al menos reciente.
+    @Query("SELECT * FROM object WHERE viewed = 1 ORDER BY timestamp DESC")
     List<Object> getAllViewed();
 
     // Selecciona todos los objetos que no se han visto.
