@@ -20,6 +20,12 @@ public class Producto {
         this.id = id;
     }
 
+    public Producto(String description, String location, int id) {
+        this.description = description;
+        this.location = location;
+        this.id = id;
+    }
+
     public Bitmap getBitmap() {
         return bitmap;
     }

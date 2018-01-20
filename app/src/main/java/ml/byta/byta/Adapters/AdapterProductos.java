@@ -4,19 +4,23 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 
 
-public class AdapterProductos extends BaseAdapter {
+public class AdapterProductos extends BaseAdapter implements Runnable {
 
     Activity activity;
     private List<Producto> productos;
@@ -42,7 +46,7 @@ public class AdapterProductos extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         Producto producto = this.getItem(position);
 
@@ -52,52 +56,37 @@ public class AdapterProductos extends BaseAdapter {
 
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
 
-        // Se asigna la imagen correspondiente que aparece en la carta..
-        image.setImageBitmap(producto.getBitmap());
+        // Se asigna la imagen correspondiente que aparece en la carta.
+        // TODO: habrá que cambiar este adapter pero hace que cambien muchas cosas (Listeners).
 
-        // Se asigna un listener a la imagen que muestra la información del producto.
-        //image.setOnClickListener(new OpenProductInfoClickListener(activity, getItem(position)));
+        if (producto.getBitmap() == null) {
+            image.setImageBitmap(loadImage(producto.getId()));
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Está mostrando la imagen con descripción " + producto.getDescription());
+            Log.d("Main", "-------------------------------------------------------------------");
+        } else {
+            image.setImageBitmap(producto.getBitmap());
+        }
 
         return convertView;
 
     }
 
 
-    // Estos dos métodos no se qué hacen. Es parte del trabajo de Fermín.
-    public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId, int reqWidth, int reqHeight) {
+    public Bitmap loadImage(int id) {
+        Bitmap bitmap = null;
 
-        // First decode with inJustDecodeBounds=true to check dimensions
-        final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeResource(res, resId, options);
-
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-        // Decode bitmap with inSampleSize set
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
-    }
-
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-        // Raw height and width of image
-        final int height = options.outHeight;
-        final int width = options.outWidth;
-        int inSampleSize = 1;
-
-        if (height > reqHeight || width > reqWidth) {
-
-            final int halfHeight = height / 2;
-            final int halfWidth = width / 2;
-
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
-            while ((halfHeight / inSampleSize) >= reqHeight
-                    && (halfWidth / inSampleSize) >= reqWidth) {
-                inSampleSize *= 2;
-            }
+        try {
+            bitmap = BitmapFactory.decodeStream(new URL("https://byta.ml/api/img/fotos_objetos/" + id + ".jpg").openStream());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        return inSampleSize;
+        return bitmap;
+    }
+
+    @Override
+    public void run() {
+
     }
 }

@@ -26,7 +26,7 @@ import ml.byta.byta.R;
 public class Splash extends Activity {
 
     // Set the duration of the splash screen
-    private static final long SPLASH_SCREEN_DELAY = 3400;
+    private static final long SPLASH_SCREEN_DELAY = 8000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import link.fls.swipestack.SwipeStack;
 import ml.byta.byta.Activities.AvisoIniciarSesion;
@@ -23,14 +24,14 @@ import ml.byta.byta.REST.ClasePeticionRest;
 
 public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
-    private ArrayList<Producto> productos;
+    private List<Producto> productos;
     Activity activity;
     int idUsuario;
     SharedPreferences settings;
 
     final String tag = "swipe";
 
-    public SwipeStackCardListener(Activity activity, ArrayList<Producto> productos) {
+    public SwipeStackCardListener(Activity activity, List<Producto> productos) {
         this.activity = activity;
         this.productos = productos;
         this.settings = activity.getSharedPreferences("Config", 0);
@@ -45,7 +46,7 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
         TextView description = activity.findViewById(R.id.DescripcionCarta);
 
-        if (this.idUsuario != 0) {
+        if (!settings.getString("sessionID", "").equals("")) {
             new ClasePeticionRest.GuardarSwipe(activity, this.idUsuario, idObjeto, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             if (productos.size() > position + 1){
                 description.setText(productos.get(position + 1).getDescription());
@@ -76,7 +77,7 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
         TextView description = activity.findViewById(R.id.DescripcionCarta);
 
-        if (this.idUsuario != 0) {
+        if (!settings.getString("sessionID", "").equals("")) {
             new ClasePeticionRest.GuardarSwipe(activity, this.idUsuario, idObjeto, true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
             if (productos.size() > position + 1){
                 description.setText(productos.get(position + 1).getDescription());

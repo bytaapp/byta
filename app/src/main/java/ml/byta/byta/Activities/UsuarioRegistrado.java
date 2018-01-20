@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.StrictMode;
@@ -16,7 +18,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,12 +34,20 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import link.fls.swipestack.SwipeStack;
+import ml.byta.byta.Adapters.AdapterProductos;
+import ml.byta.byta.DataBase.Database;
+import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.EventListeners.ClickBotonesSwipe;
+import ml.byta.byta.EventListeners.SwipeStackCardListener;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
@@ -90,20 +99,54 @@ public class UsuarioRegistrado extends AppCompatActivity
         //Guardamos el token actual del usuario en la base de datos
         new ClasePeticionRest.GuardarToken(UsuarioRegistrado.this, token, email).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
-        // A continuación, se asigna la información del usuario que aparece en el menú lateral.
+        // TODO: mejorar lo siguiente.
+
+        // --------------------------------------------------------------------------------------
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                // Pila de cartas.
+                SwipeStack swipeStack= (SwipeStack) findViewById(R.id.pila_cartas);
+
+                // Se extraen los objetos de la base de datos.
+                List<Object> objectsFromDB = Database.db.objectDao().getAllObjects();
+
+                List<Producto> productos = new ArrayList<>();
+
+                Producto producto;
+
+                for (int i = 0; i < objectsFromDB.size(); i++) {
+                    producto = new Producto(
+                            objectsFromDB.get(i).getDescription(),
+                            objectsFromDB.get(i).getLocation(),
+                            objectsFromDB.get(i).getServerId()
+                    );
+
+                    productos.add(producto);
+                }
+
+                AdapterProductos adapterProductos = new AdapterProductos(UsuarioRegistrado.this, productos);
+
+                swipeStack.setAdapter(adapterProductos);
+                swipeStack.setListener(new SwipeStackCardListener(UsuarioRegistrado.this, productos));
+                adapterProductos.notifyDataSetChanged();
+
+                TextView textView = findViewById(R.id.DescripcionCarta);
+                //textView.setText(productos.get(0).getDescription());
+            }
+        });
+
+        // --------------------------------------------------------------------------------------
 
         // Se selecciona la cabecera del menú lateral de navegación.
         View headerView = navigationView.getHeaderView(0);
 
-        // Se asigna el nombre del usuario al campo correspondiente.
+        // Se asigna la información del usuario que aparece en el menú lateral.
         txt = (TextView) headerView.findViewById(R.id.nameUser);
         txt.setText(settings.getString("name", "") + " " + settings.getString("surname", ""));
-
-        // Se asigna el email del usuario al campo correspondiente.
         txt = (TextView) headerView.findViewById(R.id.emailUser);
         txt.setText(settings.getString("email", ""));
-
-        // Se asigna la imagen de perfil del usuario al campo correspondiente.
         img = (CircleImageView) headerView.findViewById(R.id.imageUser);
 
         // Se comprueba el método de registro para tratar la imagen del usuario.
