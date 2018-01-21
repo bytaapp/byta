@@ -100,6 +100,8 @@ public class MisLikes extends AppCompatActivity {
                     botones.addView(white,width/20, width/20);
                     botones.addView(superlike,width/9,width/9);
 
+                    botones.setPadding(3,3,3,3);
+
 
                     //Añadimos el imageview al linearLayout
                     linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -111,6 +113,7 @@ public class MisLikes extends AppCompatActivity {
                     linearLayout.addView(botones);
 
                     image.setLayoutParams(lp);
+                    image.setPadding(3,3,3,3);
                     image.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     //linearLayout.setBackgroundColor(Color.BLUE);
                     flex.addView(linearLayout);

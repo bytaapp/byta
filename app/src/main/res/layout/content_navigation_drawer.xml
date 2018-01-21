@@ -22,7 +22,7 @@
         android:paddingRight="20dp"
         android:paddingTop="20dp"
         android:visibility="visible"
-        app:layout_flexBasisPercent="60%"
+        app:layout_flexBasisPercent="70%"
         app:stack_rotation="0" />
 
 
@@ -31,7 +31,7 @@
         app:layout_alignSelf="center"
         android:id="@+id/descripcion"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="65dp"
         android:layout_below="@+id/pila_cartas"
         android:layout_marginTop="20dp"
         android:gravity="center"
