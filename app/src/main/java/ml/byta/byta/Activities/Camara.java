@@ -116,8 +116,8 @@ public class Camara extends AppCompatActivity {
 
                         System.out.println(resultUri.getPath());
                         out = new FileOutputStream(resultUri.getPath());
-                        Bitmap b = Bitmap.createScaledBitmap(mImageBitmap, 810, 1080, false);
-                        b.compress(Bitmap.CompressFormat.JPEG, 60, out);
+                        Bitmap b = Bitmap.createScaledBitmap(mImageBitmap, 540, 720, false);
+                        b.compress(Bitmap.CompressFormat.JPEG, 40, out);
                         //out = new FileOutputStream(mCurrentPhotoPath);
                         //b.compress(Bitmap.CompressFormat.JPEG, 70, out);
                         ImageView imageTest = findViewById(R.id.image_test);
