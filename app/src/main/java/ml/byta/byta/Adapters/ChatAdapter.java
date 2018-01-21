@@ -2,6 +2,7 @@ package ml.byta.byta.Adapters;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ml.byta.byta.DataBase.Chat;
 import ml.byta.byta.DataBase.ChatDao;
+import ml.byta.byta.DataBase.Database;
+import ml.byta.byta.DataBase.Message;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ChatListHandler;
 
@@ -22,18 +26,22 @@ public class ChatAdapter extends BaseAdapter {
 
     private Activity activity;
     private List<Chat> chats;
+    private List<Message> messages;
     private List<ChatListHandler.ParChatIdBitmap> pares;
 
-    public ChatAdapter(Activity activity, List<Chat> chats) {
+    public ChatAdapter(Activity activity, List<Chat> chats, List<Message> messages) {
         this.activity = activity;
         this.chats = chats;
+        this.messages = messages;
     }
 
+    /*
     public ChatAdapter(Activity activity, List<Chat> chats, List<ChatListHandler.ParChatIdBitmap> pares) {
         this.activity = activity;
         this.chats = chats;
         this.pares = pares;
     }
+    */
 
     @Override
     public int getCount() {
@@ -59,11 +67,27 @@ public class ChatAdapter extends BaseAdapter {
         }
 
         TextView contactName = (TextView) convertView.findViewById(R.id.contact_name);
+        TextView lastMessageInChat = (TextView) convertView.findViewById(R.id.last_message_in_chat);
         //ImageView firstObjectChat = (ImageView) convertView.findViewById(R.id.first_object_chat);
         //ImageView secondObjectChat = (ImageView) convertView.findViewById(R.id.second_object_chat);
         //ImageView thirdObjectChat = (ImageView) convertView.findViewById(R.id.third_object_chat);
 
         contactName.setText(chat.getInterlocutorName());
+
+        if (messages.size() > 0) {
+            Message lastMessage = null;
+            for (int i = 0; i < messages.size(); i++) {
+                if (messages.get(i).getChatId() == chat.getServerId()) {
+                    lastMessage = messages.get(i);
+                    break;
+                }
+            }
+
+            if (lastMessage != null) {
+                lastMessageInChat.setText(lastMessage.getText());
+            }
+
+        }
 
         /*
         // Se asignan las imágenes al chat.

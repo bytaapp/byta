@@ -16,6 +16,7 @@
 
     <!-- Texto que avisa de que no hay chats. -->
 
+    <!-- PROBLEMAS DE MEMORIA. SE QUITA LA IMAGEN PROVISIONALMENTE
 
     <ImageView
         android:id="@+id/sorry"
@@ -24,6 +25,8 @@
         android:layout_height="@dimen/img_width_height"
         android:layout_marginTop="60dp"
         android:src="@drawable/nochat" />
+
+    -->
 
     <TextView
         android:id="@+id/no_chat"

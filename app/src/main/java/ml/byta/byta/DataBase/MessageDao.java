@@ -13,6 +13,10 @@ public interface MessageDao {
     @Query("SELECT * FROM message")
     List<Message> getAllMessages();
 
+    // Selecciona todos los mensajes ordenados de más recientes a más antiguos.
+    @Query("SELECT * FROM message ORDER BY timestamp DESC")
+    List<Message> getAllMessagesNewestFirst();
+
     // Selecciona un mensaje por su ID.
     @Query("SELECT * FROM message WHERE id = :id LIMIT 1")
     Message getById(int id);
@@ -30,7 +34,7 @@ public interface MessageDao {
     List<Message> getByAuthorIdInChat(int chatId, int authorId);
 
     // Selecciona el último mensaje de un chat por el ID del chat.
-    @Query("SELECT * FROM message WHERE chat_id = :id ORDER BY id DESC LIMIT 1")
+    @Query("SELECT * FROM message WHERE chat_id = :id ORDER BY timestamp DESC LIMIT 1")
     Message getLastMessageFromChat(int id);
 
     // Selecciona un mensaje por su ID en el servidor.

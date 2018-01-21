@@ -16,6 +16,7 @@ import java.util.List;
 import ml.byta.byta.Adapters.ChatAdapter;
 import ml.byta.byta.DataBase.Chat;
 import ml.byta.byta.DataBase.Database;
+import ml.byta.byta.DataBase.Message;
 import ml.byta.byta.EventListeners.ChatListItemClickListener;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ChatListHandler;
@@ -39,21 +40,22 @@ public class ChatListActivity extends AppCompatActivity {
         noChatsText = (TextView) findViewById(R.id.no_chat);
 
         // Se selecciona la ImageView que indica que no hay chats.
-        noChatsImage = (ImageView) findViewById(R.id.sorry);
+        //noChatsImage = (ImageView) findViewById(R.id.sorry);
 
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
                 List<Chat> chats = Database.db.chatDao().getAllChats();
+                List<Message> messages = Database.db.messageDao().getAllMessagesNewestFirst();
 
                 if (chats != null) {    // Hay chats almacenados.
 
                     chatList.setVisibility(View.VISIBLE);
                     noChatsText.setVisibility(View.GONE);
-                    noChatsImage.setVisibility(View.GONE);
+                    //noChatsImage.setVisibility(View.GONE);
 
                     // Se asigna el adaptador a la ListView.
-                    chatList.setAdapter(new ChatAdapter(ChatListActivity.this, chats));
+                    chatList.setAdapter(new ChatAdapter(ChatListActivity.this, chats, messages));
 
                     // Listener para abrir cada chat.
                     chatList.setOnItemClickListener(new ChatListItemClickListener(ChatListActivity.this, chats));
@@ -62,7 +64,7 @@ public class ChatListActivity extends AppCompatActivity {
 
                     chatList.setVisibility(View.GONE);
                     noChatsText.setVisibility(View.VISIBLE);
-                    noChatsImage.setVisibility(View.VISIBLE);
+                    //noChatsImage.setVisibility(View.VISIBLE);
 
                 }
             }

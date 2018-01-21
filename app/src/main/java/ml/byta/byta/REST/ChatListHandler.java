@@ -46,7 +46,7 @@ public class ChatListHandler extends AsyncHttpResponseHandler {
         text = (TextView) activity.findViewById(R.id.no_chat);
 
         // Se selecciona la ImageView que indica que no hay chats.
-        im = (ImageView) activity.findViewById(R.id.sorry);
+        //im = (ImageView) activity.findViewById(R.id.sorry);
 
         if (response.getChats().size() == 0) {
             // Se indica al usuario que no hay chats.
