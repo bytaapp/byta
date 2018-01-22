@@ -1468,6 +1468,50 @@ public class ClasePeticionRest {
         }
 
 
+
+
+    public static class NotificarMensaje extends AsyncTask<String, String, String> {
+
+        String funcionAPI = "chat_notification";
+
+        ArrayList<KeyValue> parametros = new ArrayList<>();
+        Activity activity;
+
+
+        public NotificarMensaje(Activity activity, int chatId, int authorId, String mensaje) {
+
+            Log.d("match","entro");
+            this.activity = activity;
+            parametros.add(new KeyValue("chatId", chatId +""));
+            parametros.add(new KeyValue("authorId", authorId +""));
+            parametros.add(new KeyValue("mensaje", mensaje +""));
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String token = null;
+
+            ArrayList<KeyValue> respuesta = peticionRest(parametros, funcionAPI, "get");
+
+            return token;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+        }
+
+
+    }
+
+
+
+
+
+
+
         /******************************************/
        /*                                        */
       /*    CLASES INÚTILES (POR EL MOMENTO)    */

@@ -2,6 +2,7 @@ package ml.byta.byta.EventListeners;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import java.util.Date;
 
 import cz.msebera.android.httpclient.entity.StringEntity;
 import ml.byta.byta.DataBase.Message;
+import ml.byta.byta.REST.ClasePeticionRest;
 import ml.byta.byta.REST.SendNewMessageToChatHandler;
 import ml.byta.byta.Server.Requests.SendNewMessageToChatRequest;
 
@@ -58,6 +60,8 @@ public class SendMessageToChatClickListener implements View.OnClickListener {
                     "application/json",
                     new SendNewMessageToChatHandler(activity, keyboard, messagesList, message)
             );
+
+            new ClasePeticionRest.NotificarMensaje(this.activity,chatId,settings.getInt("userID", 0), keyboard.getText().toString()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
 
             Log.d("Main", "-------------------------------------------------------------------");
