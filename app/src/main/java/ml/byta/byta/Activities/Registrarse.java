@@ -11,13 +11,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
+import ml.byta.byta.Server.Handlers.SignInHandler;
 import ml.byta.byta.Tools.GetLocation;
 
 public class Registrarse extends AppCompatActivity {
 
-    GetLocation location = new GetLocation();
+    GetLocation ubicacion = new GetLocation();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,43 +41,38 @@ public class Registrarse extends AppCompatActivity {
 
     public void clickRegistrarse(View view){
 
-        EditText edit = (EditText)findViewById(R.id.editText);
-        EditText edit2 = (EditText)findViewById(R.id.editText2);
-        EditText edit3 = (EditText)findViewById(R.id.editText3);
-        EditText edit4 = (EditText)findViewById(R.id.editText4);
-        EditText edit5 = (EditText)findViewById(R.id.editText5);
+        EditText nameEditText = (EditText)findViewById(R.id.editText);
+        EditText surnameEditText = (EditText)findViewById(R.id.editText2);
+        EditText emailEditText = (EditText)findViewById(R.id.editText3);
+        EditText passwordEditText = (EditText)findViewById(R.id.editText4);
+        EditText confirmPasswordEditText = (EditText)findViewById(R.id.editText5);
 
-        String nombre = edit.getText().toString();
-        String apellidos = edit2.getText().toString();
-        String email = edit3.getText().toString();
-        String pass = edit4.getText().toString();
-        String pass2 = edit5.getText().toString();
-        String ubicacion = location.getCoords(this);
-        String metodo = "email";
+        String name = nameEditText.getText().toString();
+        String surname = surnameEditText.getText().toString();
+        String email = emailEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        String confirmedPassword = confirmPasswordEditText.getText().toString();
+        String location = ubicacion.getCoords(this);
 
-        if (ubicacion != null){
-            if (esMailValido(email) && !pass.equals("")) {
-                if (pass.equals(pass2)) {
+        if (location != null){
+            if (esMailValido(email) && !password.equals("")) {
+                if (password.equals(confirmedPassword)) {
 
                     // TODO: AQUÍ HACER PETICIÓN AL SERVIDOR PARA REGISTRAR EL USUARIO
-
-                    // Se almacena la info en SharedPreferences.
-                    SharedPreferences settings = getSharedPreferences("Config", 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("name", nombre);
-                    editor.putString("surname", apellidos);
-                    editor.putString("email", email);
-                    editor.putString("password", pass);
-                    editor.putString("location", ubicacion);
-                    editor.putString("method", metodo);
-                    editor.commit();
+                    AsyncHttpClient client = new AsyncHttpClient();
+                    client.get(
+                            this,
+                            "https://byta.ml/apiV2/registrar.php?nombre=" + name + "&apellidos=" + surname
+                                    + "&email=" + email + "&password=" + password + "&ubicacion=" + location,
+                            new SignInHandler(this, name, surname, email, password, location)
+                    );
 
                 } else {
                     Toast toastPassMal = Toast.makeText(getApplicationContext(), getString(R.string.toastPassMal), Toast.LENGTH_LONG);
                     toastPassMal.show();
                 }
             } else {
-                if (pass.equals("")) {
+                if (password.equals("")) {
                     Toast toastMailMalo = Toast.makeText(getApplicationContext(), "El campo contraseña no puede estar vacío", Toast.LENGTH_LONG);
                     toastMailMalo.show();
                 } else {
