@@ -135,7 +135,7 @@ public class MisLikes extends AppCompatActivity {
         Bitmap bitmap = null;
 
         try {
-            bitmap = BitmapFactory.decodeStream(new URL("https://byta.ml/api/img/fotos_objetos/" + id + ".jpg").openStream());
+            bitmap = BitmapFactory.decodeStream(new URL("https://byta.ml/api/img/miniaturas_objetos/" + id + ".jpg").openStream());
         } catch (IOException e) {
             e.printStackTrace();
         }

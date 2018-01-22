@@ -120,11 +120,11 @@ public class Tutorial extends AppCompatActivity {
 
 
         SharedPreferences settings = getSharedPreferences("Config", 0);
-        boolean sesion = settings.getBoolean("sesion",false);
+        String sesion = settings.getString("sessionID","");
 
         Log.d("etiqueta", String.valueOf(sesion));
 
-        if (sesion) {
+        if (sesion!="" | !sesion.isEmpty()) {
             startActivity(new Intent(Tutorial.this, UsuarioRegistrado.class));
             finish();
         }else{

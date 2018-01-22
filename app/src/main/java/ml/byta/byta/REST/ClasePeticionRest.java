@@ -951,6 +951,7 @@ public class ClasePeticionRest {
 
                 Gson gson = new Gson();
                 Objeto[] objetos = gson.fromJson(result.get(1).getValue(), Objeto[].class);
+                ListadoObjetos.productos.clear();
                 for (int x = 0; x < objetos.length; x++){
                     new CargarListaObjetos(objetos[x], activity).executeOnExecutor(THREAD_POOL_EXECUTOR);
                 }
