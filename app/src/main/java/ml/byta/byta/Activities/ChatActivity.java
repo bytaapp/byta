@@ -51,6 +51,9 @@ public class ChatActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         chatId = bundle.getInt("chatID");
 
+        showMessages();
+
+        /*
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -76,6 +79,9 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+        */
+
+        sendButton.setOnClickListener(new SendMessageToChatClickListener(this, keyboard, messagesList, chatId));
 
         /*
         AsyncHttpClient client = new AsyncHttpClient();
@@ -96,6 +102,29 @@ public class ChatActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+
+                List<Message> messages = Database.db.messageDao().getByChatId(chatId);
+                Chat chat = Database.db.chatDao().getByServerId(chatId);
+
+                if (chat != null) {     // Hay mensajes almacenados.
+
+                    setTitle(getResources().getString(R.string.chat_with_title) + " " + chat.getInterlocutorName());
+
+                    // Se selecciona la ListView para la lista de mensajes.
+                    messagesList = (ListView) activity.findViewById(R.id.messages_list);
+
+                    // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
+                    if (messages.size() > 11) {
+                        messagesList.setStackFromBottom(true);
+                    }
+
+                    messagesList.setAdapter(new MessageAdapter(ChatActivity.this, messages));
+
+                } else {    // No hay mensajes almacenados.
+
+                }
+
+                /*
                 // Se hace una petición.
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get(
@@ -107,6 +136,7 @@ public class ChatActivity extends AppCompatActivity {
                 handler.postDelayed(this, miliseconds);
 
                 Log.d("Main", "Mensajes pedidos");
+                */
             }
         }, miliseconds);
     }
@@ -117,5 +147,33 @@ public class ChatActivity extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null);
 
         super.onBackPressed();
+    }
+
+    private void showMessages() {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<Message> messages = Database.db.messageDao().getByChatId(chatId);
+                Chat chat = Database.db.chatDao().getByServerId(chatId);
+
+                if (chat != null) {     // Hay mensajes almacenados.
+
+                    setTitle(getResources().getString(R.string.chat_with_title) + " " + chat.getInterlocutorName());
+
+                    // Se selecciona la ListView para la lista de mensajes.
+                    messagesList = (ListView) activity.findViewById(R.id.messages_list);
+
+                    // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
+                    if (messages.size() > 11) {
+                        messagesList.setStackFromBottom(true);
+                    }
+
+                    messagesList.setAdapter(new MessageAdapter(ChatActivity.this, messages));
+
+                } else {    // No hay mensajes almacenados.
+
+                }
+            }
+        });
     }
 }

@@ -55,24 +55,37 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
                 objects.add(object);
             }
 
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Se han recibido " + response.getObjects().size() + " objetos del servidor");
+            Log.d("Main", "-------------------------------------------------------------------");
+
             // Se almacenan los objetos recibidos en la base de datos local.
             Database.db.objectDao().insertObjects(objects);
 
-            // Se abre la activity "UsuarioRegistrado" y se cierra la activity anterior.
-            Intent intent = new Intent(splashActivity, UsuarioRegistrado.class);
-            splashActivity.startActivity(intent);
-            splashActivity.finish();
+            List<Object> objectsFromDB = Database.db.objectDao().getAllObjects();
+
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Ahora hay " + objectsFromDB.size() + " en la BD local");
+            Log.d("Main", "-------------------------------------------------------------------");
 
         } else {
             // TODO: ¿Qué hacer aquí? La respuesta no es correcta o no se han enviado objetos.
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "La respuesta no es correcta o no se han enviado objetos");
+            Log.d("Main", "-------------------------------------------------------------------");
         }
+
+        // Se abre la activity "UsuarioRegistrado" y se cierra la activity anterior.
+        Intent intent = new Intent(splashActivity, UsuarioRegistrado.class);
+        splashActivity.startActivity(intent);
+        splashActivity.finish();
     }
 
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
         // TODO: TRATAR EL FALLO, ¿CÓMO?
         Log.d("Main", "-------------------------------------------------------------------");
-        Log.d("Main", "ERROR --> Ha entrado en onFailure");
+        Log.d("Main", "ERROR --> Ha entrado en onFailure al pedir objetos");
         Log.d("Main", "Código de error --> " + statusCode);
         Log.d("Main", "Throwable error --> " + error);
         Log.d("Main", "-------------------------------------------------------------------");

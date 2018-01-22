@@ -47,6 +47,10 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
         LoginResponse response = gson.fromJson(new String(responseBody), LoginResponse.class);
 
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "Respuesta del servidor --> " + gson.toJson(response));
+        Log.d("Main", "-------------------------------------------------------------------");
+
         if (response.isOk()) {  // Login con éxito.
 
             // Se almacena la info en SharedPreferences.
@@ -118,6 +122,10 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
     @Override
     public void getObjectsLogged() {
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "Se han pedido objetos");
+        Log.d("Main", "-------------------------------------------------------------------");
+
         // Se selecciona el último objeto almacenado por su timestamp.
         Object lastObjectInTime = Database.db.objectDao().getLastObjectInTime();
 
