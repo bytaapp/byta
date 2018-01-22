@@ -21,6 +21,7 @@ import java.util.List;
 
 import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.DataBase.Object;
+import ml.byta.byta.EventListeners.DeleteFromMisLikesListener;
 import ml.byta.byta.EventListeners.DislikeObjectClickListener;
 import ml.byta.byta.EventListeners.SuperlikeObjectClickListener;
 import ml.byta.byta.R;
@@ -93,7 +94,7 @@ public class MisLikes extends AppCompatActivity {
                     // Listener para los botones "dislike" y "superlike".
                     Object object = likedObjects.get(x);
                     superlike.setOnClickListener(new SuperlikeObjectClickListener(object));
-                    dislike.setOnClickListener(new DislikeObjectClickListener(object));
+                    dislike.setOnClickListener(new DeleteFromMisLikesListener(object,activity));
 
                     //Añadimos los botones
                     botones.addView(dislike,width/9,width/9);
