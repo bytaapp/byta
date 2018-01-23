@@ -17,10 +17,12 @@ import com.google.android.flexbox.FlexboxLayout;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.DataBase.Object;
+import ml.byta.byta.DataBase.SuperlikedObject;
 import ml.byta.byta.EventListeners.DeleteFromMisLikesListener;
 import ml.byta.byta.EventListeners.DislikeObjectClickListener;
 import ml.byta.byta.EventListeners.SuperlikeObjectClickListener;
@@ -62,22 +64,42 @@ public class MisLikes extends AppCompatActivity {
             @Override
             protected List<Object> doInBackground(Void... params) {
                 List<Object> likedObjects = Database.db.objectDao().getAllViewed();
-                return likedObjects;
+                List<SuperlikedObject> superlikedObjects = Database.db.superlikedObjectDao().getAllObjects();
+
+                List<Object> likedObjectsToShow = new ArrayList<>();
+
+                for (int i = 0; i < likedObjects.size(); i++) {
+
+                    int count = 0;
+
+                    for (int j = 0; j < superlikedObjects.size(); j++) {
+                        if (likedObjects.get(i).getServerId() == superlikedObjects.get(j).getServerId()) {
+                            count++;
+                        }
+                    }
+
+                    if (count == 0) {   // El objeto likedObjects.get(i) no tiene superlike.
+                        likedObjectsToShow.add(likedObjects.get(i));
+                    }
+
+                }
+
+                return likedObjectsToShow;
             }
 
 
-            protected void onPostExecute(final List<Object> likedObjects) {
+            protected void onPostExecute(final List<Object> likedObjectsToShow) {
 
                 //Log.d("liked", String.valueOf(likedObjects.size()));
-                Log.d("liked", "Me han gustado " + likedObjects.size() + " objetos");
+                Log.d("liked", "Me han gustado " + likedObjectsToShow.size() + " objetos");
 
                 FlexboxLayout flex = (FlexboxLayout) findViewById(R.id.likedimages);
-                for(int x=0;x<likedObjects.size();x++) {
+                for(int x=0;x<likedObjectsToShow.size();x++) {
                     //Creamos un LinearLayout
                     LinearLayout linearLayout = new LinearLayout(activity);
                     //Y un imageview que irá dentro
                     ImageView image = new ImageView(MisLikes.this);
-                    image.setImageBitmap(loadImage(likedObjects.get(x).getServerId()));
+                    image.setImageBitmap(loadImage(likedObjectsToShow.get(x).getServerId()));
 
                     //También otro linearlayout que incluirá los botones
                     LinearLayout botones = new LinearLayout(MisLikes.this);
@@ -92,7 +114,7 @@ public class MisLikes extends AppCompatActivity {
                     dislike.setImageResource(R.drawable.x_icon);
 
                     // Listener para los botones "dislike" y "superlike".
-                    Object object = likedObjects.get(x);
+                    Object object = likedObjectsToShow.get(x);
                    // superlike.setOnClickListener(new SuperlikeObjectClickListener(object));
                     dislike.setOnClickListener(new DeleteFromMisLikesListener(object,activity));
 

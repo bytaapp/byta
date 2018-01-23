@@ -13,23 +13,23 @@ public interface SuperlikedObjectDao {
 
     // Selecciona todos los objetos.
     @Query("SELECT * FROM SuperlikedObject")
-    List<Object> getAllObjects();
+    List<SuperlikedObject> getAllObjects();
 
     // Selecciona un objeto por su ID.
     @Query("SELECT * FROM SuperlikedObject WHERE id = :id LIMIT 1")
-    Object getById(int id);
+    SuperlikedObject getById(int id);
 
     // Selecciona un objeto por el ID de su dueño.
     @Query("SELECT * FROM SuperlikedObject WHERE owner_id = :id LIMIT 1")
-    Object getByOwnerId(int id);
+    SuperlikedObject getByOwnerId(int id);
 
     // Selecciona un objeto por el ID del objeto en el servidor.
     @Query("SELECT * FROM SuperlikedObject WHERE server_id = :id LIMIT 1")
-    Object getByServerId(int id);
+    SuperlikedObject getByServerId(int id);
 
     // Selecciona el último objeto almacenado por su timestamp.
     @Query("SELECT * FROM SuperlikedObject ORDER BY timestamp DESC LIMIT 1")
-    Object getLastObjectInTime();
+    SuperlikedObject getLastObjectInTime();
 
     // Inserta un nuevo objeto.
     @Insert

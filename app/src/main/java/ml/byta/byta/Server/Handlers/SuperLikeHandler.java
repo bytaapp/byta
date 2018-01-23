@@ -56,6 +56,8 @@ public class SuperLikeHandler extends AsyncHttpResponseHandler implements Reques
 
                             // Se almacena el superlike en la base de datos local.
                             Object object = Database.db.objectDao().getByServerId(idObjeto);
+                            object.setViewed(true);
+                            Database.db.objectDao().update(object);
                             SuperlikedObject slo = new SuperlikedObject(object.getDescription(), object.isViewed(), object.getLocation(), object.getTimestamp(), object.getOwnerId(), object.getServerId());
                             Database.db.superlikedObjectDao().insert(slo);
 
