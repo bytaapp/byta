@@ -42,7 +42,7 @@ public class SuperLikeHandler extends AsyncHttpResponseHandler implements Reques
         Gson gson = new Gson();
 
         final SharedPreferences settings = activity.getSharedPreferences("Config", 0);
-       final SharedPreferences.Editor editor = settings.edit();
+        final SharedPreferences.Editor editor = settings.edit();
 
         Log.d("etiqueta", new String(responseBody));
 
@@ -54,9 +54,14 @@ public class SuperLikeHandler extends AsyncHttpResponseHandler implements Reques
                 @Override
                 public void run() {
 
+                            // Se almacena el superlike en la base de datos local.
                             Object object = Database.db.objectDao().getByServerId(idObjeto);
-                            SuperlikedObject slo = new SuperlikedObject(object.getDescription(),object.isViewed(), object.getLocation(), object.getTimestamp(), object.getOwnerId(), object.getServerId());
+                            SuperlikedObject slo = new SuperlikedObject(object.getDescription(), object.isViewed(), object.getLocation(), object.getTimestamp(), object.getOwnerId(), object.getServerId());
                             Database.db.superlikedObjectDao().insert(slo);
+
+                            editor.putString("superLike", "no");
+                            editor.commit();
+
                             //Database.db.objectDao().update(object);
                              getChatsAndMessages();
                         }
