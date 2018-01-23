@@ -49,6 +49,7 @@ import ml.byta.byta.Adapters.AdapterProductos;
 import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.EventListeners.ClickBotonesSwipe;
+import ml.byta.byta.EventListeners.SuperlikeObjectClickListener;
 import ml.byta.byta.EventListeners.SwipeStackCardListener;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
@@ -213,6 +214,8 @@ public class UsuarioRegistrado extends AppCompatActivity
 
         findViewById(R.id.BotonX).setOnClickListener(new ClickBotonesSwipe(this, false));
         findViewById(R.id.BotonTick).setOnClickListener(new ClickBotonesSwipe(this, true));
+        findViewById(R.id.Botonsuper).setOnClickListener(new ClickBotonesSwipe(this, true, 1));
+        //findViewById(R.id.Botonsuper).setOnClickListener(new SuperlikeObjectClickListener(this, productos.get(0).getId()));
 
     }
 

@@ -25,6 +25,7 @@ import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
+import ml.byta.byta.Server.Handlers.SuperLikeHandler;
 import ml.byta.byta.Server.Handlers.SwipesHandler;
 
 public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
@@ -83,7 +84,7 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
             activity.startActivity(intent);
             activity.finish();
 
-        } else {    // Usuario registrado.
+        } else if (settings.getString("superLIKE", "").equals("no")){    // Usuario registrado. No es súper like.
 
             // Se notifica al servidor.
             AsyncHttpClient client = new AsyncHttpClient();
@@ -92,6 +93,25 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
                     "https://byta.ml/apiV2/gestionar_objetos.php?modo=swipe&decision=true&id_objeto=" + id + "&sessionID=" + settings.getString("sessionID", ""),
                     new SwipesHandler(true, id)
             );
+
+        } else if (settings.getString("superLike", "").equals("si")){
+
+            Log.d("etiqueta","es súper like");
+
+
+            // Se notifica al servidor.
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(
+                    activity,
+                    "https://byta.ml/apiV2/gestionar_objetos.php?sessionID="+settings.getString("sessionID","")+"&modo=superLike&id_objeto="+
+                            id, new SuperLikeHandler(activity, id)
+            );
+
+
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("superLike", "no");
+            editor.commit();
 
         }
 

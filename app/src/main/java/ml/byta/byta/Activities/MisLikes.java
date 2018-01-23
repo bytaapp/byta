@@ -93,7 +93,7 @@ public class MisLikes extends AppCompatActivity {
 
                     // Listener para los botones "dislike" y "superlike".
                     Object object = likedObjects.get(x);
-                    superlike.setOnClickListener(new SuperlikeObjectClickListener(object));
+                   // superlike.setOnClickListener(new SuperlikeObjectClickListener(object));
                     dislike.setOnClickListener(new DeleteFromMisLikesListener(object,activity));
 
                     //Añadimos los botones

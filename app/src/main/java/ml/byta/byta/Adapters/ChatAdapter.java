@@ -76,7 +76,10 @@ public class ChatAdapter extends BaseAdapter {
 
         if (lastMessages.size() > 0 && position < lastMessages.size()) {
             Message lastMessage = lastMessages.get(position);
-            lastMessageInChat.setText(lastMessage.getText());
+            if (lastMessage!=null){
+                lastMessageInChat.setText(lastMessage.getText());
+            }
+
         }
 
         /*
