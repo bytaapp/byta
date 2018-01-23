@@ -1,6 +1,7 @@
 package ml.byta.byta.Adapters;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +63,7 @@ public class AdapterListadoObjetos extends BaseAdapter {
         Producto producto = getItem(i);
 
         auxProducto.descripcionProducto.setText(producto.getDescription());
-        auxProducto.miniatura.setImageBitmap(producto.getBitmap());
+        auxProducto.miniatura.setImageBitmap(Bitmap.createScaledBitmap(producto.getBitmap(),810,1080,false));
         auxProducto.delete.setOnClickListener(new BorrarObjeto(activity, producto));
 
         return view;

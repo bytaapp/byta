@@ -67,10 +67,10 @@ public class AdapterProductos extends BaseAdapter {
 
         if (producto.getBitmap() == null) {
 
-            image.setImageBitmap(loadImage(producto.getId()));
+            image.setImageBitmap(Bitmap.createScaledBitmap(loadImage(producto.getId()),810,1080,false));
 
         } else {
-            image.setImageBitmap(producto.getBitmap());
+            image.setImageBitmap(Bitmap.createScaledBitmap(producto.getBitmap(),810,1080,false));
         }
 
         TextView description = activity.findViewById(R.id.DescripcionCarta);
