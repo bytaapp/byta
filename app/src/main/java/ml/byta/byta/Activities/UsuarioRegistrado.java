@@ -118,11 +118,11 @@ public class UsuarioRegistrado extends AppCompatActivity
                 SwipeStack swipeStack= (SwipeStack) findViewById(R.id.pila_cartas);
 
                 // Se extraen los objetos de la base de datos.
-                List<Object> objectsFromDB = Database.db.objectDao().getAllObjects();
+                List<Object> objectsFromDB = Database.db.objectDao().getAllNotViewed();
 
                 if (objectsFromDB != null) {    // Hay objetos en la base de datos.
 
-                    List<Producto> productos = new ArrayList<>();
+                    productos = new ArrayList<>();
 
                     Producto producto;
 
@@ -147,9 +147,6 @@ public class UsuarioRegistrado extends AppCompatActivity
                             adapterProductos.notifyDataSetChanged();
                         }
                     });
-
-                    TextView textView = findViewById(R.id.DescripcionCarta);
-                    //textView.setText(productos.get(0).getDescription());
 
                 } else {
                     getObjectsLogged();
@@ -330,21 +327,6 @@ public class UsuarioRegistrado extends AppCompatActivity
     }
 
 
-    /*
-    @Override
-    protected void onResume() {
-        super.onResume();
-        SharedPreferences settings = getSharedPreferences("Config", 0);
-        if (settings.getString("rewind", "").equals("rewind")) {
-            recreate();
-            Log.d("Main", "Recreada la actividad UsuarioRegistrado");
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putString("rewind", "");
-            editor.commit();
-        }
-    }
-    */
-
     private View.OnClickListener cancel_button_click_listener = new View.OnClickListener() {
         public void onClick(View v) {
             popUpWindow.dismiss();
@@ -414,7 +396,7 @@ public class UsuarioRegistrado extends AppCompatActivity
     @Override
     public void getObjectsLogged() {
         Log.d("Main", "-------------------------------------------------------------------");
-        Log.d("Main", "Se han pedido objetos");
+        Log.d("Main", "Se han pedido objetos en UsuarioRegistrado");
         Log.d("Main", "-------------------------------------------------------------------");
 
         SharedPreferences settings = getSharedPreferences("Config", 0);
@@ -429,6 +411,9 @@ public class UsuarioRegistrado extends AppCompatActivity
 
         // Se comprueba si el objeto extraido de la BD no es null, es decir, si hay objetos almacenados.
         if (lastObjectInTime == null) {
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "lastObjectInTime es NULL");
+            Log.d("Main", "-------------------------------------------------------------------");
             // Timestamp = 0.
             url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=0&sessionID=" +
                     settings.getString("sessionID", "");
@@ -437,7 +422,7 @@ public class UsuarioRegistrado extends AppCompatActivity
                     + "&sessionID=" + settings.getString("sessionID", "");
 
             Log.d("Main", "-------------------------------------------------------------------");
-            Log.d("Main", "Valor de getTimestamp() --> " + lastObjectInTime.getTimestamp());
+            Log.d("Main", "Descripción objeto más reciente --> " + lastObjectInTime.getDescription());
             Log.d("Main", "-------------------------------------------------------------------");
         }
 

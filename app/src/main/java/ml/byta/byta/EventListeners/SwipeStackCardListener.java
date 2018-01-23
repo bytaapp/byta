@@ -84,7 +84,10 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
             activity.startActivity(intent);
             activity.finish();
 
-        } else if (settings.getString("superLike", "").equals("no")){    // Usuario registrado. No es súper like.
+        } else if (!settings.getString("superLike", "").equals("si")){    // Usuario registrado. Es un like, no súper like.
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Has hecho LIKE");
+            Log.d("Main", "-------------------------------------------------------------------");
 
             // Se notifica al servidor.
             AsyncHttpClient client = new AsyncHttpClient();
@@ -95,10 +98,9 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
             );
 
         } else if (settings.getString("superLike", "").equals("si")){   // Usuario registrado. Sí es súper like.
-
-            Log.d("etiqueta","es súper like");
-
-
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Has hecho SUPERLIKE");
+            Log.d("Main", "-------------------------------------------------------------------");
             // Se notifica al servidor.
             AsyncHttpClient client = new AsyncHttpClient();
             client.get(

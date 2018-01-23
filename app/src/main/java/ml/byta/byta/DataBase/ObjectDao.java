@@ -24,8 +24,12 @@ public interface ObjectDao {
     List<Object> getAllViewed();
 
     // Selecciona todos los objetos que no se han visto.
-    @Query("SELECT * FROM object WHERE viewed = 0")
+    @Query("SELECT * FROM object WHERE viewed = 0 ORDER BY timestamp DESC")
     List<Object> getAllNotViewed();
+
+    // Selecciona el último objeto almacenado por su timestamp y que no ha sido visto aún.
+    @Query("SELECT * FROM object WHERE viewed = 0 ORDER BY timestamp DESC LIMIT 1")
+    Object getLastNotViewedObjectInTime();
 
     // Selecciona un objeto por el ID de su dueño.
     @Query("SELECT * FROM object WHERE owner_id = :id LIMIT 1")
@@ -62,6 +66,9 @@ public interface ObjectDao {
     // Elimina un objeto por el ID del objeto en el servidor.
     @Query("DELETE FROM object WHERE server_id = :id")
     void deleteByServerId(int id);
+
+    @Query("DELETE FROM object WHERE viewed = 0")
+    void deleteAllExceptLiked();
 
     // Elimina un objeto pasado como parámetro.
     @Delete

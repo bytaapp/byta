@@ -46,7 +46,7 @@ public class RewindHandler extends AsyncHttpResponseHandler{
                 @Override
                 public void run() {
                     // Se borra la tabla de objetos.
-                    Database.db.objectDao().deleteAllObjects();
+                    Database.db.objectDao().deleteAllExceptLiked();
 
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("restartFromRewind", "yes");

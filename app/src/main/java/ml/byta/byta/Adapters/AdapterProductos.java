@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.net.URL;
@@ -64,7 +65,23 @@ public class AdapterProductos extends BaseAdapter {
 
         SharedPreferences settings = activity.getSharedPreferences("Config", 0);
 
-        if (!settings.getString("sessionID", "").equals("")) {
+        if (producto.getBitmap() == null) {
+
+            image.setImageBitmap(loadImage(producto.getId()));
+
+        } else {
+            image.setImageBitmap(producto.getBitmap());
+        }
+
+        TextView description = activity.findViewById(R.id.DescripcionCarta);
+        //description.setText(producto.getDescription());
+        /*if (this.getItem(position + 2) != null) {
+            description.setText(this.getItem(position + 2).getDescription());
+        }*/
+
+
+        /*
+        if (!settings.getString("sessionID", "").equals("")) {  // Usuario registrado.
             if (producto.getBitmap() == null) {
 
                 image.setImageBitmap(loadImage(producto.getId()));
@@ -72,7 +89,25 @@ public class AdapterProductos extends BaseAdapter {
             } else {
                 image.setImageBitmap(producto.getBitmap());
             }
+
+            TextView description = activity.findViewById(R.id.DescripcionCarta);
+            description.setText(producto.getDescription());
+
+        } else {    // Usuario no registrado.
+
+            if (producto.getBitmap() == null) {
+
+                image.setImageBitmap(loadImage(producto.getId()));
+
+            } else {
+                image.setImageBitmap(producto.getBitmap());
+            }
+
+            TextView description = activity.findViewById(R.id.DescripcionCarta);
+            description.setText(producto.getDescription());
+
         }
+        */
 
         return convertView;
 

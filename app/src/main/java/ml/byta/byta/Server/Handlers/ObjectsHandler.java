@@ -53,8 +53,7 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
         ObjectsResponse response = gson.fromJson(new String(responseBody), ObjectsResponse.class);
 
         Log.d("Main", "-------------------------------------------------------------------");
-        Log.d("Main", "Se han pedido objetos");
-        Log.d("Main", "Respuesta del servidor --> " + gson.toJson(response));
+        Log.d("Main", "Respuesta del servidor al pedir objetos --> " + gson.toJson(response));
         Log.d("Main", "-------------------------------------------------------------------");
 
         if (response.isOk()) {

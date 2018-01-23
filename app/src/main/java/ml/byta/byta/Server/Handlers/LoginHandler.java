@@ -48,6 +48,11 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         Gson gson = new Gson();
 
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "Respuesta del servidor --> " + new String(responseBody));
+        Log.d("Main", "-------------------------------------------------------------------");
+
+
         LoginResponse response = gson.fromJson(new String(responseBody), LoginResponse.class);
 
         Log.d("Main", "-------------------------------------------------------------------");
@@ -125,11 +130,12 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
     @Override
     public void getObjectsLogged() {
         Log.d("Main", "-------------------------------------------------------------------");
-        Log.d("Main", "Se han pedido objetos");
+        Log.d("Main", "Se han pedido objetos desde LoginHandler");
         Log.d("Main", "-------------------------------------------------------------------");
 
         // Se selecciona el último objeto almacenado por su timestamp.
-        Object lastObjectInTime = Database.db.objectDao().getLastObjectInTime();
+        //Object lastObjectInTime = Database.db.objectDao().getLastObjectInTime();
+        Object lastObjectInTime = Database.db.objectDao().getLastNotViewedObjectInTime();
 
         // Se hace una petición síncrona porque ya se hace en un hilo independiente.
         SyncHttpClient client = new SyncHttpClient();
@@ -138,6 +144,9 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
         // Se comprueba si el objeto extraido de la BD no es null, es decir, si hay objetos almacenados.
         if (lastObjectInTime == null) {
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "lastObjectInTime es NULL");
+            Log.d("Main", "-------------------------------------------------------------------");
             // Timestamp = 0.
             url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=0&sessionID=" +
                     settings.getString("sessionID", "");
@@ -146,7 +155,7 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
                     + "&sessionID=" + settings.getString("sessionID", "");
 
             Log.d("Main", "-------------------------------------------------------------------");
-            Log.d("Main", "Valor de getTimestamp() --> " + lastObjectInTime.getTimestamp());
+            Log.d("Main", "Descripción objeto más reciente --> " + lastObjectInTime.getDescription());
             Log.d("Main", "-------------------------------------------------------------------");
         }
 

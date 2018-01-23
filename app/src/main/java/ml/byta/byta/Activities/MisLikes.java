@@ -68,21 +68,24 @@ public class MisLikes extends AppCompatActivity {
 
                 List<Object> likedObjectsToShow = new ArrayList<>();
 
-                for (int i = 0; i < likedObjects.size(); i++) {
+                if (likedObjects != null && superlikedObjects != null) {
+                    for (int i = 0; i < likedObjects.size(); i++) {
 
-                    int count = 0;
+                        int count = 0;
 
-                    for (int j = 0; j < superlikedObjects.size(); j++) {
-                        if (likedObjects.get(i).getServerId() == superlikedObjects.get(j).getServerId()) {
-                            count++;
+                        for (int j = 0; j < superlikedObjects.size(); j++) {
+                            if (likedObjects.get(i).getServerId() == superlikedObjects.get(j).getServerId()) {
+                                count++;
+                            }
                         }
-                    }
 
-                    if (count == 0) {   // El objeto likedObjects.get(i) no tiene superlike.
-                        likedObjectsToShow.add(likedObjects.get(i));
-                    }
+                        if (count == 0) {   // El objeto likedObjects.get(i) no tiene superlike.
+                            likedObjectsToShow.add(likedObjects.get(i));
+                        }
 
+                    }
                 }
+
 
                 return likedObjectsToShow;
             }
