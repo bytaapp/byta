@@ -4,9 +4,12 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +28,18 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.loopj.android.http.AsyncHttpClient;
+
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 
+import link.fls.swipestack.SwipeStack;
 import ml.byta.byta.EventListeners.ClickBotonesSwipe;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
+import ml.byta.byta.Server.Handlers.ObjectsHandler;
 import ml.byta.byta.Tools.Connectivity;
 import pl.droidsonroids.gif.GifImageView;
 
@@ -59,6 +68,10 @@ public class UsuarioNoRegistrado extends AppCompatActivity
         //String coor=location.getCoords(this);
 
 
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "Ha entrado en la activity UsuarioNoRegistrado");
+        Log.d("Main", "-------------------------------------------------------------------");
+
         // ----------------------  MENÚ LATERAL ----------------------//
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -73,20 +86,28 @@ public class UsuarioNoRegistrado extends AppCompatActivity
 
         // ---------------------- CARGAMOS LAS IMÁGENES ----------------------//
 
-        if (Connectivity.isConnectedFast(this)){
-            new ClasePeticionRest.CogerObjetosAleatoriosInicio(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            text= (TextView) this.findViewById(R.id.no_internet);
+        // Pila de cartas.
+        SwipeStack swipeStack= (SwipeStack) findViewById(R.id.pila_cartas);
+
+        if (Connectivity.isConnectedFast(this)) {
+
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(
+                    this,
+                    "https://byta.ml/apiV2/pedir_objetos.php?modo=aleatorio",
+                    new ObjectsHandler(this, false, swipeStack)
+            );
+            text = (TextView) findViewById(R.id.no_internet);
             text.setVisibility(View.GONE);
-            btn = (Button)this.findViewById(R.id.retrybtn);
+            btn = (Button) findViewById(R.id.retrybtn);
             btn.setVisibility(View.GONE);
 
-        }else{
-            gif= (GifImageView) this.findViewById(R.id.gif30);
+        } else {
+            gif= (GifImageView) findViewById(R.id.gif30);
             gif.setVisibility(View.GONE);
-            img = (ImageView)  this.findViewById(R.id.img50);
+            img = (ImageView) findViewById(R.id.img50);
             img.setImageResource(R.drawable.nointernetconnection);
         }
-
 
         findViewById(R.id.BotonX).setOnClickListener(new ClickBotonesSwipe(this, false));
         findViewById(R.id.BotonTick).setOnClickListener(new ClickBotonesSwipe(this, true));

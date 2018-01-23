@@ -35,67 +35,28 @@ public class ChatActivity extends AppCompatActivity {
     private String receptor;
     private int chatId;
     private ListView messagesList;
-    private Handler handler;            // Se necesita para el hilo de refresco.
-    private Activity activity = this;   // Se necesita para el hilo de refresco.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        handler = new Handler();
-
         keyboard = (EditText) findViewById(R.id.keyboard);
         sendButton = (ImageButton) findViewById(R.id.send_button);
 
+        // Se toma el ID del chat cuya pantalla se ha abierto.
         Bundle bundle = getIntent().getExtras();
         chatId = bundle.getInt("chatID");
 
+        // Se llama al método que muestra los mensajes en pantalla.
         showMessages();
 
-        /*
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                List<Message> messages = Database.db.messageDao().getByChatId(chatId);
-                Chat chat = Database.db.chatDao().getByServerId(chatId);
-
-                if (chat != null) {     // Hay mensajes almacenados.
-
-                    setTitle(getResources().getString(R.string.chat_with_title) + " " + chat.getInterlocutorName());
-
-                    // Se selecciona la ListView para la lista de mensajes.
-                    messagesList = (ListView) activity.findViewById(R.id.messages_list);
-
-                    // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
-                    if (messages.size() > 11) {
-                        messagesList.setStackFromBottom(true);
-                    }
-
-                    messagesList.setAdapter(new MessageAdapter(ChatActivity.this, messages));
-
-                } else {    // No hay mensajes almacenados.
-
-                }
-            }
-        });
-        */
-
+        // Listener para el botón de enviar un nuevo mensaje.
         sendButton.setOnClickListener(new SendMessageToChatClickListener(this, keyboard, messagesList, chatId));
 
-        /*
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(
-                this,
-                "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + id + "/messages",
-                new MessageListHandler(this)
-        );
-
-        sendButton.setOnClickListener(new SendMessageToChatClickListener(this, keyboard, id));
-
         // Se refresca la lista de mensajes cada 3 segundos.
-        refreshMessages(handler, 3000);
-        */
+        //refreshMessages(handler, 3000);
+
     }
 
     private void refreshMessages(final Handler handler, final int miliseconds) {
@@ -111,7 +72,7 @@ public class ChatActivity extends AppCompatActivity {
                     setTitle(getResources().getString(R.string.chat_with_title) + " " + chat.getInterlocutorName());
 
                     // Se selecciona la ListView para la lista de mensajes.
-                    messagesList = (ListView) activity.findViewById(R.id.messages_list);
+                    messagesList = (ListView) findViewById(R.id.messages_list);
 
                     // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
                     if (messages.size() > 11) {
@@ -143,8 +104,7 @@ public class ChatActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        // Se detiene el hilo de ejecución.
-        handler.removeCallbacksAndMessages(null);
+
 
         super.onBackPressed();
     }
@@ -161,7 +121,7 @@ public class ChatActivity extends AppCompatActivity {
                     setTitle(getResources().getString(R.string.chat_with_title) + " " + chat.getInterlocutorName());
 
                     // Se selecciona la ListView para la lista de mensajes.
-                    messagesList = (ListView) activity.findViewById(R.id.messages_list);
+                    messagesList = (ListView) findViewById(R.id.messages_list);
 
                     // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
                     if (messages.size() > 11) {

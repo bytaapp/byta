@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -12,11 +13,13 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
 
 import cz.msebera.android.httpclient.Header;
+import link.fls.swipestack.SwipeStack;
 import ml.byta.byta.Activities.UsuarioNoRegistrado;
 import ml.byta.byta.Activities.UsuarioRegistrado;
 import ml.byta.byta.DataBase.AppDatabase;
 import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.DataBase.Object;
+import ml.byta.byta.R;
 import ml.byta.byta.Server.RequestsToServer;
 import ml.byta.byta.Server.Responses.LoginResponse;
 
@@ -85,14 +88,13 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
         } else {    // El login no ha tenido éxito.
 
-            // Se cargan los objetos.
-            //getObjects();
-
             // Se carga la activity "UsuarioNoRegistrado".
             Intent intent = new Intent(activity, UsuarioNoRegistrado.class);
             activity.startActivity(intent);
-            //activity.finish();
+            activity.finish();
+            Log.d("Main", "-------------------------------------------------------------------");
             Log.d("Main", "Error en la petición: " + response.getError());
+            Log.d("Main", "-------------------------------------------------------------------");
         }
 
     }
@@ -152,7 +154,7 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
         client.get(
                 activity,
                 url,
-                new ObjectsHandler(activity)
+                new ObjectsHandler(activity, true)
         );
 
     }

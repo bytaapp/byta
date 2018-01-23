@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.loopj.android.http.SyncHttpClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,9 +53,11 @@ import ml.byta.byta.EventListeners.SwipeStackCardListener;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
+import ml.byta.byta.Server.Handlers.ObjectsHandler;
+import ml.byta.byta.Server.RequestsToServer;
 
 public class UsuarioRegistrado extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, RequestsToServer {
 
     URL imageUrl;
     TextView txt;
@@ -115,34 +119,41 @@ public class UsuarioRegistrado extends AppCompatActivity
                 // Se extraen los objetos de la base de datos.
                 List<Object> objectsFromDB = Database.db.objectDao().getAllObjects();
 
-                List<Producto> productos = new ArrayList<>();
+                if (objectsFromDB != null) {    // Hay objetos en la base de datos.
 
-                Producto producto;
+                    List<Producto> productos = new ArrayList<>();
 
-                for (int i = 0; i < objectsFromDB.size(); i++) {
-                    producto = new Producto(
-                            objectsFromDB.get(i).getDescription(),
-                            objectsFromDB.get(i).getLocation(),
-                            objectsFromDB.get(i).getServerId()
-                    );
+                    Producto producto;
 
-                    productos.add(producto);
+                    for (int i = 0; i < objectsFromDB.size(); i++) {
+                        producto = new Producto(
+                                objectsFromDB.get(i).getDescription(),
+                                objectsFromDB.get(i).getLocation(),
+                                objectsFromDB.get(i).getServerId()
+                        );
+
+                        productos.add(producto);
+                    }
+
+                    adapterProductos = new AdapterProductos(UsuarioRegistrado.this, productos);
+
+                    swipeStack.setAdapter(adapterProductos);
+                    swipeStack.setListener(new SwipeStackCardListener(UsuarioRegistrado.this, productos));
+
+                    UsuarioRegistrado.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            adapterProductos.notifyDataSetChanged();
+                        }
+                    });
+
+                    TextView textView = findViewById(R.id.DescripcionCarta);
+                    //textView.setText(productos.get(0).getDescription());
+
+                } else {
+                    getObjectsLogged();
                 }
 
-                adapterProductos = new AdapterProductos(UsuarioRegistrado.this, productos);
-
-                swipeStack.setAdapter(adapterProductos);
-                swipeStack.setListener(new SwipeStackCardListener(UsuarioRegistrado.this, productos));
-
-                UsuarioRegistrado.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapterProductos.notifyDataSetChanged();
-                    }
-                });
-
-                TextView textView = findViewById(R.id.DescripcionCarta);
-                //textView.setText(productos.get(0).getDescription());
 
             }
         });
@@ -293,6 +304,44 @@ public class UsuarioRegistrado extends AppCompatActivity
         return true;
     }
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        SharedPreferences settings = getSharedPreferences("Config", 0);
+        SharedPreferences.Editor editor = settings.edit();
+
+        if (settings.getString("restartFromRewind","").equals("yes")) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    getObjectsLogged();
+                }
+            });
+        }
+
+        editor.putString("restartFromRewind", "no");
+        editor.commit();
+
+    }
+
+
+    /*
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences settings = getSharedPreferences("Config", 0);
+        if (settings.getString("rewind", "").equals("rewind")) {
+            recreate();
+            Log.d("Main", "Recreada la actividad UsuarioRegistrado");
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString("rewind", "");
+            editor.commit();
+        }
+    }
+    */
+
     private View.OnClickListener cancel_button_click_listener = new View.OnClickListener() {
         public void onClick(View v) {
             popUpWindow.dismiss();
@@ -354,4 +403,46 @@ public class UsuarioRegistrado extends AppCompatActivity
         this.productos = productos;
     }
 
+    @Override
+    public void getChatsAndMessages() {
+
+    }
+
+    @Override
+    public void getObjectsLogged() {
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "Se han pedido objetos");
+        Log.d("Main", "-------------------------------------------------------------------");
+
+        SharedPreferences settings = getSharedPreferences("Config", 0);
+
+        // Se selecciona el último objeto almacenado por su timestamp.
+        Object lastObjectInTime = Database.db.objectDao().getLastObjectInTime();
+
+        // Se hace una petición síncrona porque ya se hace en un hilo independiente.
+        SyncHttpClient client = new SyncHttpClient();
+
+        String url = "";
+
+        // Se comprueba si el objeto extraido de la BD no es null, es decir, si hay objetos almacenados.
+        if (lastObjectInTime == null) {
+            // Timestamp = 0.
+            url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=0&sessionID=" +
+                    settings.getString("sessionID", "");
+        } else {
+            url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=" + lastObjectInTime.getTimestamp()
+                    + "&sessionID=" + settings.getString("sessionID", "");
+
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Valor de getTimestamp() --> " + lastObjectInTime.getTimestamp());
+            Log.d("Main", "-------------------------------------------------------------------");
+        }
+
+        // Se hace la petición al servidor.
+        client.get(
+                this,
+                url,
+                new ObjectsHandler(this, true)
+        );
+    }
 }

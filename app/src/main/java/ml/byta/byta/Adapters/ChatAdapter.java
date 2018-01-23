@@ -26,13 +26,13 @@ public class ChatAdapter extends BaseAdapter {
 
     private Activity activity;
     private List<Chat> chats;
-    private List<Message> messages;
+    private List<Message> lastMessages;
     private List<ChatListHandler.ParChatIdBitmap> pares;
 
-    public ChatAdapter(Activity activity, List<Chat> chats, List<Message> messages) {
+    public ChatAdapter(Activity activity, List<Chat> chats, List<Message> lastMessages) {
         this.activity = activity;
         this.chats = chats;
-        this.messages = messages;
+        this.lastMessages = lastMessages;
     }
 
     /*
@@ -74,19 +74,9 @@ public class ChatAdapter extends BaseAdapter {
 
         contactName.setText(chat.getInterlocutorName());
 
-        if (messages.size() > 0) {
-            Message lastMessage = null;
-            for (int i = 0; i < messages.size(); i++) {
-                if (messages.get(i).getChatId() == chat.getServerId()) {
-                    lastMessage = messages.get(i);
-                    break;
-                }
-            }
-
-            if (lastMessage != null) {
-                lastMessageInChat.setText(lastMessage.getText());
-            }
-
+        if (lastMessages.size() > 0 && position < lastMessages.size()) {
+            Message lastMessage = lastMessages.get(position);
+            lastMessageInChat.setText(lastMessage.getText());
         }
 
         /*

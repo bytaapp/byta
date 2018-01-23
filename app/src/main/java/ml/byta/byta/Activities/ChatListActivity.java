@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ml.byta.byta.Adapters.ChatAdapter;
@@ -46,7 +47,12 @@ public class ChatListActivity extends AppCompatActivity {
             @Override
             public void run() {
                 List<Chat> chats = Database.db.chatDao().getAllChats();
-                List<Message> messages = Database.db.messageDao().getAllMessagesNewestFirst();
+                List<Message> lastMessages = new ArrayList<>();
+
+                // "lastMessages" contiene el último mensaje de cada chat del array "chats".
+                for (int i = 0; i < chats.size(); i++) {
+                    lastMessages.add(Database.db.messageDao().getLastMessageFromChat(chats.get(i).getServerId()));
+                }
 
                 if (chats != null) {    // Hay chats almacenados.
 
@@ -55,7 +61,7 @@ public class ChatListActivity extends AppCompatActivity {
                     //noChatsImage.setVisibility(View.GONE);
 
                     // Se asigna el adaptador a la ListView.
-                    chatList.setAdapter(new ChatAdapter(ChatListActivity.this, chats, messages));
+                    chatList.setAdapter(new ChatAdapter(ChatListActivity.this, chats, lastMessages));
 
                     // Listener para abrir cada chat.
                     chatList.setOnItemClickListener(new ChatListItemClickListener(ChatListActivity.this, chats));
@@ -70,23 +76,12 @@ public class ChatListActivity extends AppCompatActivity {
             }
         });
 
+    }
 
-
-        /*
-        // Se hace una petición asíncrona para obtener la lista de chats.
-        AsyncHttpClient client = new AsyncHttpClient();
-
-        // Se toma el ID del usuario.
-        SharedPreferences settings = getSharedPreferences("Config", 0);
-        int id = settings.getInt("id", 0);
-
-        // Se hace la petición al servidor.
-        client.get(
-                this,
-                "https://byta.ml/api/SwappieChat/public/index.php/api/chats/" + id + "",
-                new ChatListHandler(this)
-        );
-        */
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        // Por si se ha escrito algún mensaje, para que salga como último mensaje del chat.
+        recreate();
     }
 }

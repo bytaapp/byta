@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
+import ml.byta.byta.Server.Handlers.SwipesHandler;
 
 public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
@@ -30,8 +33,6 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
     Activity activity;
     int idUsuario;
     SharedPreferences settings;
-
-    final String tag = "swipe";
 
     public SwipeStackCardListener(Activity activity, List<Producto> productos) {
         this.activity = activity;
@@ -44,69 +45,54 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
 
     @Override
     public void onViewSwipedToLeft(int position) {
-        final int idObjeto = productos.get(position).getId();
+        // ID del objeto al que se ha hecho swipe left.
+        int id = productos.get(position).getId();
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                Database.db.objectDao().deleteByServerId(idObjeto);
-            }
-        });
+        if (settings.getString("sessionID", "").equals("")) {   // Usuario no registrado.
 
-        TextView description = activity.findViewById(R.id.DescripcionCarta);
-
-        if (!settings.getString("sessionID", "").equals("")) {
-            new ClasePeticionRest.GuardarSwipe(activity, this.idUsuario, idObjeto, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            if (productos.size() > position + 1){
-                description.setText(productos.get(position + 1).getDescription());
-            }else{
-                description.setText("");
-            }
-        }else{
-            //Log.d("entro", String.valueOf(position));
-            if(position >= 4) {
+            // Si no estás registrado, solo puedes jacer 5 swipes left.
+            if (position >= 4) {
                 Intent intent = new Intent(activity, AvisoIniciarSesion.class);
                 activity.startActivity(intent);
                 activity.finish();
-            }else {
-                new ClasePeticionRest.CogerObjetoAleatorioSwipe(activity).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-                if (productos.size() > position + 1){
-                    description.setText(productos.get(position + 1).getDescription());
-                }else{
-                    description.setText("");
-                }
             }
+
+        } else {    // Usuario registrado.
+
+            // Se notifica al servidor.
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(
+                    activity,
+                    "https://byta.ml/apiV2/gestionar_objetos.php?modo=swipe&decision=false&id_objeto=" + id + "&sessionID=" + settings.getString("sessionID", ""),
+                    new SwipesHandler(false, id)
+            );
+
         }
 
     }
 
     @Override
     public void onViewSwipedToRight(int position) {
-        final int idObjeto = productos.get(position).getId();
+        // ID del objeto al que se ha hecho swipe left.
+        int id = productos.get(position).getId();
 
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                Object object = Database.db.objectDao().getByServerId(idObjeto);
-                object.setViewed(true);
-                Database.db.objectDao().update(object);
-            }
-        });
+        if (settings.getString("sessionID", "").equals("")) {   // Usuario no registrado.
 
-        TextView description = activity.findViewById(R.id.DescripcionCarta);
-
-        if (!settings.getString("sessionID", "").equals("")) {
-            new ClasePeticionRest.GuardarSwipe(activity, this.idUsuario, idObjeto, true).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            if (productos.size() > position + 1){
-                description.setText(productos.get(position + 1).getDescription());
-            }else{
-                description.setText("");
-            }
-        }else{
-            ClasePeticionRest.mostrarCustomToast(activity);
-            Intent intent = new Intent(activity, MainActivity.class);
+            // Si no estás registrado, no puedes hacer swipe right.
+            Intent intent = new Intent(activity, AvisoIniciarSesion.class);
             activity.startActivity(intent);
             activity.finish();
+
+        } else {    // Usuario registrado.
+
+            // Se notifica al servidor.
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get(
+                    activity,
+                    "https://byta.ml/apiV2/gestionar_objetos.php?modo=swipe&decision=true&id_objeto=" + id + "&sessionID=" + settings.getString("sessionID", ""),
+                    new SwipesHandler(true, id)
+            );
+
         }
 
     }

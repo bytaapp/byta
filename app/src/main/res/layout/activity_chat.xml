@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,27 +28,33 @@
         android:transcriptMode="alwaysScroll"></ListView>
 
     <!-- Layout para escribir un nuevo mensaje. Teclado y botón de enviar. -->
-    <ImageButton
-        android:src="@drawable/ic_menu_send"
-        android:background="@drawable/rounded_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/send_button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="5dp"
-        />
-
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/keyboard"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@id/send_button"
-        android:textCursorDrawable="@null"
-        />
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:weightSum="11">
 
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/keyboard"
+            android:textCursorDrawable="@null"
+            android:layout_weight="10"
+            />
 
+        <ImageButton
+            android:src="@drawable/ic_menu_send"
+            android:background="@drawable/rounded_button"
+            android:layout_width="24dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/send_button"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            android:layout_weight="1"
 
-</RelativeLayout>
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

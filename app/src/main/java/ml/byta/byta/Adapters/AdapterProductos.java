@@ -1,6 +1,7 @@
 package ml.byta.byta.Adapters;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,7 +21,7 @@ import ml.byta.byta.Objects.Producto;
 import ml.byta.byta.R;
 
 
-public class AdapterProductos extends BaseAdapter{
+public class AdapterProductos extends BaseAdapter {
 
     Activity activity;
     private List<Producto> productos;
@@ -46,7 +47,7 @@ public class AdapterProductos extends BaseAdapter{
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         Producto producto = this.getItem(position);
 
@@ -59,13 +60,18 @@ public class AdapterProductos extends BaseAdapter{
         // Se asigna la imagen correspondiente que aparece en la carta.
         // TODO: habrá que cambiar este adapter pero hace que cambien muchas cosas (Listeners).
 
-        if (producto.getBitmap() == null) {
-            image.setImageBitmap(loadImage(producto.getId()));
-            Log.d("Main", "-------------------------------------------------------------------");
-            Log.d("Main", "Está mostrando la imagen con descripción " + producto.getDescription());
-            Log.d("Main", "-------------------------------------------------------------------");
-        } else {
-            image.setImageBitmap(producto.getBitmap());
+        // TODO: resolver mostrar imágenes para no registrado.
+
+        SharedPreferences settings = activity.getSharedPreferences("Config", 0);
+
+        if (!settings.getString("sessionID", "").equals("")) {
+            if (producto.getBitmap() == null) {
+
+                image.setImageBitmap(loadImage(producto.getId()));
+
+            } else {
+                image.setImageBitmap(producto.getBitmap());
+            }
         }
 
         return convertView;
@@ -73,8 +79,15 @@ public class AdapterProductos extends BaseAdapter{
     }
 
 
+
+
     public Bitmap loadImage(int id) {
+
         Bitmap bitmap = null;
+
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "Está cargando la imagen con ID " + id);
+        Log.d("Main", "-------------------------------------------------------------------");
 
         try {
             bitmap = BitmapFactory.decodeStream(new URL("https://byta.ml/api/img/fotos_objetos/" + id + ".jpg").openStream());
