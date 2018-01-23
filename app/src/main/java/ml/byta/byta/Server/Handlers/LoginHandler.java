@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpClient;
@@ -14,6 +15,7 @@ import com.loopj.android.http.SyncHttpClient;
 
 import cz.msebera.android.httpclient.Header;
 import link.fls.swipestack.SwipeStack;
+import ml.byta.byta.Activities.IniciarSesion;
 import ml.byta.byta.Activities.UsuarioNoRegistrado;
 import ml.byta.byta.Activities.UsuarioRegistrado;
 import ml.byta.byta.DataBase.AppDatabase;
@@ -93,13 +95,19 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
         } else {    // El login no ha tenido éxito.
 
-            // Se carga la activity "UsuarioNoRegistrado".
-            Intent intent = new Intent(activity, UsuarioNoRegistrado.class);
-            activity.startActivity(intent);
-            activity.finish();
+            if (activity instanceof IniciarSesion) {
+                Toast.makeText(activity,"Error: usuario o contraseña incorrectos",Toast.LENGTH_SHORT).show();
+            }
+            else {
+                // Se carga la activity "UsuarioNoRegistrado".
+                Intent intent = new Intent(activity, UsuarioNoRegistrado.class);
+                activity.startActivity(intent);
+                activity.finish();
+            }
             Log.d("Main", "-------------------------------------------------------------------");
             Log.d("Main", "Error en la petición: " + response.getError());
             Log.d("Main", "-------------------------------------------------------------------");
+
         }
 
     }
