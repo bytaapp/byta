@@ -15,7 +15,7 @@ public class SuperlikeObjectClickListener implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        Log.d("superlike", "Superlike al objeto con descripción: " + object.getDescription());
+        Log.d("superlike", "SuperlikedObject al objeto con descripción: " + object.getDescription());
 
         // TODO: petición al servidor.
     }

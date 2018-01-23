@@ -62,7 +62,12 @@ public class RewindHandler extends AsyncHttpResponseHandler{
 
     @Override
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+        // TODO: TRATAR EL FALLO, ¿CÓMO?
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "ERROR --> Ha entrado en onFailure al pedir objetos");
+        Log.d("Main", "Código de error --> " + statusCode);
+        Log.d("Main", "Throwable error --> " + error);
+        Log.d("Main", "-------------------------------------------------------------------");
     }
 
 }
