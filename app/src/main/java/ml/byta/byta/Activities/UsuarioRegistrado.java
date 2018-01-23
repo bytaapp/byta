@@ -145,6 +145,12 @@ public class UsuarioRegistrado extends AppCompatActivity
                         @Override
                         public void run() {
                             adapterProductos.notifyDataSetChanged();
+                            TextView description = (TextView) findViewById(R.id.DescripcionCarta);
+                            //description.setText(productos.get(0).getDescription());
+                            //Log.d("Main", "-------------------------------------------------------------------");
+                            //Log.d("Main", "Descripción objeto actual --> " + productos.get(currentPosition).getDescription());
+                            //Log.d("Main", "-------------------------------------------------------------------");
+
                         }
                     });
 
