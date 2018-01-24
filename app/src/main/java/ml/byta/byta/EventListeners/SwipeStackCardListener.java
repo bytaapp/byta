@@ -52,7 +52,7 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
         if (settings.getString("sessionID", "").equals("")) {   // Usuario no registrado.
 
             // Si no estás registrado, solo puedes jacer 5 swipes left.
-            if (position >= 4) {
+            if (position >= 2) {
                 Intent intent = new Intent(activity, AvisoIniciarSesion.class);
                 activity.startActivity(intent);
                 activity.finish();

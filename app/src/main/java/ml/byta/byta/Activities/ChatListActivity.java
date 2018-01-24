@@ -46,8 +46,8 @@ public class ChatListActivity extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                List<Chat> chats = Database.db.chatDao().getAllChats();
-                List<Message> lastMessages = new ArrayList<>();
+                final List<Chat> chats = Database.db.chatDao().getAllChats();
+                final List<Message> lastMessages = new ArrayList<>();
 
                 // "lastMessages" contiene el último mensaje de cada chat del array "chats".
                 for (int i = 0; i < chats.size(); i++) {
@@ -56,21 +56,35 @@ public class ChatListActivity extends AppCompatActivity {
 
                 if (chats != null) {    // Hay chats almacenados.
 
-                    chatList.setVisibility(View.VISIBLE);
-                    noChatsText.setVisibility(View.GONE);
-                    //noChatsImage.setVisibility(View.GONE);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            chatList.setVisibility(View.VISIBLE);
+                            noChatsText.setVisibility(View.GONE);
+                            //noChatsImage.setVisibility(View.GONE);
 
-                    // Se asigna el adaptador a la ListView.
-                    chatList.setAdapter(new ChatAdapter(ChatListActivity.this, chats, lastMessages));
+                            // Se asigna el adaptador a la ListView.
+                            chatList.setAdapter(new ChatAdapter(ChatListActivity.this, chats, lastMessages));
 
-                    // Listener para abrir cada chat.
-                    chatList.setOnItemClickListener(new ChatListItemClickListener(ChatListActivity.this, chats));
+                            // Listener para abrir cada chat.
+                            chatList.setOnItemClickListener(new ChatListItemClickListener(ChatListActivity.this, chats));
+                        }
+                    });
+
 
                 } else {    // No hay chats almacenados.
 
-                    chatList.setVisibility(View.GONE);
-                    noChatsText.setVisibility(View.VISIBLE);
-                    //noChatsImage.setVisibility(View.VISIBLE);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            chatList.setVisibility(View.GONE);
+                            noChatsText.setVisibility(View.VISIBLE);
+                            //noChatsImage.setVisibility(View.VISIBLE);
+
+                        }
+                    });
+
+
 
                 }
             }
