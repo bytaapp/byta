@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/chat_background"
     tools:context=".Activities.ChatActivity">
 
     <!-- Contenido de un chat. -->
@@ -32,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:weightSum="11">
 
         <EditText
@@ -51,6 +52,7 @@
             android:id="@+id/send_button"
             android:layout_marginLeft="17dp"
             android:layout_marginRight="17dp"
+            android:layout_marginBottom="8dp"
             android:layout_weight="1"
 
             />

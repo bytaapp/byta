@@ -11,6 +11,9 @@
     <color name="message_mine">#58FAF4</color>
     <color name="message_not_mine">#F5A9F2</color>
 
+    <!-- Chat background -->
+    <color name="chat_background">#F4F2F2</color>
+
     <!-- Screens background color-->
     <color name="bg_slider_screen1">#c7448d</color>
     <color name="bg_slider_screen2">#279ec7</color>

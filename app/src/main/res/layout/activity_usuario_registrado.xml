@@ -37,7 +37,23 @@
                 android:layout_marginTop="40dp"
                 android:textAlignment="center"
                 android:textColor="@color/black"
+                android:visibility="gone"
                 android:text="@string/oops"/>
+
+            <ImageView
+                android:id="@+id/byta_logo_wallpaper"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/byta" />
+
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/gif_carga"
+                android:layout_width="match_parent"
+                android:layout_height="139dp"
+                android:src="@drawable/loading2"
+                android:visibility="visible"
+                />
 
         </LinearLayout>
     </RelativeLayout>

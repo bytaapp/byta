@@ -87,11 +87,6 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
                     // Se almacenan los objetos recibidos en la base de datos local.
                     Database.db.objectDao().insertObjects(objects);
 
-                    List<Object> objectsFromDB = Database.db.objectDao().getAllObjects();
-
-                    Log.d("Main", "-------------------------------------------------------------------");
-                    Log.d("Main", "Ahora hay " + objectsFromDB.size() + " en la BD local");
-                    Log.d("Main", "-------------------------------------------------------------------");
 
                 } else {
                     Log.d("Main", "-------------------------------------------------------------------");

@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,8 @@ import ml.byta.byta.R;
 import ml.byta.byta.REST.ClasePeticionRest;
 import ml.byta.byta.Server.Handlers.ObjectsHandler;
 import ml.byta.byta.Server.RequestsToServer;
+import ml.byta.byta.Tools.Connectivity;
+import pl.droidsonroids.gif.GifImageView;
 
 public class UsuarioRegistrado extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, RequestsToServer {
@@ -69,6 +72,10 @@ public class UsuarioRegistrado extends AppCompatActivity
     private DrawerLayout drawer;
 
     private PopupWindow popUpWindow;
+
+    private TextView noMoreImages;
+    private ImageView bytaLogoWallpaper;
+    private GifImageView gifImageView;
 
     private AdapterProductos adapterProductos;
 
@@ -94,6 +101,10 @@ public class UsuarioRegistrado extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        noMoreImages = (TextView) findViewById(R.id.no_imagenes);
+        bytaLogoWallpaper = (ImageView) findViewById(R.id.byta_logo_wallpaper);
+        gifImageView = (GifImageView) findViewById(R.id.gif_carga);
 
         // Se selecciona el menú lateral de navegación.
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -141,21 +152,30 @@ public class UsuarioRegistrado extends AppCompatActivity
                     swipeStack.setAdapter(adapterProductos);
                     swipeStack.setListener(new SwipeStackCardListener(UsuarioRegistrado.this, productos));
 
+                    final int count = objectsFromDB.size();
+
                     UsuarioRegistrado.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             adapterProductos.notifyDataSetChanged();
-                            TextView description = (TextView) findViewById(R.id.DescripcionCarta);
-                            //description.setText(productos.get(0).getDescription());
-                            //Log.d("Main", "-------------------------------------------------------------------");
-                            //Log.d("Main", "Descripción objeto actual --> " + productos.get(currentPosition).getDescription());
-                            //Log.d("Main", "-------------------------------------------------------------------");
 
+                            if (count > 0) {
+                                noMoreImages.setVisibility(View.GONE);
+                                bytaLogoWallpaper.setVisibility(View.GONE);
+                                gifImageView.setVisibility(View.GONE);
+                            } else {
+                                noMoreImages.setVisibility(View.VISIBLE);
+                                bytaLogoWallpaper.setVisibility(View.VISIBLE);
+                                gifImageView.setVisibility(View.VISIBLE);
+                            }
                         }
                     });
 
                 } else {
-                    getObjectsLogged();
+                    if (Connectivity.isConnectedFast(UsuarioRegistrado.this)) {
+                        getObjectsLogged();
+                    }
+
                 }
 
 
@@ -278,6 +298,17 @@ public class UsuarioRegistrado extends AppCompatActivity
             // Se limpian todos los datos almacenados en SharedPreferences.
             editor.clear();
             editor.commit();
+
+            // Se limpian las tablas de la base de datos local.
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Database.db.objectDao().deleteAllObjects();
+                    Database.db.chatDao().deleteAllChats();
+                    Database.db.messageDao().deleteAllMessages();
+                    Database.db.superlikedObjectDao().deleteAllObjects();
+                }
+            });
 
             // Se carga la activity "UsuarioNoRegistrado".
             Intent intent = new Intent(this, UsuarioNoRegistrado.class);
