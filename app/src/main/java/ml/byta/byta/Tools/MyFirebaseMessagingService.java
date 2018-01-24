@@ -27,12 +27,27 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
         Log.d(TAG, "Notification Message Body: " + remoteMessage.getData());
         Log.d("entro","notificacion");
 
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            public void run() {
-                Toast.makeText(getApplicationContext(), "Tienes nuevos mensajes", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if (remoteMessage.getNotification().getTitle().equals("Tienes un nuevo Match!") || remoteMessage.getNotification().getTitle().equals("¡Has recibido un SuperLike!")){
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Tienes un nuevo Match", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }else if(remoteMessage.getNotification().getTitle().equals("¡Tienes un nuevo mensaje!")){
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                public void run() {
+                    Toast.makeText(getApplicationContext(), "Tienes nuevos mensajes", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+        }
+
 
 
 
