@@ -65,7 +65,7 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
             client.get(
                     activity,
                     "https://byta.ml/apiV2/gestionar_objetos.php?modo=swipe&decision=false&id_objeto=" + id + "&sessionID=" + settings.getString("sessionID", ""),
-                    new SwipesHandler(false, id)
+                    new SwipesHandler(activity, false, id)
             );
 
         }
@@ -94,7 +94,7 @@ public class SwipeStackCardListener implements SwipeStack.SwipeStackListener{
             client.get(
                     activity,
                     "https://byta.ml/apiV2/gestionar_objetos.php?modo=swipe&decision=true&id_objeto=" + id + "&sessionID=" + settings.getString("sessionID", ""),
-                    new SwipesHandler(true, id)
+                    new SwipesHandler(activity, true, id)
             );
 
         } else if (settings.getString("superLike", "").equals("si")){   // Usuario registrado. Sí es súper like.

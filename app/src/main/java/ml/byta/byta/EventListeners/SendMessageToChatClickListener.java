@@ -57,7 +57,7 @@ public class SendMessageToChatClickListener implements View.OnClickListener {
             );
 
             // Notificación de un nuevo mensaje.
-            new ClasePeticionRest.NotificarMensaje(this.activity,chatId,settings.getInt("userID", 0), keyboard.getText().toString()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+           // new ClasePeticionRest.NotificarMensaje(this.activity,chatId,settings.getInt("userID", 0), keyboard.getText().toString()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         }
 

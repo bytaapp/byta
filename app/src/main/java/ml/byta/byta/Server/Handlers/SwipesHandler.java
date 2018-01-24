@@ -1,22 +1,36 @@
 package ml.byta.byta.Server.Handlers;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.PopupWindow;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
+import ml.byta.byta.Activities.ChatListActivity;
 import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.DataBase.Object;
+import ml.byta.byta.R;
 import ml.byta.byta.Server.Responses.SwipesResponse;
 
 public class SwipesHandler extends AsyncHttpResponseHandler {
 
+    Activity activity;
     private boolean decission;
     private int id;
 
-    public SwipesHandler(boolean decission, int id) {
+    public SwipesHandler(Activity activity, boolean decission, int id) {
+        this.activity = activity;
         this.decission = decission;
         this.id = id;
     }
@@ -51,6 +65,42 @@ public class SwipesHandler extends AsyncHttpResponseHandler {
                         Database.db.objectDao().update(object);
                     }
                 });
+
+                if (response.getError().equals("match")) {
+                    //CARGA POPUP MATCH
+                    LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View layout = inflater.inflate(R.layout.match, (ViewGroup) activity.findViewById(R.id.match_element));
+
+                    final PopupWindow popUpWindow = new PopupWindow(layout, DrawerLayout.LayoutParams.MATCH_PARENT, DrawerLayout.LayoutParams.MATCH_PARENT, true);
+                    popUpWindow.showAtLocation(layout, Gravity.TOP, 0, 0);
+
+                    //BOTÓN PARA SEGUIR HACIENDO SWIPE, CIERRA EL POPUP
+                    Button cancelButton = (Button) layout.findViewById(R.id.buttonSeguir);
+
+                    cancelButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            popUpWindow.dismiss();
+                        }
+                    });
+
+                    //cancelButton.setOnClickListener(cancel_button_click_listener);
+
+                    //AQUÍ VA EL BOTON PARA ABRIR CHAT, AÚN NO HACE NADA
+                    Button buttonIniciarChat = (Button) layout.findViewById(R.id.buttonChat);
+
+                    buttonIniciarChat.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(activity, ChatListActivity.class);
+                            activity.startActivity(intent);
+                            popUpWindow.dismiss();
+                        }
+                    });
+
+                    //buttonIniciarChat.setOnClickListener(button_chat_click_listener);
+                }
+
             }
 
         }

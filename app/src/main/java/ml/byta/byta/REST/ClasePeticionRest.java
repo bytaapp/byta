@@ -303,6 +303,7 @@ public class ClasePeticionRest {
 
     }
 
+    /*
     public static class GuardarSwipe extends AsyncTask<String, String, String> {
 
         String funcionAPI = "guardar_swipe";
@@ -348,7 +349,9 @@ public class ClasePeticionRest {
         }
 
     }
+    */
 
+    /*
     public static class GuardarMatch extends AsyncTask<String, String, String> {
 
         String funcionAPI = "guardar_match";
@@ -392,6 +395,8 @@ public class ClasePeticionRest {
         }
 
     }
+    */
+    /*
 
     public static class CrearChat extends AsyncTask<String, String, String> {
 
@@ -429,6 +434,7 @@ public class ClasePeticionRest {
 
     }
 
+*/
     public static class GuardarObjeto extends AsyncTask<String, String, String> {
 
         String funcionAPI = "guardar_objeto";
@@ -473,6 +479,7 @@ public class ClasePeticionRest {
 
     }
 
+    /*
     public static class ComprobarSwipe extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
         String funcionAPI = "comprobar_swipe";
@@ -542,7 +549,8 @@ public class ClasePeticionRest {
         };
 
     }
-
+    */
+/*
     public static class HacerLogin extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
         String funcionAPI = "hacer_login";
@@ -655,7 +663,8 @@ public class ClasePeticionRest {
         }
 
     }
-
+    */
+/*
     public static class CogerObjetoSwipe extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
         String funcionAPI = "coger_objeto_swipe";
@@ -697,8 +706,8 @@ public class ClasePeticionRest {
 
         }
 
-    }
-
+    }*/
+/*
     public static class CogerObjetoAleatorioSwipe extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
         String funcionAPI = "coger_objeto_aleatorio_swipe";
@@ -737,6 +746,7 @@ public class ClasePeticionRest {
         }
 
     }
+    */
 
     public static class CogerObjetosAleatoriosInicio extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
@@ -776,6 +786,7 @@ public class ClasePeticionRest {
 
     }
 
+/*
     public static class ComprobarFacebook extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
         String funcionAPI = "comprobar_facebook";
@@ -851,7 +862,8 @@ public class ClasePeticionRest {
         }
 
     }
-
+*/
+    /*
     public static class ComprobarGoogle extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
         String funcionAPI = "comprobar_google";
@@ -923,6 +935,8 @@ public class ClasePeticionRest {
 
 
     }
+    */
+
 
     public static class CogerInfoObjetos extends AsyncTask<String, String, ArrayList<KeyValue>> {
 
@@ -970,6 +984,7 @@ public class ClasePeticionRest {
         }
 
     }
+
 
     public static class BorrarObjeto extends AsyncTask<String, String, String> {
 
@@ -1431,7 +1446,7 @@ public class ClasePeticionRest {
         }
 
     }
-
+        /*
         public static class NotificarMatch extends AsyncTask<String, String, String> {
 
             String funcionAPI = "notification";
@@ -1466,7 +1481,7 @@ public class ClasePeticionRest {
 
 
         }
-
+        */
 
 
 
