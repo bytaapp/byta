@@ -92,7 +92,7 @@ public class SuperLikeHandler extends AsyncHttpResponseHandler implements Reques
         // Se hace la petición al servidor. Los mensajes se piden en el handler de los chats.
         client.get(
                 activity,
-                "https://byta.ml/apiV2/BytaChat/public/index.php/api/chats/" + settings.getInt("userID", 0),
+                "https://byta.ml/apiV2/BytaChat/public/index.php/api/chats/" + settings.getString("sessionID", ""),
                 new ChatsHandler(activity)
         );
     }

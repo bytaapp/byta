@@ -50,7 +50,7 @@ public class SendMessageToChatClickListener implements View.OnClickListener {
             AsyncHttpClient client = new AsyncHttpClient();
             client.post(
                     activity,
-                    "https://byta.ml/apiV2/BytaChat/public/index.php/api/chat/" + chatId + "/message",
+                    "https://byta.ml/apiV2/BytaChat/public/index.php/api/chat/" + chatId + "/" + settings.getString("sessionID", "") + "/message",
                     new StringEntity(gson.toJson(new SendNewMessageToChatRequest(settings.getInt("userID", 0), keyboard.getText().toString(), timestamp)), "UTF-8"),
                     "application/json",
                     new SendNewMessageToChatHandler(activity, chatId, keyboard, messagesList, message)

@@ -43,6 +43,10 @@ public class SendNewMessageToChatHandler extends AsyncHttpResponseHandler {
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         Gson gson = new Gson();
 
+        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "Respuesta del servidor --> " + new String(responseBody));
+        Log.d("Main", "-------------------------------------------------------------------");
+
         SendNewMessageToChatResponse response = gson.fromJson(new String(responseBody), SendNewMessageToChatResponse.class);
 
         if (response.isOk()) {
