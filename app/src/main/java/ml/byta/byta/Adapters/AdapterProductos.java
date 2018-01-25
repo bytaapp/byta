@@ -75,18 +75,20 @@ public class AdapterProductos extends BaseAdapter {
 
         TextView description = activity.findViewById(R.id.DescripcionCarta);
 
-        try {
-            if (this.getItem(position - 2) != null && !this.getItem(position-2).getDescription().equals(null)) {
-                description.setText(this.getItem(position - 2).getDescription());
-            }else if (this.getItem(position-2).getDescription().equals(null)) {
-                description.setText("");
-            }else if(position==this.getCount()-1){
-                description.setText("");
-            } else {
-                description.setText(this.getItem(position).getDescription());
+        if((position -2) >= 0) {
+            try {
+                if (this.getItem(position - 2) != null && !this.getItem(position - 2).getDescription().equals(null)) {
+                    description.setText(this.getItem(position - 2).getDescription());
+                } else if (this.getItem(position - 2).getDescription().equals(null)) {
+                    description.setText("");
+                } else if (position == this.getCount() - 1) {
+                    description.setText("");
+                } else {
+                    description.setText(this.getItem(position).getDescription());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
 
