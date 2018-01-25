@@ -44,7 +44,8 @@ public class DeleteFromMisLikesListener implements View.OnClickListener {
 
                 // TODO: notificar al servidor.
                 SyncHttpClient client = new SyncHttpClient();
-                int id_foto = object.getId();
+                int id_foto = object.getServerId();
+                Log.e("Debug:","https://byta.ml/apiV2/gestionar_objetos.php?modo=borrar_like&id_objeto="+id_foto+"&sessionID=" + settings.getString("sessionID", ""));
 
                 // Se hace la petición al servidor. Los mensajes se piden en el handler de los chats.
                 client.get(
