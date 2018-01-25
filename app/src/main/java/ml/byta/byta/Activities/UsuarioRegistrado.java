@@ -431,6 +431,11 @@ public class UsuarioRegistrado extends AppCompatActivity
     }
 
     @Override
+    public void getLikedObject() {
+
+    }
+
+    @Override
     public void getObjectsLogged() {
         Log.d("Main", "-------------------------------------------------------------------");
         Log.d("Main", "Se han pedido objetos en UsuarioRegistrado");

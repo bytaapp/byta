@@ -3,6 +3,7 @@ package ml.byta.byta.DataBase;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
@@ -43,6 +44,10 @@ public interface ObjectDao {
     @Query("SELECT * FROM object ORDER BY timestamp DESC LIMIT 1")
     Object getLastObjectInTime();
 
+    // Selecciona el último objeto almacenado por su timestamp que sea liked
+    @Query("SELECT * FROM object WHERE viewed = 1 ORDER BY timestamp DESC LIMIT 1")
+    Object getLastObjectInTimeLiked();
+
     // Inserta un nuevo objeto.
     @Insert
     void insert(Object object);
@@ -77,6 +82,9 @@ public interface ObjectDao {
     // Elimina todos los objetos de la tabla (equivalente a TRUNCATE en SQL).
     @Query("DELETE FROM object")
     void deleteAllObjects();
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert_or_update(List<Object> objects);
 
 }
 

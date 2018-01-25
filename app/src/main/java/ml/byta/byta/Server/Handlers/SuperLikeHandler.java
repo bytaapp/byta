@@ -98,6 +98,11 @@ public class SuperLikeHandler extends AsyncHttpResponseHandler implements Reques
     }
 
     @Override
+    public void getLikedObject() {
+
+    }
+
+    @Override
     public void getObjectsLogged() {
 
     }

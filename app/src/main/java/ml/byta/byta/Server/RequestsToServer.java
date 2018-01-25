@@ -7,6 +7,9 @@ public interface RequestsToServer {
     // Pide los chats.
     void getChatsAndMessages();
 
+    // Pide los objetos likeados
+    void getLikedObject();
+
     // Pide los objetos cuando estás logueado.
     void getObjectsLogged();
 
