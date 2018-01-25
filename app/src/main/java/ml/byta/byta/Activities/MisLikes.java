@@ -1,6 +1,7 @@
 package ml.byta.byta.Activities;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -29,9 +30,6 @@ import ml.byta.byta.EventListeners.SuperlikeObjectClickListener;
 import ml.byta.byta.R;
 
 public class MisLikes extends AppCompatActivity {
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +117,8 @@ public class MisLikes extends AppCompatActivity {
                     // Listener para los botones "dislike" y "superlike".
                     Object object = likedObjectsToShow.get(x);
                    // superlike.setOnClickListener(new SuperlikeObjectClickListener(object));
-                    dislike.setOnClickListener(new DeleteFromMisLikesListener(object,activity));
+                    SharedPreferences settings = getSharedPreferences("Config", 0);
+                    dislike.setOnClickListener(new DeleteFromMisLikesListener(object,activity,settings));
 
                     //Añadimos los botones
                     botones.addView(dislike,width/9,width/9);
