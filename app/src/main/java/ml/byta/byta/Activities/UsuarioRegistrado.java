@@ -460,8 +460,10 @@ public class UsuarioRegistrado extends AppCompatActivity
             url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=0&sessionID=" +
                     settings.getString("sessionID", "");
         } else {
-            url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=" + lastObjectInTime.getTimestamp()
-                    + "&sessionID=" + settings.getString("sessionID", "");
+            //url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=" + lastObjectInTime.getTimestamp()
+            //        + "&sessionID=" + settings.getString("sessionID", "");
+            url = "https://byta.ml/apiV2/pedir_objetos.php?modo=registrado&timestamp=0&sessionID=" +
+                    settings.getString("sessionID", "");
 
             Log.d("Main", "-------------------------------------------------------------------");
             Log.d("Main", "Descripción objeto más reciente --> " + lastObjectInTime.getDescription());

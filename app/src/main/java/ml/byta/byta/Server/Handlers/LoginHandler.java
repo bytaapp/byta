@@ -92,14 +92,7 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
                     getChatsAndMessages();
                 }
             });
-
-            AsyncTask.execute(new Runnable() {
-                @Override
-                public void run() {
-                    getLikedObject();
-                }
-            });
-
+            
         } else {    // El login no ha tenido éxito.
 
             if (activity instanceof IniciarSesion) {
@@ -144,34 +137,6 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
     @Override
     public void getLikedObject() {
-        // Se hace una petición asíncrona para obtener los objetos likeados
-        SyncHttpClient client = new SyncHttpClient();
-        long timestamp;
-        // Se comprueba si el objeto extraido de la BD no es null, es decir, si hay objetos almacenados.
-        Object lastObjectInTimeLiked = Database.db.objectDao().getLastObjectInTimeLiked();
-        if (lastObjectInTimeLiked == null) {
-            Log.d("Main", "-------------------------------------------------------------------");
-            Log.d("Main", "lastObjectInTimeLiked es NULL");
-            Log.d("Main", "-------------------------------------------------------------------");
-
-            timestamp = 0;
-         } else {
-
-            Log.d("Main", "-------------------------------------------------------------------");
-            Log.d("Main", "Descripción objeto más reciente --> " + lastObjectInTimeLiked.getDescription());
-            Log.d("Main", "-------------------------------------------------------------------");
-            timestamp = lastObjectInTimeLiked.getTimestamp();
-        }
-        Log.e("Debug", timestamp+"");
-
-        // Se hace la petición al servidor. Los mensajes se piden en el handler de los chats.
-        String url = "https://byta.ml/apiV2/pedir_objetos.php?modo=meGusta&timestamp="+timestamp+"&sessionID=" +
-                settings.getString("sessionID", "");
-        client.get(
-                activity,
-                url,
-                new MeGustaHandler(activity)
-        );
     }
 
     @Override

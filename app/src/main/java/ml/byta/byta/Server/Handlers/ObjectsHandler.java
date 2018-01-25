@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -26,9 +27,10 @@ import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.DataBase.Object;
 import ml.byta.byta.EventListeners.SwipeStackCardListener;
 import ml.byta.byta.Objects.Producto;
+import ml.byta.byta.Server.RequestsToServer;
 import ml.byta.byta.Server.Responses.ObjectsResponse;
 
-public class ObjectsHandler extends AsyncHttpResponseHandler {
+public class ObjectsHandler extends AsyncHttpResponseHandler implements RequestsToServer{
 
     private Activity activity;
     private boolean registered;
@@ -94,10 +96,14 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
                     Log.d("Main", "-------------------------------------------------------------------");
                 }
 
+                // Actualizamos los nuevos likes
+                getLikedObject();
+
+
                 // Se abre la activity "UsuarioRegistrado" y se cierra la activity anterior.
-                Intent intent = new Intent(activity, UsuarioRegistrado.class);
+                /*Intent intent = new Intent(activity, UsuarioRegistrado.class);
                 activity.startActivity(intent);
-                activity.finish();
+                activity.finish();*/
 
             } else {
                 Log.d("Main", "-------------------------------------------------------------------");
@@ -148,5 +154,49 @@ public class ObjectsHandler extends AsyncHttpResponseHandler {
 
     public void setRegistered(boolean registered) {
         this.registered = registered;
+    }
+
+    @Override
+    public void getChatsAndMessages() {
+
+    }
+
+    @Override
+    public void getLikedObject() {
+        // Se hace una petición asíncrona para obtener los objetos likeados
+        SyncHttpClient client = new SyncHttpClient();
+        SharedPreferences settings = activity.getSharedPreferences("Config", 0);
+
+        long timestamp;
+        // Se comprueba si el objeto extraido de la BD no es null, es decir, si hay objetos almacenados.
+        Object lastObjectInTimeLiked = Database.db.objectDao().getLastObjectInTimeLiked();
+        if (lastObjectInTimeLiked == null) {
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "lastObjectInTimeLiked es NULL");
+            Log.d("Main", "-------------------------------------------------------------------");
+
+            timestamp = 0;
+        } else {
+
+            Log.d("Main", "-------------------------------------------------------------------");
+            Log.d("Main", "Descripción objeto más reciente --> " + lastObjectInTimeLiked.getDescription());
+            Log.d("Main", "-------------------------------------------------------------------");
+            timestamp = lastObjectInTimeLiked.getTimestamp();
+        }
+        Log.e("Debug", timestamp+"");
+
+        // Se hace la petición al servidor. Los mensajes se piden en el handler de los chats.
+        String url = "https://byta.ml/apiV2/pedir_objetos.php?modo=meGusta&timestamp="+timestamp+"&sessionID=" +
+                settings.getString("sessionID", "");
+        client.get(
+                activity,
+                url,
+                new MeGustaHandler(activity)
+        );
+    }
+
+    @Override
+    public void getObjectsLogged() {
+
     }
 }

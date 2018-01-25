@@ -1,7 +1,9 @@
 package ml.byta.byta.Server.Handlers;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -12,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import ml.byta.byta.Activities.MisLikes;
+import ml.byta.byta.Activities.UsuarioRegistrado;
 import ml.byta.byta.DataBase.Chat;
 import ml.byta.byta.DataBase.Database;
 import ml.byta.byta.DataBase.Object;
@@ -44,10 +48,9 @@ public class MeGustaHandler extends AsyncHttpResponseHandler {
 
         // Respuesta del servidor.
         ObjectsResponse response = gson.fromJson(new String(responseBody), ObjectsResponse.class);
+        final List<Object> objects = new ArrayList<>();
 
         if (response.isOk() && response.getObjects().size() > 0) {
-
-            List<Object> objects = new ArrayList<>();
 
             for (int i = 0; i < response.getObjects().size(); i++) {
 
@@ -66,12 +69,23 @@ public class MeGustaHandler extends AsyncHttpResponseHandler {
             Log.d("Main", "Se han recibido " + response.getObjects().size() + " objetos que me gustan del servidor");
             Log.d("Main", "-------------------------------------------------------------------");
 
-            // Se almacenan los objetos recibidos en la base de datos local.
-            Database.db.objectDao().insert_or_update(objects);
 
         } else {
             // "ok" es false o no se han enviado chats.
         }
+
+        // Se abre la activity "UsuarioRegistrado" y se cierra la activity anterior.
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                // Se almacenan los objetos recibidos en la base de datos local.
+                Database.db.objectDao().insert_or_update(objects);
+                Intent intent = new Intent(activity, UsuarioRegistrado.class);
+                activity.startActivity(intent);
+                activity.finish();
+
+            }
+        });
     }
 
     @Override
