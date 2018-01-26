@@ -76,19 +76,6 @@ public class ChatsHandler extends AsyncHttpResponseHandler {
             // Se almacenan los chats recibidos en la base de datos local.
             Database.db.chatDao().insertChats(chats);
 
-            // Se eliminan todos los mensajes que haya almacenados en la base de datos local.
-            Database.db.messageDao().deleteAllMessages();
-
-            // Para cada chat se piden sus mensajes de forma asíncrona.
-            for (int i = 0; i < chats.size(); i++) {
-                SyncHttpClient client = new SyncHttpClient();
-                client.get(
-                        activity,
-                        "https://byta.ml/apiV2/BytaChat/public/index.php/api/chat/" + chats.get(i).getServerId() + "/" + settings.getString("sessionID", "") + "/messages",
-                        new MessagesHandler()
-                );
-            }
-
         } else {
             // "ok" es false o no se han enviado chats.
         }

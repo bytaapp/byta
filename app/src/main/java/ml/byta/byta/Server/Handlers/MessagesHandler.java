@@ -30,7 +30,7 @@ public class MessagesHandler extends AsyncHttpResponseHandler {
         MessagesResponse response = gson.fromJson(new String(responseBody), MessagesResponse.class);
 
         Log.d("Main", "-------------------------------------------------------------------");
-        Log.d("Main", "Respuesta del servidor al pedir los mensajes de un chat --> " + new String(responseBody));
+        Log.d("Main", "Respuesta del servidor al pedir los mensajes --> " + new String(responseBody));
         Log.d("Main", "-------------------------------------------------------------------");
 
         if (response.isOk() && response.getMessages().size() > 0) {

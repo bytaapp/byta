@@ -426,7 +426,7 @@ public class UsuarioRegistrado extends AppCompatActivity
     }
 
     @Override
-    public void getChatsAndMessages() {
+    public void getChats() {
 
     }
 
@@ -476,5 +476,10 @@ public class UsuarioRegistrado extends AppCompatActivity
                 url,
                 new ObjectsHandler(this, true)
         );
+    }
+
+    @Override
+    public void getMessages() {
+
     }
 }

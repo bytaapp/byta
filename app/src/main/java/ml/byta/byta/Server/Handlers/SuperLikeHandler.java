@@ -65,7 +65,7 @@ public class SuperLikeHandler extends AsyncHttpResponseHandler implements Reques
                             editor.commit();
 
                             //Database.db.objectDao().update(object);
-                             getChatsAndMessages();
+                             getChats();
                         }
 
 
@@ -83,8 +83,7 @@ public class SuperLikeHandler extends AsyncHttpResponseHandler implements Reques
     }
 
     @Override
-    public void getChatsAndMessages() {
-
+    public void getChats() {
         SharedPreferences settings = activity.getSharedPreferences("Config", 0);
         // Se hace una petición asíncrona para obtener la lista de chats.
         SyncHttpClient client = new SyncHttpClient();
@@ -104,6 +103,11 @@ public class SuperLikeHandler extends AsyncHttpResponseHandler implements Reques
 
     @Override
     public void getObjectsLogged() {
+
+    }
+
+    @Override
+    public void getMessages() {
 
     }
 }

@@ -157,7 +157,7 @@ public class ObjectsHandler extends AsyncHttpResponseHandler implements Requests
     }
 
     @Override
-    public void getChatsAndMessages() {
+    public void getChats() {
 
     }
 
@@ -197,6 +197,11 @@ public class ObjectsHandler extends AsyncHttpResponseHandler implements Requests
 
     @Override
     public void getObjectsLogged() {
+
+    }
+
+    @Override
+    public void getMessages() {
 
     }
 }

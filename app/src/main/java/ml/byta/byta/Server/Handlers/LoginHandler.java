@@ -89,7 +89,14 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    getChatsAndMessages();
+                    getChats();
+                }
+            });
+
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    getMessages();
                 }
             });
             
@@ -123,7 +130,7 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
     }
 
     @Override
-    public void getChatsAndMessages() {
+    public void getChats() {
         // Se hace una petición asíncrona para obtener la lista de chats.
         SyncHttpClient client = new SyncHttpClient();
 
@@ -178,5 +185,19 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
                 new ObjectsHandler(activity, true)
         );
 
+    }
+
+    @Override
+    public void getMessages() {
+        // Se eliminan todos los mensajes que haya almacenados en la base de datos local.
+        Database.db.messageDao().deleteAllMessages();
+
+        // Para cada chat se piden sus mensajes de forma asíncrona.
+        SyncHttpClient client = new SyncHttpClient();
+        client.get(
+            activity,
+            "https://byta.ml/apiV2/BytaChat/public/index.php/api/user/" + settings.getString("sessionID", "") + "/messages",
+            new MessagesHandler()
+        );
     }
 }
