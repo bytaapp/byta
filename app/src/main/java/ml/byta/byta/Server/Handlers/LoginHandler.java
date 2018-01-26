@@ -189,14 +189,12 @@ public class LoginHandler extends AsyncHttpResponseHandler implements RequestsTo
 
     @Override
     public void getMessages() {
-        // Se eliminan todos los mensajes que haya almacenados en la base de datos local.
-        Database.db.messageDao().deleteAllMessages();
 
         // Para cada chat se piden sus mensajes de forma asíncrona.
         SyncHttpClient client = new SyncHttpClient();
         client.get(
             activity,
-            "https://byta.ml/apiV2/BytaChat/public/index.php/api/user/" + settings.getString("sessionID", "") + "/messages",
+            "https://byta.ml/apiV2/BytaChat/public/index.php/api/chat/user/" + settings.getString("sessionID", "") + "/messages",
             new MessagesHandler()
         );
     }

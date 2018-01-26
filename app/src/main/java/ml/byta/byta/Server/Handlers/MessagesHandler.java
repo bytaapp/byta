@@ -33,6 +33,9 @@ public class MessagesHandler extends AsyncHttpResponseHandler {
         Log.d("Main", "Respuesta del servidor al pedir los mensajes --> " + new String(responseBody));
         Log.d("Main", "-------------------------------------------------------------------");
 
+        // Se eliminan todos los mensajes que haya almacenados en la base de datos local.
+        Database.db.messageDao().deleteAllMessages();
+
         if (response.isOk() && response.getMessages().size() > 0) {
 
             List<Message> messages = new ArrayList<>();
