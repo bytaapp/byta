@@ -965,16 +965,16 @@ public class ClasePeticionRest {
 
                 Gson gson = new Gson();
                 Objeto[] objetos = gson.fromJson(result.get(1).getValue(), Objeto[].class);
-                ListadoObjetos.productos.clear();
+                //ListadoObjetos.productos.clear();
                 for (int x = 0; x < objetos.length; x++){
                     new CargarListaObjetos(objetos[x], activity).executeOnExecutor(THREAD_POOL_EXECUTOR);
                 }
                 if (objetos.length == 0){
                     ListView listaObjetos = (ListView) activity.findViewById(R.id.ListViewMisObjetos);
-                    ListadoObjetos.productos.clear();
-                    AdapterListadoObjetos adapterListadoObjetos = new AdapterListadoObjetos(activity, ListadoObjetos.productos);
-                    listaObjetos.setAdapter(adapterListadoObjetos);
-                    adapterListadoObjetos.notifyDataSetChanged();
+                    //ListadoObjetos.productos.clear();
+                    //AdapterListadoObjetos adapterListadoObjetos = new AdapterListadoObjetos(activity, ListadoObjetos.productos);
+                    //listaObjetos.setAdapter(adapterListadoObjetos);
+                    //adapterListadoObjetos.notifyDataSetChanged();
                 }
 
             }else if (result.get(1).getKey().equals("error")){
@@ -1189,11 +1189,12 @@ public class ClasePeticionRest {
         @Override
         protected ArrayList<Producto> doInBackground(String... strings) {
 
-            ArrayList<Producto> productos = ListadoObjetos.productos;
+            //ArrayList<Producto> productos = ListadoObjetos.productos;
             Bitmap b = downloadBitmap(objeto.getId());
-            productos.add(new Producto(b, objeto.getDescripcion(), "", Integer.parseInt(objeto.getId())));
+            //productos.add(new Producto(b, objeto.getDescripcion(), "", Integer.parseInt(objeto.getId())));
 
-            return productos;
+            //return productos;
+            return null;
         }
 
         @Override
@@ -1207,10 +1208,10 @@ public class ClasePeticionRest {
 
             ListView listaObjetos = (ListView) activity.findViewById(R.id.ListViewMisObjetos);
 
-            AdapterListadoObjetos adapterListadoObjetos = new AdapterListadoObjetos(activity, productos);
-            listaObjetos.setAdapter(adapterListadoObjetos);
+            //AdapterListadoObjetos adapterListadoObjetos = new AdapterListadoObjetos(activity, productos);
+            //listaObjetos.setAdapter(adapterListadoObjetos);
 
-            adapterListadoObjetos.notifyDataSetChanged();
+            //adapterListadoObjetos.notifyDataSetChanged();
         }
 
     }
