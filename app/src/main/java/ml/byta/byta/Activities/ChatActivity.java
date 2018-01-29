@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 
@@ -68,14 +70,13 @@ public class ChatActivity extends AppCompatActivity {
                 Chat chat = Database.db.chatDao().getByServerId(chatId);
 
                 if (chat != null) {     // Hay mensajes almacenados.
-
                     setTitle(getResources().getString(R.string.chat_with_title) + " " + chat.getInterlocutorName());
 
                     // Se selecciona la ListView para la lista de mensajes.
                     messagesList = (ListView) findViewById(R.id.messages_list);
 
                     // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
-                    if (messages.size() > 11) {
+                    if (messages.size() > 10) {
                         messagesList.setStackFromBottom(true);
                     }
 
@@ -85,19 +86,6 @@ public class ChatActivity extends AppCompatActivity {
 
                 }
 
-                /*
-                // Se hace una petición.
-                AsyncHttpClient client = new AsyncHttpClient();
-                client.get(
-                        activity,
-                        "https://byta.ml/api/SwappieChat/public/index.php/api/chat/" + chatId + "/messages",
-                        new MessageListHandler(activity)
-                );
-
-                handler.postDelayed(this, miliseconds);
-
-                Log.d("Main", "Mensajes pedidos");
-                */
             }
         }, miliseconds);
     }
@@ -117,7 +105,6 @@ public class ChatActivity extends AppCompatActivity {
                 Chat chat = Database.db.chatDao().getByServerId(chatId);
 
                 if (chat != null) {     // Hay mensajes almacenados.
-
                     setTitle(getResources().getString(R.string.chat_with_title) + " " + chat.getInterlocutorName());
 
                     // Se selecciona la ListView para la lista de mensajes.

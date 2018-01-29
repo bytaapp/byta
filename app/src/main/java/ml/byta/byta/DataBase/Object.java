@@ -19,6 +19,9 @@ public class Object {
     @ColumnInfo(name = "location")
     private String location;
 
+    @ColumnInfo(name = "distance")
+    private double distance;
+
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
@@ -28,10 +31,11 @@ public class Object {
     @ColumnInfo(name = "server_id")
     private int serverId;
 
-    public Object(String description, boolean viewed, String location, long timestamp, int ownerId, int serverId) {
+    public Object(String description, boolean viewed, String location, double distance, long timestamp, int ownerId, int serverId) {
         this.description = description;
         this.viewed = viewed;
         this.location = location;
+        this.distance = distance;
         this.timestamp = timestamp;
         this.ownerId = ownerId;
         this.serverId = serverId;
@@ -67,6 +71,14 @@ public class Object {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     public long getTimestamp() {

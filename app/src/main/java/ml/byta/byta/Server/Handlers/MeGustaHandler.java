@@ -56,11 +56,12 @@ public class MeGustaHandler extends AsyncHttpResponseHandler {
 
                 String description = response.getObjects().get(i).getDescripcion();
                 String location = response.getObjects().get(i).getUbicacion();
+                double distance = response.getObjects().get(i).getDistancia();
                 int ownerId = response.getObjects().get(i).getId_usuario();
                 int serverId = response.getObjects().get(i).getId();
                 long timestamp = (long) response.getObjects().get(i).getFecha_subido();
 
-                Object object = new Object(description, true, location, timestamp, ownerId, serverId);
+                Object object = new Object(description, true, location, distance, timestamp, ownerId, serverId);
 
                 objects.add(object);
             }

@@ -43,6 +43,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import link.fls.swipestack.SwipeStack;
@@ -130,6 +131,7 @@ public class UsuarioRegistrado extends AppCompatActivity
 
                 // Se extraen los objetos de la base de datos.
                 List<Object> objectsFromDB = Database.db.objectDao().getAllNotViewed();
+                //List<Object> objectsFromDB = Database.db.objectDao().getAllNotViewedSortedByFormula();
 
                 if (objectsFromDB != null) {    // Hay objetos en la base de datos.
 
@@ -138,6 +140,12 @@ public class UsuarioRegistrado extends AppCompatActivity
                     Producto producto;
 
                     for (int i = 0; i < objectsFromDB.size(); i++) {
+                        /*
+                        Log.d("Main", "-------------------------------------------------------------------");
+                        Log.d("Main", "Timestamp del objeto con ID " + objectsFromDB.get(i).getServerId() + " en el servidor --> " + objectsFromDB.get(i).getTimestamp());
+                        Log.d("Main", "Distancia del objeto con ID " + objectsFromDB.get(i).getServerId() + " en el servidor --> " + objectsFromDB.get(i).getDistance());
+                        Log.d("Main", "-------------------------------------------------------------------");
+                        */
                         producto = new Producto(
                                 objectsFromDB.get(i).getDescription(),
                                 objectsFromDB.get(i).getLocation(),

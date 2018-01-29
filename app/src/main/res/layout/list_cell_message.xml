@@ -30,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/message_text"
+        android:maxWidth="230dp"
         android:text=""
         android:textColor="@color/white"
         android:background="@drawable/rounded_rectangle_2"

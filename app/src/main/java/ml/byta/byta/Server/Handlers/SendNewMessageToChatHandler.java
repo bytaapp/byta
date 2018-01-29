@@ -45,7 +45,7 @@ public class SendNewMessageToChatHandler extends AsyncHttpResponseHandler {
 
         Log.d("Main", "-------------------------------------------------------------------");
         Log.d("Main", "Respuesta del servidor --> " + new String(responseBody));
-        Log.d("Main", "-------------------------------------------------------------------");
+        Log.d("Main", "--------------   -----------------------------------------------------");
 
         SendNewMessageToChatResponse response = gson.fromJson(new String(responseBody), SendNewMessageToChatResponse.class);
 
@@ -76,7 +76,7 @@ public class SendNewMessageToChatHandler extends AsyncHttpResponseHandler {
                                         messagesList = (ListView) activity.findViewById(R.id.messages_list);
 
                                         // Se añade una propiedad a la ListView para que haga automáticamente scroll hasta el final de la lista.
-                                        if (messages.size() > 11) {
+                                        if (messages.size() > 10) {
                                             messagesList.setStackFromBottom(true);
                                         }
 

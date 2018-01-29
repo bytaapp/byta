@@ -28,6 +28,9 @@ public interface ObjectDao {
     @Query("SELECT * FROM object WHERE viewed = 0 ORDER BY timestamp DESC")
     List<Object> getAllNotViewed();
 
+    @Query("SELECT * FROM object ORDER BY (((2/3)*(1/(1000*60*60))*(CURRENT_TIMESTAMP-timestamp)+(distance/3)))")
+    List<Object> getAllNotViewedSortedByFormula();
+
     // Selecciona el último objeto almacenado por su timestamp y que no ha sido visto aún.
     @Query("SELECT * FROM object WHERE viewed = 0 ORDER BY timestamp DESC LIMIT 1")
     Object getLastNotViewedObjectInTime();
